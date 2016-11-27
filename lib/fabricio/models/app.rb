@@ -35,5 +35,13 @@ module Fabricio
       end
       apps
     end
+
+    def self.find(id, session)
+      response = @conn.get do |req|
+        req.url "/api/v2/apps/#{id}"
+        req.headers['Authorization'] = "Bearer #{session.access_token}"
+      end
+      App.new(JSON.parse(response.body))
+    end
   end
 end
