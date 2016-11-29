@@ -4,6 +4,13 @@ require 'fabricio/authorization/session'
 
 describe 'Storage' do
 
+  it 'should throw exception on session obtain event' do
+    storage = Fabricio::Authorization::AbstractSessionStorage.new
+    expect {
+      storage.obtain_session
+    }.to raise_error(NotImplementedError)
+  end
+
   it 'should throw exception on session save event' do
     storage = Fabricio::Authorization::AbstractSessionStorage.new
     expect {
