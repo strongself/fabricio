@@ -10,4 +10,11 @@ describe 'Storage' do
       storage.store_session(nil)
     }.to raise_error(NotImplementedError)
   end
+
+  it 'should throw exception on reset event' do
+    storage = Fabricio::Authorization::AbstractSessionStorage.new
+    expect {
+      storage.reset
+    }.to raise_error(NotImplementedError)
+  end
 end
