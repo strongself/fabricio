@@ -5,9 +5,13 @@ module Fabricio
   module Networking
     class NetworkClient
 
+      def initialize(adapter = Faraday.default_adapter)
+        @adapter = adapter
+      end
+
       def perform_request(model)
         connection = Faraday.new(:url => model.base_url) do |faraday|
-          faraday.adapter  Faraday.default_adapter
+          faraday.adapter @adapter
         end
 
         if model.type == :GET
@@ -28,8 +32,8 @@ module Fabricio
       def perform_post_request(connection, model)
         connection.post do |req|
           req.url model.api_path
-          req.headers model.headers
-          req.body model.body
+          req.headers = model.headers
+          req.body = model.body
         end
       end
 
