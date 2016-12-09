@@ -2,7 +2,7 @@ require 'fabricio/authorization/memory_session_storage'
 
 module Fabricio
   module Configuration
-    VALID_OPTIONS_KEYS= [:client_id, :client_secret, :username, :password, :session_storage].freeze
+    VALID_OPTIONS_KEYS = [:client_id, :client_secret, :username, :password, :session_storage].freeze
 
     DEFAULT_CLIENT_ID = nil
     DEFAULT_CLIENT_SECRET = nil

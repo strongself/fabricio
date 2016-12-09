@@ -1,13 +1,28 @@
 require 'faraday'
 require 'json'
 require 'fabricio/authorization/session'
+require 'fabricio/configuration/configuration'
+require 'fabricio/authorization/abstract_session_storage'
 
 AUTH_API_URL = 'https://instant.fabric.io/oauth/token'
 
 module Fabricio
   module Authorization
     class AuthorizationClient
-      def self.auth(username, password, client_id, client_secret)
+
+      def auth(username, password, client_id, client_secret, force = false)
+        session_storage = Fabricio.session_storage
+        session = session_storage.obtain_session
+        if !session || force
+          session = perform_authorization(username, password, client_id, client_secret)
+          session_storage.store_session(session)
+        end
+        session
+      end
+
+      private
+
+      def perform_authorization(username, password, client_id, client_secret)
         conn = Faraday.new(:url => AUTH_API_URL) do |faraday|
           faraday.response :logger                  # log requests to STDOUT
           faraday.adapter Faraday.default_adapter  # make requests with Net::HTTP

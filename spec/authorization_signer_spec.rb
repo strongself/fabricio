@@ -1,7 +1,7 @@
 require 'rspec'
-require 'faraday'
 require 'fabricio/authorization/authorization_signer'
 require 'fabricio/authorization/session'
+require 'fabricio/request_factories/request_model'
 
 describe 'Authorization Signer' do
 
@@ -16,11 +16,9 @@ describe 'Authorization Signer' do
                                                        'access_token' => access_token,
                                                        'refresh_token' => refresh_token
                                                    })
-    conn = Faraday.new(:url => 'http://test.com')
-    conn.get do |request|
-      @signer.sign_request(request, session)
-      expect(request.headers['Authorization']).to include(access_token)
-    end
+    model = Fabricio::Networking::RequestModel.new
+    @signer.sign_request_model(model, session)
+    expect(model.headers['Authorization']).to include(access_token)
 
   end
 end
