@@ -66,6 +66,20 @@ module Fabricio
         model
       end
 
+      def total_sessions_request_model(session, app_id, start_time, end_time)
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('total_sessions_scalar')}"
+        headers = {
+            'start' => start_time,
+            'end' => end_time
+        }
+        model = Fabricio::Networking::RequestModel.new(:GET,
+                                                       FABRIC_INSTANT_API_URL,
+                                                       path,
+                                                       headers)
+        sign_request_model(model, session)
+        model
+      end
+
       private
 
       def app_endpoint(app_id)
