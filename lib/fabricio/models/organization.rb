@@ -1,6 +1,8 @@
+require 'fabricio/models/abstract_model'
+
 module Fabricio
   module Model
-    class Organization
+    class Organization < AbstractModel
       attr_reader :id, :alias, :name, :apps_counts
 
       def initialize(attributes)
@@ -8,6 +10,7 @@ module Fabricio
         @alias = attributes['alias']
         @name = attributes['name']
         @apps_counts = attributes['apps_counts']
+        @json = attributes
       end
     end
   end
