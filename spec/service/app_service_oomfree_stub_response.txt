@@ -1,0 +1,22 @@
+{
+  "data": {
+    "project": {
+      "crashlytics": {
+        "oomCounts": {
+          "timeSeries": [
+            {
+              "allTimeCount": 353
+            }
+          ]
+        },
+        "oomSessionCounts": {
+          "timeSeries": [
+            {
+              "allTimeCount": 6504
+            }
+          ]
+        }
+      }
+    }
+  }
+}

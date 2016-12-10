@@ -74,4 +74,12 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
+  it 'should fetch oomfree`' do
+    response_file = File.new(Dir.getwd + '/spec/service/app_service_oomfree_stub_response.txt')
+    stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
+
+    result = @service.oomfree('1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
 end

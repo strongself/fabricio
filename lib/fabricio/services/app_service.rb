@@ -68,8 +68,18 @@ module Fabricio
         1 - crashes.to_f / sessions
       end
 
-      def oom_free(id, start_time, end_time, builds)
+      def oomfree(id, start_time, end_time)
+        start_date = Time.at(start_time.to_i).to_datetime
+        end_date = Time.at(end_time.to_i).to_datetime
+        days = (end_date - start_date).to_i + 1
 
+        request_model = @request_model_factory.oom_count_request_model(@session, id, days)
+        response = @network_client.perform_request(request_model)
+
+        result = JSON.parse(response.body)
+        sessions = result['data']['project']['crashlytics']['oomSessionCounts']['timeSeries'][0]['allTimeCount']
+        ooms = result['data']['project']['crashlytics']['oomCounts']['timeSeries'][0]['allTimeCount']
+        1 - ooms.to_f / sessions
       end
     end
   end

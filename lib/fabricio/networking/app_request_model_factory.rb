@@ -102,6 +102,29 @@ module Fabricio
         model
       end
 
+      def oom_count_request_model(session, app_id, days)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+        body = {
+            'query' => 'query oomCountForDaysForBuild($app_id: String!, $builds: [String!]!, $days: Int!) { project(externalId: $app_id) { crashlytics{ oomCounts(builds: $builds, days: $days){ timeSeries{ allTimeCount } } oomSessionCounts(builds: $builds, days: $days){ timeSeries{ allTimeCount } } } } }',
+            'variables' => {
+                'app_id' => app_id,
+                'days' => days,
+                'builds' => [
+                    'all'
+                ]
+            }
+        }.to_json
+        model = Fabricio::Networking::RequestModel.new(:POST,
+                                                       FABRIC_GRAPHQL_API_URL,
+                                                       '',
+                                                       headers,
+                                                       body)
+        sign_request_model(model, session)
+        model
+      end
+
       private
 
       def app_endpoint(app_id)
