@@ -1,0 +1,21 @@
+[
+  {
+    "id": "network_org_id",
+    "alias": "ramblerco",
+    "name": "Rambler&Co",
+    "api_key": "api_key",
+    "enrollments": {
+      "answers_enhanced_feature_set_enabled_for_new_apps": "true",
+      "answers_ip_address_tracking_enabled_for_new_apps": "true",
+      "beta_distribution": "true"
+    },
+    "accounts_count": 109,
+    "mopub_id": null,
+    "sdk_organization": true,
+    "apps_counts": {
+      "android": 70,
+      "ios": 108
+    },
+    "build_secret": "build_secret"
+  }
+]
