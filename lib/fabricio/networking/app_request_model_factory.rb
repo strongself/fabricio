@@ -20,8 +20,8 @@ module Fabricio
         model
       end
 
-      def get_app_request_model(session, id)
-        path = "#{FABRIC_API_PATH}#{FABRIC_APPS_ENDPOINT}/#{id}"
+      def get_app_request_model(session, app_id)
+        path = "#{FABRIC_API_PATH}#{app_endpoint(app_id)}"
         model = Fabricio::Networking::RequestModel.new(:GET,
                                                        FABRIC_API_URL,
                                                        path)
@@ -30,9 +30,7 @@ module Fabricio
       end
 
       def active_now_request_model(session, app_id)
-        org_path = "/#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
-        app_path = "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
-        path = "#{FABRIC_API_PATH}#{org_path}#{app_path}/growth_analytics/active_now.json"
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('active_now')}"
         model = Fabricio::Networking::RequestModel.new(:GET,
                                                        FABRIC_INSTANT_API_URL,
                                                        path)
@@ -41,9 +39,7 @@ module Fabricio
       end
 
       def daily_new_request_model(session, app_id, start_time, end_time)
-        org_path = "/#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
-        app_path = "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
-        path = "#{FABRIC_API_PATH}#{org_path}#{app_path}/growth_analytics/daily_new.json"
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('daily_new')}"
         headers = {
             'start' => start_time,
             'end' => end_time
@@ -57,9 +53,7 @@ module Fabricio
       end
 
       def daily_active_request_model(session, app_id, start_time, end_time)
-        org_path = "/#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
-        app_path = "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
-        path = "#{FABRIC_API_PATH}#{org_path}#{app_path}/growth_analytics/daily_active.json"
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('daily_active')}"
         headers = {
             'start' => start_time,
             'end' => end_time
@@ -70,6 +64,24 @@ module Fabricio
                                                        headers)
         sign_request_model(model, session)
         model
+      end
+
+      private
+
+      def app_endpoint(app_id)
+        "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
+      end
+
+      def org_endpoint(session)
+        "/#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
+      end
+
+      def org_app_endpoint(session, app_id)
+        "#{org_endpoint(session)}/#{app_endpoint(app_id)}"
+      end
+
+      def growth_analytics_endpoint(name)
+        "/growth_analytics/#{name}.json"
       end
     end
   end
