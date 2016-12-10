@@ -28,7 +28,9 @@ module Fabricio
       end
 
       def active_now(id)
-
+        request_model = @request_model_factory.active_now_request_model(@session, id)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['cardinality']
       end
 
       def daily_new(id, start_time, end_time)
