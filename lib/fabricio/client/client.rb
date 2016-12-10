@@ -1,5 +1,6 @@
 require 'fabricio/models/organization'
 require 'fabricio/services/organization_service'
+require 'fabricio/services/app_service'
 require 'fabricio/authorization/authorization_client'
 require 'fabricio/authorization/session'
 require 'fabricio/authorization/memory_session_storage'
@@ -32,6 +33,7 @@ module Fabricio
       @auth_client = Fabricio::Authorization::AuthorizationClient.new(@session_storage)
       session = obtain_session
       @organization_service ||= Fabricio::Service::OrganizationService.new(session)
+      @app_service ||= Fabricio::Service::AppService.new(session)
     end
 
     def method_missing(*args, &block)
