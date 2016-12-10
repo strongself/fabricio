@@ -1,8 +1,6 @@
 module Fabricio
   module Networking
     class RequestModel
-      #include Fabricio::Authorization::AuthorizationSigner
-
       attr_reader :type, :base_url, :api_path, :headers, :body
 
       def initialize(type = :GET, base_url = '', api_path = '', headers = {}, body = nil)

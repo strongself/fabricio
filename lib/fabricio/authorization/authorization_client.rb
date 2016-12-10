@@ -10,12 +10,15 @@ module Fabricio
   module Authorization
     class AuthorizationClient
 
+      def initialize(session_storage)
+        @session_storage = session_storage
+      end
+
       def auth(username, password, client_id, client_secret, force = false)
-        session_storage = Fabricio.session_storage
-        session = session_storage.obtain_session
+        session = @session_storage.obtain_session
         if !session || force
           session = perform_authorization(username, password, client_id, client_secret)
-          session_storage.store_session(session)
+          @session_storage.store_session(session)
         end
         session
       end
