@@ -64,4 +64,14 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
+  it 'should fetch crashfree`' do
+    response_file = File.new(Dir.getwd + '/spec/service/app_service_crashes_stub_response.txt')
+    stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
+    response_file = File.new(Dir.getwd + '/spec/service/app_service_total_sessions_stub_response.txt')
+    stub_request(:get, /total_sessions/).to_return(:body => response_file, :status => 200)
+
+    result = @service.crashfree('1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
 end

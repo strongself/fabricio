@@ -1,5 +1,5 @@
 {
-  "sessions": 26,
+  "sessions": 2600,
   "start": 1480636800,
   "builds": [
     "all"

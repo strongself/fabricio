@@ -62,8 +62,10 @@ module Fabricio
         JSON.parse(response.body)['data']['project']['crashlytics']['scalars']['crashes']
       end
 
-      def crashfree(id, start_time, end_time, builds)
-
+      def crashfree(id, start_time, end_time)
+        sessions = total_sessions(id, start_time, end_time)
+        crashes = crashes(id, start_time, end_time)
+        1 - crashes.to_f / sessions
       end
 
       def oom_free(id, start_time, end_time, builds)
