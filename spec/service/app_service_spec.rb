@@ -32,11 +32,11 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
-  it 'should fetch average daily_new' do
+  it 'should fetch daily_new' do
     response_file = File.new(Dir.getwd + '/spec/service/app_service_daily_new_stub_response.txt')
     stub_request(:get, /daily_new/).to_return(:body => response_file, :status => 200)
 
-    result = @service.average_daily_new('1', '1', '1')
+    result = @service.daily_new('1', '1', '1')
     expect(result).not_to be_nil
   end
 
