@@ -29,7 +29,3 @@ module Fabricio
     end
   end
 end
-
-module Fabricio
-  extend Configuration
-end
