@@ -16,4 +16,12 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
+  it 'should fetch single app' do
+    response_file = File.new(Dir.getwd + '/spec/service/app_service_get_stub_response.txt')
+    stub_request(:get, /apps/).to_return(:body => response_file, :status => 200)
+
+    result = @service.get('1')
+    expect(result).not_to be_nil
+  end
+
 end

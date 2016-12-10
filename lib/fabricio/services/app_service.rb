@@ -22,7 +22,9 @@ module Fabricio
       end
 
       def get(id)
-
+        request_model = @request_model_factory.get_app_request_model(@session, id)
+        response = @network_client.perform_request(request_model)
+        Fabricio::Model::App.new(JSON.parse(response.body))
       end
 
       def active_now(id)

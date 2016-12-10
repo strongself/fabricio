@@ -18,6 +18,15 @@ module Fabricio
         sign_request_model(model, session)
         model
       end
+
+      def get_app_request_model(session, id)
+        path = "#{FABRIC_API_PATH}#{FABRIC_APPS_ENDPOINT}/#{id}"
+        model = Fabricio::Networking::RequestModel.new(:GET,
+                                                       FABRIC_API_URL,
+                                                       path)
+        sign_request_model(model, session)
+        model
+      end
     end
   end
 end
