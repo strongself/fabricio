@@ -37,7 +37,7 @@ module Fabricio
     def method_missing(*args, &block)
       service = instance_variable_get("@#{args.first}_service")
       return service if service
-      call_method(args, &block)
+      raise StandardError.new("There's no method called #{args.first} here -- please try again.")
     end
 
     private
