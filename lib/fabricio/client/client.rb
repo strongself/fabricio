@@ -14,7 +14,7 @@ module Fabricio
     DEFAULT_PASSWORD = nil
     DEFAULT_SESSION_STORAGE = Fabricio::Authorization::MemorySessionStorage.new
 
-    attr_accessor *VALID_OPTIONS_KEYS, :organization
+    attr_accessor *VALID_OPTIONS_KEYS
 
     def initialize(options =
                        {
@@ -37,7 +37,7 @@ module Fabricio
     def method_missing(*args, &block)
       service = instance_variable_get("@#{args.first}_service")
       return service if service
-      raise StandardError.new("There's no method called #{args.first} here -- please try again.")
+      raise NoMethodError.new("There's no method called #{args.first} here -- please try again.", args.first)
     end
 
     private
