@@ -56,8 +56,10 @@ module Fabricio
         JSON.parse(response.body)['sessions']
       end
 
-      def crashes(id, start_time, end_time, builds)
-
+      def crashes(id, start_time, end_time)
+        request_model = @request_model_factory.crash_count_request_model(@session, id, start_time, end_time)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['data']['project']['crashlytics']['scalars']['crashes']
       end
 
       def crashfree(id, start_time, end_time, builds)

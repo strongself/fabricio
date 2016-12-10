@@ -1,3 +1,4 @@
+require 'json'
 require 'fabricio/networking/request_model'
 require 'fabricio/authorization/authorization_signer'
 
@@ -8,6 +9,7 @@ module Fabricio
 
       FABRIC_API_URL = 'https://fabric.io'
       FABRIC_INSTANT_API_URL = 'https://instant.fabric.io'
+      FABRIC_GRAPHQL_API_URL = 'https://api-dash.fabric.io/graphql'
       FABRIC_API_PATH = '/api/v2'
       FABRIC_APPS_ENDPOINT = '/apps'
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
@@ -76,6 +78,26 @@ module Fabricio
                                                        FABRIC_INSTANT_API_URL,
                                                        path,
                                                        headers)
+        sign_request_model(model, session)
+        model
+      end
+
+      def crash_count_request_model(session, app_id, start_time, end_time)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+        body = {
+          'query' => "query AppScalars($app_id:String!,$type:IssueType!) {project(externalId:$app_id) {crashlytics {scalars:scalars(type:$type,start:#{start_time},end:#{end_time}) {crashes}}}}",
+          'variables' => {
+              'app_id' => app_id,
+              'type' => 'crash'
+          }
+        }.to_json
+        model = Fabricio::Networking::RequestModel.new(:POST,
+                                                       FABRIC_GRAPHQL_API_URL,
+                                                       '',
+                                                       headers,
+                                                       body)
         sign_request_model(model, session)
         model
       end

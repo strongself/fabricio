@@ -1,0 +1,11 @@
+{
+  "data": {
+    "project": {
+      "crashlytics": {
+        "scalars": {
+          "crashes": 30
+        }
+      }
+    }
+  }
+}
