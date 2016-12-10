@@ -1,7 +1,6 @@
 require 'faraday'
 require 'json'
 require 'fabricio/authorization/session'
-require 'fabricio/configuration/configuration'
 require 'fabricio/authorization/abstract_session_storage'
 
 AUTH_API_URL = 'https://instant.fabric.io/oauth/token'
