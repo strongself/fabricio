@@ -33,8 +33,14 @@ module Fabricio
         JSON.parse(response.body)['cardinality']
       end
 
-      def daily_new(id, start_time, end_time)
-
+      def average_daily_new(id, start_time, end_time)
+        request_model = @request_model_factory.daily_new_request_model(@session, id, start_time, end_time)
+        response = @network_client.perform_request(request_model)
+        series = JSON.parse(response.body)['series']
+        overall_count = series.inject(0) do |sum, array|
+          sum + array.last
+        end
+        overall_count.to_f / series.count
       end
 
       def sessions(id, start_time, end_time, builds)
