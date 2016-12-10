@@ -1,9 +1,0 @@
-{
-  "cardinality": 8,
-  "timestamp": 1480258536446,
-  "deltas": {
-    "week_over_week": {
-      "delta_fraction": 0.33333333333333326
-    }
-  }
-}
