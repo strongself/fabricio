@@ -55,6 +55,22 @@ module Fabricio
         sign_request_model(model, session)
         model
       end
+
+      def daily_active_request_model(session, app_id, start_time, end_time)
+        org_path = "/#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
+        app_path = "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
+        path = "#{FABRIC_API_PATH}#{org_path}#{app_path}/growth_analytics/daily_active.json"
+        headers = {
+            'start' => start_time,
+            'end' => end_time
+        }
+        model = Fabricio::Networking::RequestModel.new(:GET,
+                                                       FABRIC_INSTANT_API_URL,
+                                                       path,
+                                                       headers)
+        sign_request_model(model, session)
+        model
+      end
     end
   end
 end
