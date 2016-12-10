@@ -40,4 +40,12 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
+  it 'should fetch daily_active' do
+    response_file = File.new(Dir.getwd + '/spec/service/app_service_daily_active_stub_response.txt')
+    stub_request(:get, /daily_active/).to_return(:body => response_file, :status => 200)
+
+    result = @service.daily_active('1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
 end

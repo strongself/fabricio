@@ -42,6 +42,14 @@ module Fabricio
         end
       end
 
+      def daily_active(id, start_time, end_time)
+        request_model = @request_model_factory.daily_active_request_model(@session, id, start_time, end_time)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['series'].map do |array|
+          Fabricio::Model::Point.new(array)
+        end
+      end
+
       def sessions(id, start_time, end_time, builds)
 
       end

@@ -48,4 +48,13 @@ describe 'AppRequestModelFactory' do
     expect(result.api_path).not_to be_nil
     expect(result.headers).not_to be_nil
   end
+
+  it 'should form daily_active app request model' do
+    result = @factory.daily_active_request_model(@session, '1', '1', '1')
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
 end
