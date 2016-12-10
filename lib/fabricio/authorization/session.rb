@@ -3,7 +3,7 @@ module Fabricio
     class Session
       attr_reader :access_token, :refresh_token
 
-      def initialize(attributes)
+      def initialize(attributes = {})
         @access_token = attributes['access_token']
         @refresh_token = attributes['refresh_token']
       end
