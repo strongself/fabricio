@@ -1,6 +1,7 @@
 require 'fabricio/networking/app_request_model_factory'
 require 'fabricio/networking/network_client'
 require 'fabricio/models/app'
+require 'fabricio/models/point'
 
 module Fabricio
   module Service
@@ -34,7 +35,11 @@ module Fabricio
       end
 
       def daily_new(id, start_time, end_time)
-
+        request_model = @request_model_factory.daily_new_request_model(@session, id, start_time, end_time)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['series'].map do |array|
+          Fabricio::Model::Point.new(array)
+        end
       end
 
       def sessions(id, start_time, end_time, builds)
