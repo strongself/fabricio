@@ -15,69 +15,81 @@ module Fabricio
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
 
       def all_apps_request_model(session)
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_API_URL,
-                                                       FABRIC_API_PATH + FABRIC_APPS_ENDPOINT)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = FABRIC_API_PATH + FABRIC_APPS_ENDPOINT
+        end
         sign_request_model(model, session)
         model
       end
 
       def get_app_request_model(session, app_id)
         path = "#{FABRIC_API_PATH}#{app_endpoint(app_id)}"
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_API_URL,
-                                                       path)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+        end
         sign_request_model(model, session)
         model
       end
 
       def active_now_request_model(session, app_id)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('active_now')}"
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_INSTANT_API_URL,
-                                                       path)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+        end
         sign_request_model(model, session)
         model
       end
 
       def daily_new_request_model(session, app_id, start_time, end_time)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('daily_new')}"
-        headers = {
+        params = {
             'start' => start_time,
             'end' => end_time
         }
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_INSTANT_API_URL,
-                                                       path,
-                                                       headers)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+          model.params = params
+        end
         sign_request_model(model, session)
         model
       end
 
       def daily_active_request_model(session, app_id, start_time, end_time)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('daily_active')}"
-        headers = {
+        params = {
             'start' => start_time,
             'end' => end_time
         }
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_INSTANT_API_URL,
-                                                       path,
-                                                       headers)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+          model.params = params
+        end
         sign_request_model(model, session)
         model
       end
 
       def total_sessions_request_model(session, app_id, start_time, end_time)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('total_sessions_scalar')}"
-        headers = {
+        params = {
             'start' => start_time,
             'end' => end_time
         }
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_INSTANT_API_URL,
-                                                       path,
-                                                       headers)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+          model.params = params
+        end
         sign_request_model(model, session)
         model
       end
@@ -93,11 +105,12 @@ module Fabricio
               'type' => 'crash'
           }
         }.to_json
-        model = Fabricio::Networking::RequestModel.new(:POST,
-                                                       FABRIC_GRAPHQL_API_URL,
-                                                       '',
-                                                       headers,
-                                                       body)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :POST
+          model.base_url = FABRIC_GRAPHQL_API_URL
+          model.headers = headers
+          model.body = body
+        end
         sign_request_model(model, session)
         model
       end
@@ -116,11 +129,12 @@ module Fabricio
                 ]
             }
         }.to_json
-        model = Fabricio::Networking::RequestModel.new(:POST,
-                                                       FABRIC_GRAPHQL_API_URL,
-                                                       '',
-                                                       headers,
-                                                       body)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :POST
+          model.base_url = FABRIC_GRAPHQL_API_URL
+          model.headers = headers
+          model.body = body
+        end
         sign_request_model(model, session)
         model
       end

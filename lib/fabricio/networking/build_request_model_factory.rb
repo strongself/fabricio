@@ -13,9 +13,11 @@ module Fabricio
 
       def all_builds_request_model(session, app_id)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/beta_distribution/releases"
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_API_URL,
-                                                       path)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+        end
         sign_request_model(model, session)
         model
       end
@@ -26,15 +28,16 @@ module Fabricio
             'app[display_version]' => version,
             'app[build_version]' => build_number
         }
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_API_URL,
-                                                       path,
-                                                       {},
-                                                       nil,
-                                                       params)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+          model.params = params
+        end
         sign_request_model(model, session)
         model
       end
+
 
       private
 0

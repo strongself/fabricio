@@ -1,7 +1,7 @@
 module Fabricio
   module Networking
     class RequestModel
-      attr_reader :type, :base_url, :api_path, :headers, :body, :params
+      attr_accessor :type, :base_url, :api_path, :headers, :body, :params
 
       def initialize(type = :GET, base_url = '', api_path = '', headers = {}, body = nil, params = {})
         @type = type
@@ -10,6 +10,7 @@ module Fabricio
         @headers = headers
         @body = body
         @params = params
+        yield(self) if block_given?
       end
     end
   end
