@@ -61,11 +61,12 @@ module Fabricio
         model
       end
 
-      def daily_active_request_model(session, app_id, start_time, end_time)
+      def daily_active_request_model(session, app_id, start_time, end_time, build)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('daily_active')}"
         params = {
             'start' => start_time,
-            'end' => end_time
+            'end' => end_time,
+            'build' => build
         }
         model = Fabricio::Networking::RequestModel.new do |model|
           model.type = :GET
@@ -77,11 +78,12 @@ module Fabricio
         model
       end
 
-      def total_sessions_request_model(session, app_id, start_time, end_time)
+      def total_sessions_request_model(session, app_id, start_time, end_time, build)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('total_sessions_scalar')}"
         params = {
             'start' => start_time,
-            'end' => end_time
+            'end' => end_time,
+            'build' => build
         }
         model = Fabricio::Networking::RequestModel.new do |model|
           model.type = :GET
@@ -93,12 +95,15 @@ module Fabricio
         model
       end
 
-      def crash_count_request_model(session, app_id, start_time, end_time)
+      def crash_count_request_model(session, app_id, start_time, end_time, builds)
         headers = {
             'Content-Type' => 'application/json'
         }
+        builds_string = builds.map { |build|
+          "\"#{build}\""
+        }.join(',')
         body = {
-          'query' => "query AppScalars($app_id:String!,$type:IssueType!) {project(externalId:$app_id) {crashlytics {scalars:scalars(type:$type,start:#{start_time},end:#{end_time}) {crashes}}}}",
+          'query' => "query AppScalars($app_id:String!,$type:IssueType!) {project(externalId:$app_id) {crashlytics {scalars:scalars(synthesizedBuildVersions:[#{builds_string}],type:$type,start:#{start_time},end:#{end_time}) {crashes}}}}",
           'variables' => {
               'app_id' => app_id,
               'type' => 'crash'
@@ -114,7 +119,7 @@ module Fabricio
         model
       end
 
-      def oom_count_request_model(session, app_id, days)
+      def oom_count_request_model(session, app_id, days, builds)
         headers = {
             'Content-Type' => 'application/json'
         }
@@ -123,9 +128,7 @@ module Fabricio
             'variables' => {
                 'app_id' => app_id,
                 'days' => days,
-                'builds' => [
-                    'all'
-                ]
+                'builds' => builds
             }
         }.to_json
         model = Fabricio::Networking::RequestModel.new do |model|

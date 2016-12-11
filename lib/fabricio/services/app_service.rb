@@ -42,38 +42,38 @@ module Fabricio
         end
       end
 
-      def daily_active(id, start_time, end_time)
-        request_model = @request_model_factory.daily_active_request_model(@session, id, start_time, end_time)
+      def daily_active(id, start_time, end_time, build)
+        request_model = @request_model_factory.daily_active_request_model(@session, id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['series'].map do |array|
           Fabricio::Model::Point.new(array)
         end
       end
 
-      def total_sessions(id, start_time, end_time)
-        request_model = @request_model_factory.total_sessions_request_model(@session, id, start_time, end_time)
+      def total_sessions(id, start_time, end_time, build)
+        request_model = @request_model_factory.total_sessions_request_model(@session, id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['sessions']
       end
 
-      def crashes(id, start_time, end_time)
-        request_model = @request_model_factory.crash_count_request_model(@session, id, start_time, end_time)
+      def crashes(id, start_time, end_time, builds)
+        request_model = @request_model_factory.crash_count_request_model(@session, id, start_time, end_time, builds)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['data']['project']['crashlytics']['scalars']['crashes']
       end
 
-      def crashfree(id, start_time, end_time)
-        sessions = total_sessions(id, start_time, end_time)
-        crashes = crashes(id, start_time, end_time)
+      def crashfree(id, start_time, end_time, build)
+        sessions = total_sessions(id, start_time, end_time, build)
+        crashes = crashes(id, start_time, end_time, [build])
         1 - crashes.to_f / sessions
       end
 
-      def oomfree(id, start_time, end_time)
+      def oomfree(id, start_time, end_time, builds)
         start_date = Time.at(start_time.to_i).to_datetime
         end_date = Time.at(end_time.to_i).to_datetime
         days = (end_date - start_date).to_i + 1
 
-        request_model = @request_model_factory.oom_count_request_model(@session, id, days)
+        request_model = @request_model_factory.oom_count_request_model(@session, id, days, builds)
         response = @network_client.perform_request(request_model)
 
         result = JSON.parse(response.body)
