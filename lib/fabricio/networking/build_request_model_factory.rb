@@ -20,8 +20,24 @@ module Fabricio
         model
       end
 
-      private
+      def get_build_request_model(session, app_id, version, build_number)
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/beta_distribution/releases"
+        params = {
+            'app[display_version]' => version,
+            'app[build_version]' => build_number
+        }
+        model = Fabricio::Networking::RequestModel.new(:GET,
+                                                       FABRIC_API_URL,
+                                                       path,
+                                                       {},
+                                                       nil,
+                                                       params)
+        sign_request_model(model, session)
+        model
+      end
 
+      private
+0
       def app_endpoint(app_id)
         "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
       end

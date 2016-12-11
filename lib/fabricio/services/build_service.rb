@@ -25,8 +25,10 @@ module Fabricio
 
       end
 
-      def get(id)
-
+      def get(app_id, version, build_number)
+        request_model = @request_model_factory.get_build_request_model(@session, app_id, version, build_number)
+        response = @network_client.perform_request(request_model)
+        Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
       end
     end
   end

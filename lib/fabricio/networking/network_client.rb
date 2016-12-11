@@ -26,6 +26,7 @@ module Fabricio
         connection.get do |req|
           req.url model.api_path
           req.headers = model.headers
+          req.params = model.params
         end
       end
 

@@ -16,4 +16,12 @@ describe 'BuildService' do
     expect(result).not_to be_nil
   end
 
+  it 'should get build' do
+    response_file = File.new(Dir.getwd + '/spec/service/build_service_get_build_stub_response.txt')
+    stub_request(:get, /releases/).to_return(:body => response_file, :status => 200)
+
+    result = @service.get('1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
 end
