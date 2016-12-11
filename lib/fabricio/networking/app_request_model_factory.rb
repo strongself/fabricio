@@ -8,7 +8,6 @@ module Fabricio
       include Fabricio::Authorization::AuthorizationSigner
 
       FABRIC_API_URL = 'https://fabric.io'
-      FABRIC_INSTANT_API_URL = 'https://instant.fabric.io'
       FABRIC_GRAPHQL_API_URL = 'https://api-dash.fabric.io/graphql'
       FABRIC_API_PATH = '/api/v2'
       FABRIC_APPS_ENDPOINT = '/apps'

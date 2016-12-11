@@ -38,9 +38,25 @@ module Fabricio
         model
       end
 
+      def top_versions_request_model(session, app_id, start_time, end_time)
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/growth_analytics/top_builds"
+        params = {
+            'app_id' => app_id,
+            'start' => start_time,
+            'end' => end_time
+        }
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = path
+          model.params = params
+        end
+        sign_request_model(model, session)
+        model
+      end
 
       private
-0
+
       def app_endpoint(app_id)
         "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
       end

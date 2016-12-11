@@ -21,14 +21,16 @@ module Fabricio
         end
       end
 
-      def top
-
-      end
-
       def get(app_id, version, build_number)
         request_model = @request_model_factory.get_build_request_model(@session, app_id, version, build_number)
         response = @network_client.perform_request(request_model)
         Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
+      end
+
+      def top_versions(app_id, start_time, end_time)
+        request_model = @request_model_factory.top_versions_request_model(@session, app_id, start_time, end_time)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['builds']
       end
     end
   end

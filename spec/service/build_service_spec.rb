@@ -24,4 +24,12 @@ describe 'BuildService' do
     expect(result).not_to be_nil
   end
 
+  it 'should get top build versions' do
+    response_file = File.new(Dir.getwd + '/spec/service/build_service_top_versions_stub_response.txt')
+    stub_request(:get, /top_builds/).to_return(:body => response_file, :status => 200)
+
+    result = @service.top_versions('1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
 end
