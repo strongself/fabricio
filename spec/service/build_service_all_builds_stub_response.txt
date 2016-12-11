@@ -1,0 +1,34 @@
+{
+  "instances": [
+    {
+      "distributed_at": 1481107774,
+      "instance_identifier": "231599a362a191b7286b3c0b7be06606bc54852c",
+      "id": "app_id",
+      "tester_count": 9,
+      "tester_with_install_count": 2,
+      "open_invitation_count": 13,
+      "last_activity_at": 1481108731,
+      "received_at": 1481107761,
+      "release_notes_summary": "List of changes",
+      "build_version": {
+        "display_version": "3.0.5",
+        "build_version": "75"
+      }
+    },
+    {
+      "distributed_at": 1480411584,
+      "instance_identifier": "106d301a742fc7ce284db3a75d50602f5a5ba79e",
+      "id": "app_id",
+      "tester_count": 9,
+      "tester_with_install_count": 1,
+      "open_invitation_count": 13,
+      "last_activity_at": 1480414209,
+      "received_at": 1480411577,
+      "release_notes_summary": "List of changes",
+      "build_version": {
+        "display_version": "3.0.4",
+        "build_version": "74"
+      }
+    }
+  ]
+}

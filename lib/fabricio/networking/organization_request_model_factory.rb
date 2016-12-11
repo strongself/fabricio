@@ -11,9 +11,11 @@ module Fabricio
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
 
       def get_organization_request_model(session)
-        model = Fabricio::Networking::RequestModel.new(:GET,
-                                                       FABRIC_API_URL,
-                                                       FABRIC_API_PATH + FABRIC_ORGANIZATIONS_ENDPOINT)
+        model = Fabricio::Networking::RequestModel.new do |model|
+          model.type = :GET
+          model.base_url = FABRIC_API_URL
+          model.api_path = FABRIC_API_PATH + FABRIC_ORGANIZATIONS_ENDPOINT
+        end
         sign_request_model(model, session)
         model
       end
