@@ -9,6 +9,7 @@ module Fabricio
         request_model.headers['Authorization'] = "Bearer #{session.access_token}"
         request_model
       end
+      module_function :sign_request_model
     end
   end
 end
