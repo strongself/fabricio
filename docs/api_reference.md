@@ -572,7 +572,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 
 #### Query Parameters
 
-```
 - **app_id** should respect the following schema:
 
 ```
@@ -587,6 +586,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 {
   "type": "timestamp"
 }
+```
 - **end** should respect the following schema:
 
 ```
