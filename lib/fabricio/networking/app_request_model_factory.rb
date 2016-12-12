@@ -35,7 +35,7 @@ module Fabricio
       end
 
       def active_now_request_model(session, app_id)
-        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('active_now')}"
+        path = growth_analytics_endpoint(session, app_id, 'active_now')
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL
@@ -46,11 +46,8 @@ module Fabricio
       end
 
       def daily_new_request_model(session, app_id, start_time, end_time)
-        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('daily_new')}"
-        params = {
-            'start' => start_time,
-            'end' => end_time
-        }
+        path = growth_analytics_endpoint(session, app_id, 'daily_new')
+        params = time_range_params(start_time, end_time)
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL
@@ -62,12 +59,9 @@ module Fabricio
       end
 
       def daily_active_request_model(session, app_id, start_time, end_time, build)
-        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('daily_active')}"
-        params = {
-            'start' => start_time,
-            'end' => end_time,
-            'build' => build
-        }
+        path = growth_analytics_endpoint(session, app_id, 'daily_active')
+        params = time_range_params(start_time, end_time)
+        params['build'] = build
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL
@@ -79,7 +73,7 @@ module Fabricio
       end
 
       def total_sessions_request_model(session, app_id, start_time, end_time, build)
-        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('total_sessions_scalar')}"
+        path = growth_analytics_endpoint(session, app_id, 'total_sessions_scalar')
         params = {
             'start' => start_time,
             'end' => end_time,
@@ -143,6 +137,14 @@ module Fabricio
 
       private
 
+      def growth_analytics_endpoint(session, app_id, name)
+        "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/growth_analytics/#{name}.json"
+      end
+
+      def org_app_endpoint(session, app_id)
+        "#{org_endpoint(session)}/#{app_endpoint(app_id)}"
+      end
+
       def app_endpoint(app_id)
         "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
       end
@@ -151,13 +153,13 @@ module Fabricio
         "/#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
       end
 
-      def org_app_endpoint(session, app_id)
-        "#{org_endpoint(session)}/#{app_endpoint(app_id)}"
+      def time_range_params(start_time, end_time)
+        {
+            'start' => start_time,
+            'end' => end_time
+        }
       end
 
-      def growth_analytics_endpoint(name)
-        "/growth_analytics/#{name}.json"
-      end
     end
   end
 end
