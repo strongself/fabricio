@@ -1,6 +1,7 @@
 # Fabricio
 
 [![](https://travis-ci.org/rambler-digital-solutions/fabricio.svg?branch=develop)](https://travis-ci.org/rambler-digital-solutions/fabricio)
+[![Code Climate](https://codeclimate.com/github/rambler-digital-solutions/fabricio/badges/gpa.svg)](https://codeclimate.com/github/rambler-digital-solutions/fabricio)
 
 A simple gem that allows to fetch mobile application statistics from [Fabric.io](http://fabric.io) using its private API.
 
