@@ -135,7 +135,8 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 {
   "type": "string",
   "enum": [
-    "all"
+    "all",
+    "4.0.1 (30)"
   ],
   "default": "all"
 }
@@ -182,22 +183,20 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 
 ```
 {
-  "type": "string",
+  "type": "timestamp",
   "enum": [
     "1478736000"
-  ],
-  "default": "1478736000"
+  ]
 }
 ```
 - **end** should respect the following schema:
 
 ```
 {
-  "type": "string",
+  "type": "timestamp",
   "enum": [
     "1481328000"
-  ],
-  "default": "1481328000"
+  ]
 }
 ```
 - **build** should respect the following schema:
@@ -206,7 +205,8 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 {
   "type": "string",
   "enum": [
-    "all"
+    "all",
+    "4.0.1 (30)"
   ],
   "default": "all"
 }
@@ -253,22 +253,20 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 
 ```
 {
-  "type": "string",
+  "type": "timestamp",
   "enum": [
     "1478736000"
-  ],
-  "default": "1478736000"
+  ]
 }
 ```
 - **end** should respect the following schema:
 
 ```
 {
-  "type": "string",
+  "type": "timestamp",
   "enum": [
     "1481328000"
-  ],
-  "default": "1481328000"
+  ]
 }
 ```
 - **build** should respect the following schema:
@@ -277,9 +275,10 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 {
   "type": "string",
   "enum": [
+    "all",
     "3.0.4 (71)"
   ],
-  "default": "3.0.4 (71)"
+  "default": "all"
 }
 ```
 
@@ -374,7 +373,8 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 {
   "type": "string",
   "enum": [
-    "all"
+    "all",
+    "4.0.1 (30)"
   ],
   "default": "all"
 }
@@ -383,22 +383,20 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 
 ```
 {
-  "type": "string",
+  "type": "timestamp",
   "enum": [
     "1480636800"
-  ],
-  "default": "1480636800"
+  ]
 }
 ```
 - **end** should respect the following schema:
 
 ```
 {
-  "type": "string",
+  "type": "timestamp",
   "enum": [
     "1480723200"
-  ],
-  "default": "1480723200"
+  ]
 }
 ```
 
@@ -550,8 +548,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "type": "string",
   "enum": [
     "3.0.5"
-  ],
-  "default": "3.0.5"
+  ]
 }
 ```
 - **app[build_version]** should respect the following schema:
@@ -561,8 +558,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "type": "string",
   "enum": [
     "75"
-  ],
-  "default": "75"
+  ]
 }
 ```
 
@@ -603,16 +599,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 
 #### Query Parameters
 
-- **start** should respect the following schema:
-
-```
-{
-  "type": "string",
-  "enum": [
-    "0"
-  ],
-  "default": "0"
-}
 ```
 - **app_id** should respect the following schema:
 
@@ -625,15 +611,23 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "default": "{app_id}"
 }
 ```
+- **start** should respect the following schema:
+
+```
+{
+  "type": "timestamp",
+  "enum": [
+    "0"
+  ]
+}
 - **end** should respect the following schema:
 
 ```
 {
-  "type": "string",
+  "type": "timestamp",
   "enum": [
     "1481328000"
-  ],
-  "default": "1481328000"
+  ]
 }
 ```
 
