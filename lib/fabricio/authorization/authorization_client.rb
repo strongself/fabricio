@@ -4,7 +4,7 @@ require 'fabricio/authorization/session'
 require 'fabricio/authorization/abstract_session_storage'
 require 'fabricio/services/organization_service'
 
-AUTH_API_URL = 'https://instant.fabric.io/oauth/token'
+AUTH_API_URL = 'https://fabric.io/oauth/token'
 ORGANIZATION_API_URL = 'https://fabric.io/api/v2/organizations'
 
 module Fabricio
