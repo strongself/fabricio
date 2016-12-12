@@ -53,9 +53,6 @@ curl -X GET "https://fabric.io/api/v2/organizations" \
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -76,9 +73,6 @@ curl -X GET "https://fabric.io/api/v2/apps" \
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -99,9 +93,6 @@ curl -X GET "https://fabric.io/api/v2/apps/{app_id}" \
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -136,7 +127,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "type": "string",
   "enum": [
     "all",
-    "4.0.1 (30)"
+    "x.x.x (y)"
   ],
   "default": "all"
 }
@@ -149,9 +140,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -184,9 +172,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "timestamp",
-  "enum": [
-    "1478736000"
-  ]
 }
 ```
 - **end** should respect the following schema:
@@ -194,9 +179,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "timestamp",
-  "enum": [
-    "1481328000"
-  ]
 }
 ```
 - **build** should respect the following schema:
@@ -206,7 +188,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "type": "string",
   "enum": [
     "all",
-    "4.0.1 (30)"
+    "x.x.x (y)"
   ],
   "default": "all"
 }
@@ -219,9 +201,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -254,9 +233,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "timestamp",
-  "enum": [
-    "1478736000"
-  ]
 }
 ```
 - **end** should respect the following schema:
@@ -264,9 +240,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "timestamp",
-  "enum": [
-    "1481328000"
-  ]
 }
 ```
 - **build** should respect the following schema:
@@ -276,7 +249,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "type": "string",
   "enum": [
     "all",
-    "3.0.4 (71)"
+    "x.x.x (y)"
   ],
   "default": "all"
 }
@@ -289,9 +262,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -314,9 +284,6 @@ curl -X POST "https://api-dash.fabric.io/graphql" \
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -325,9 +292,6 @@ curl -X POST "https://api-dash.fabric.io/graphql" \
 ```
 {
   "type": "string",
-  "enum": [
-    "application/json"
-  ],
   "default": "application/json"
 }
 ```
@@ -339,7 +303,31 @@ curl -X POST "https://api-dash.fabric.io/graphql" \
 ```
 {
   "type": "string",
-  "default": "{\n  \"query\": \"query AppScalars($app_id:String!,$type:IssueType!) {project(externalId:$app_id) {crashlytics {scalars:scalars(synthesizedBuildVersions:[\\\"3.0.4 (71)\\\", \\\"3.0.3 (68)\\\"],type:$type,start:1477958400,end:1480411080) {crashes,issues,impactedDevices}}}}\",\n  \"variables\": {\n    \"app_id\": \"{app_id}\",\n    \"type\": \"crash\"\n  }\n}"
+  "default": "{\n  \"query\": \"query AppScalars($app_id:String!,$type:IssueType!) {project(externalId:$app_id) {crashlytics {scalars:scalars(synthesizedBuildVersions:[\\\"x.x.x (y)\\\", \\\"x.x.x (y)\\\"],type:$type,start:1477958400,end:1480411080) {crashes,issues,impactedDevices}}}}\",\n  \"variables\": {\n    \"app_id\": \"{app_id}\",\n    \"type\": \"crash\"\n  }\n}"
+}
+```
+- **synthesizedBuildVersions** should respect the following schema:
+
+```
+{
+  "type": "string",
+  "default": "[\"x.x.x (y)\"]"
+}
+```
+
+- **start** should respect the following schema:
+
+```
+{
+  "type": "timestamp"
+}
+```
+
+- **end** should respect the following schema:
+
+```
+{
+  "type": "timestamp"
 }
 ```
 
@@ -374,7 +362,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "type": "string",
   "enum": [
     "all",
-    "4.0.1 (30)"
+    "x.x.x (y)"
   ],
   "default": "all"
 }
@@ -383,20 +371,14 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 
 ```
 {
-  "type": "timestamp",
-  "enum": [
-    "1480636800"
-  ]
+  "type": "timestamp"
 }
 ```
 - **end** should respect the following schema:
 
 ```
 {
-  "type": "timestamp",
-  "enum": [
-    "1480723200"
-  ]
+  "type": "timestamp"
 }
 ```
 
@@ -407,21 +389,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
-}
-```
-- **Content-Type** should respect the following schema:
-
-```
-{
-  "type": "string",
-  "enum": [
-    "text/plain"
-  ],
-  "default": "text/plain"
 }
 ```
 
@@ -443,9 +411,6 @@ curl -X POST "https://api-dash.fabric.io/graphql" \
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -469,6 +434,31 @@ curl -X POST "https://api-dash.fabric.io/graphql" \
 {
   "type": "string",
   "default": "{\n  \"query\": \"query oomCountForDaysForBuild($app_id: String!, $builds: [String!]!, $days: Int!) { project(externalId: $app_id) { crashlytics{ oomCounts(builds: $builds, days: $days){ timeSeries{ allTimeCount } } oomSessionCounts(builds: $builds, days: $days){ timeSeries{ allTimeCount } } } } }\",\n  \"variables\": {\n    \"app_id\": \"{app_id}\",\n    \"days\": 1,\n    \"builds\": [\n      \"3.0.4 (71)\"\n    ]\n  }\n}"
+}
+```
+
+- **builds** should respect the following schema:
+
+```
+{
+  "type": "string",
+  "default": "[\"x.x.x (y)\"]"
+}
+```
+
+- **app_id** should respect the following schema:
+
+```
+{
+  "type": "string"
+}
+```
+
+- **days** should respect the following schema:
+
+```
+{
+  "type": "integer"
 }
 ```
 
@@ -500,21 +490,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
-}
-```
-- **Content-Type** should respect the following schema:
-
-```
-{
-  "type": "string",
-  "enum": [
-    "text/plain"
-  ],
-  "default": "text/plain"
 }
 ```
 
@@ -547,7 +523,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 {
   "type": "string",
   "enum": [
-    "3.0.5"
+    "x.x.x"
   ]
 }
 ```
@@ -557,7 +533,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 {
   "type": "string",
   "enum": [
-    "75"
+    "y"
   ]
 }
 ```
@@ -569,9 +545,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
@@ -605,9 +578,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "{app_id}"
-  ],
   "default": "{app_id}"
 }
 ```
@@ -615,19 +585,13 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 
 ```
 {
-  "type": "timestamp",
-  "enum": [
-    "0"
-  ]
+  "type": "timestamp"
 }
 - **end** should respect the following schema:
 
 ```
 {
-  "type": "timestamp",
-  "enum": [
-    "1481328000"
-  ]
+  "type": "timestamp"
 }
 ```
 
@@ -638,9 +602,6 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
 ```
 {
   "type": "string",
-  "enum": [
-    "Bearer {access_token}"
-  ],
   "default": "Bearer {access_token}"
 }
 ```
