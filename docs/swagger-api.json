@@ -1,0 +1,553 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API-Flow Swagger Conversion",
+    "version": "0.0.0"
+  },
+  "host": "fabric.io",
+  "paths": {
+    "/oauth/token": {
+      "post": {
+        "summary": "OAuth",
+        "operationId": "927daca5-3c3c-4f67-91ed-f7a5253075d6",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "string",
+              "default": "{\"grant_type\":\"password\",\"scope\":\"organizations apps issues features account twitter_client_apps beta software answers\",\"username\":\"email@rambler.ru\",\"password\":\"pa$$word\",\"client_id\":\"your_client_id\",\"client_secret\":\"your_client_secret\"}"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations": {
+      "get": {
+        "summary": "Get Organization",
+        "operationId": "1ba2364d-f093-4221-8af0-8ebd54ffa2e0",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/apps": {
+      "get": {
+        "summary": "Get All Apps",
+        "operationId": "8f3cdfab-68f2-4972-84d3-3ab77a7c2fe3",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/apps/{app_id}": {
+      "get": {
+        "summary": "Get Single App",
+        "operationId": "33f04899-d209-4ffe-91ef-27d1319edf96",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations/{ResponseBodyPath}/apps/{app_id}/growth_analytics/active_now.json": {
+      "get": {
+        "summary": "Get Active Now",
+        "operationId": "7d073ee0-e243-4eb6-ab3c-d85355acb3b7",
+        "parameters": [
+          {
+            "name": "ResponseBodyPath",
+            "required": true,
+            "in": "path",
+            "default": "{organization_id}",
+            "type": "string",
+            "x-title": "ResponseBodyPath"
+          },
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          },
+          {
+            "name": "build",
+            "required": false,
+            "in": "query",
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "all"
+            ],
+            "x-title": "build"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations/{ResponseBodyPath}/apps/{app_id}/growth_analytics/daily_new.json": {
+      "get": {
+        "summary": "Get Daily New",
+        "operationId": "cec756dc-5279-44c0-8855-4b119e8a281e",
+        "parameters": [
+          {
+            "name": "ResponseBodyPath",
+            "required": true,
+            "in": "path",
+            "default": "{organization_id}",
+            "type": "string",
+            "x-title": "ResponseBodyPath"
+          },
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "default": "1478736000",
+            "type": "string",
+            "enum": [
+              "1478736000"
+            ],
+            "x-title": "start"
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "default": "1481328000",
+            "type": "string",
+            "enum": [
+              "1481328000"
+            ],
+            "x-title": "end"
+          },
+          {
+            "name": "build",
+            "required": false,
+            "in": "query",
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "all"
+            ],
+            "x-title": "build"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations/{ResponseBodyPath}/apps/{app_id}/growth_analytics/daily_active.json": {
+      "get": {
+        "summary": "Get Daily Active",
+        "operationId": "28ce7787-4c62-4e36-8c3d-21f22721abc6",
+        "parameters": [
+          {
+            "name": "ResponseBodyPath",
+            "required": true,
+            "in": "path",
+            "default": "{organization_id}",
+            "type": "string",
+            "x-title": "ResponseBodyPath"
+          },
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "default": "1478736000",
+            "type": "string",
+            "enum": [
+              "1478736000"
+            ],
+            "x-title": "start"
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "default": "1481328000",
+            "type": "string",
+            "enum": [
+              "1481328000"
+            ],
+            "x-title": "end"
+          },
+          {
+            "name": "build",
+            "required": false,
+            "in": "query",
+            "default": "3.0.4 (71)",
+            "type": "string",
+            "enum": [
+              "3.0.4 (71)"
+            ],
+            "x-title": "build"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/graphql": {
+      "post": {
+        "x-host": "api-dash.fabric.io",
+        "summary": "Get OOM",
+        "operationId": "a3c7ab8a-6da9-4514-a49c-dd05a160a967",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "string",
+              "default": "{\n  \"query\": \"query oomCountForDaysForBuild($app_id: String!, $builds: [String!]!, $days: Int!) { project(externalId: $app_id) { crashlytics{ oomCounts(builds: $builds, days: $days){ timeSeries{ allTimeCount } } oomSessionCounts(builds: $builds, days: $days){ timeSeries{ allTimeCount } } } } }\",\n  \"variables\": {\n    \"app_id\": \"{app_id}\",\n    \"days\": 1,\n    \"builds\": [\n      \"3.0.4 (71)\"\n    ]\n  }\n}"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations/{ResponseBodyPath}/apps/{app_id}/growth_analytics/total_sessions_scalar.json": {
+      "get": {
+        "summary": "Get Sessions Count",
+        "operationId": "663ee252-e5da-48cf-9034-8c6afd6a0338",
+        "consumes": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "ResponseBodyPath",
+            "required": true,
+            "in": "path",
+            "default": "{organization_id}",
+            "type": "string",
+            "x-title": "ResponseBodyPath"
+          },
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          },
+          {
+            "name": "build",
+            "required": false,
+            "in": "query",
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "all"
+            ],
+            "x-title": "build"
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "default": "1480636800",
+            "type": "string",
+            "enum": [
+              "1480636800"
+            ],
+            "x-title": "start"
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "default": "1480723200",
+            "type": "string",
+            "enum": [
+              "1480723200"
+            ],
+            "x-title": "end"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations/{ResponseBodyPath}/apps/{app_id}/beta_distribution/releases/{release_id}": {
+      "get": {
+        "summary": "Get All Builds",
+        "operationId": "ac37ff6f-3d76-4eb1-904e-266f27c1f53b",
+        "consumes": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "ResponseBodyPath",
+            "required": true,
+            "in": "path",
+            "default": "{organization_id}",
+            "type": "string",
+            "x-title": "ResponseBodyPath"
+          },
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations/{ResponseBodyPath}/apps/{app_id}/beta_distribution/releases": {
+      "get": {
+        "summary": "Get Single Build",
+        "operationId": "7a081371-1b92-4964-81ef-60dc76e37f3b",
+        "parameters": [
+          {
+            "name": "ResponseBodyPath",
+            "required": true,
+            "in": "path",
+            "default": "{organization_id}",
+            "type": "string",
+            "x-title": "ResponseBodyPath"
+          },
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          },
+          {
+            "name": "app[display_version]",
+            "required": false,
+            "in": "query",
+            "default": "3.0.5",
+            "type": "string",
+            "enum": [
+              "3.0.5"
+            ],
+            "x-title": "app[display_version]"
+          },
+          {
+            "name": "app[build_version]",
+            "required": false,
+            "in": "query",
+            "default": "75",
+            "type": "string",
+            "enum": [
+              "75"
+            ],
+            "x-title": "app[build_version]"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v2/organizations/{ResponseBodyPath}/apps/{app_id}/growth_analytics/top_builds": {
+      "get": {
+        "summary": "Get Top Builds",
+        "operationId": "dde93ee1-998d-488f-94bc-acb832376097",
+        "parameters": [
+          {
+            "name": "ResponseBodyPath",
+            "required": true,
+            "in": "path",
+            "default": "{organization_id}",
+            "type": "string",
+            "x-title": "ResponseBodyPath"
+          },
+          {
+            "name": "Authorization",
+            "required": false,
+            "in": "header",
+            "default": "Bearer {access_token}",
+            "type": "string",
+            "enum": [
+              "Bearer {access_token}"
+            ],
+            "x-title": "Authorization"
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "default": "0",
+            "type": "string",
+            "enum": [
+              "0"
+            ],
+            "x-title": "start"
+          },
+          {
+            "name": "app_id",
+            "required": false,
+            "in": "query",
+            "default": "{app_id}",
+            "type": "string",
+            "enum": [
+              "{app_id}"
+            ],
+            "x-title": "app_id"
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "default": "1481328000",
+            "type": "string",
+            "enum": [
+              "1481328000"
+            ],
+            "x-title": "end"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "stub description for swagger compliance"
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {}
+}

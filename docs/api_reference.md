@@ -605,3 +605,7 @@ curl -X GET "https://fabric.io/api/v2/organizations/{organization_id}/apps/{app_
   "default": "Bearer {access_token}"
 }
 ```
+
+## References
+
+- [API in Swagger format](swagger-api.json)
