@@ -13,10 +13,10 @@ module Fabricio
 
       def all_builds_request_model(session, app_id)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/beta_distribution/releases"
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
         end
         sign_request_model(model, session)
         model
@@ -28,11 +28,11 @@ module Fabricio
             'app[display_version]' => version,
             'app[build_version]' => build_number
         }
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
-          model.params = params
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
         end
         sign_request_model(model, session)
         model
@@ -45,11 +45,11 @@ module Fabricio
             'start' => start_time,
             'end' => end_time
         }
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
-          model.params = params
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
         end
         sign_request_model(model, session)
         model

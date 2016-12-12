@@ -3,7 +3,7 @@ module Fabricio
     class AbstractModel
       attr_reader :json
 
-      def method_missing(*args, &block)
+      def method_missing(*args)
         method_name = args.first
         json_value = @json[method_name.to_s]
         return json_value if json_value

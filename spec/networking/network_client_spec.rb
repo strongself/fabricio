@@ -16,7 +16,10 @@ describe 'NetworkClient' do
     response_file = File.new(Dir.getwd + '/spec/networking/network_client_stub_response.txt')
     stub_request(:get, base_url).to_return(:body => response_file, :status => 200)
 
-    model = Fabricio::Networking::RequestModel.new(:GET, base_url)
+    model = Fabricio::Networking::RequestModel.new do |config|
+      config.type = :GET
+      config.base_url = base_url
+    end
     result = @client.perform_request(model)
 
     expect(result).not_to be_nil
@@ -27,7 +30,10 @@ describe 'NetworkClient' do
     response_file = File.new(Dir.getwd + '/spec/networking/network_client_stub_response.txt')
     stub_request(:post, base_url).to_return(:body => response_file, :status => 200)
 
-    model = Fabricio::Networking::RequestModel.new(:POST, base_url)
+    model = Fabricio::Networking::RequestModel.new do |config|
+      config.type = :POST
+      config.base_url = base_url
+    end
     result = @client.perform_request(model)
 
     expect(result).not_to be_nil

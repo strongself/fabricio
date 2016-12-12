@@ -14,10 +14,10 @@ module Fabricio
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
 
       def all_apps_request_model(session)
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = FABRIC_API_PATH + FABRIC_APPS_ENDPOINT
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = FABRIC_API_PATH + FABRIC_APPS_ENDPOINT
         end
         sign_request_model(model, session)
         model
@@ -25,10 +25,10 @@ module Fabricio
 
       def get_app_request_model(session, app_id)
         path = "#{FABRIC_API_PATH}#{app_endpoint(app_id)}"
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
         end
         sign_request_model(model, session)
         model
@@ -36,10 +36,10 @@ module Fabricio
 
       def active_now_request_model(session, app_id)
         path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}#{growth_analytics_endpoint('active_now')}"
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
         end
         sign_request_model(model, session)
         model
@@ -51,11 +51,11 @@ module Fabricio
             'start' => start_time,
             'end' => end_time
         }
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
-          model.params = params
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
         end
         sign_request_model(model, session)
         model
@@ -68,11 +68,11 @@ module Fabricio
             'end' => end_time,
             'build' => build
         }
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
-          model.params = params
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
         end
         sign_request_model(model, session)
         model
@@ -85,11 +85,11 @@ module Fabricio
             'end' => end_time,
             'build' => build
         }
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :GET
-          model.base_url = FABRIC_API_URL
-          model.api_path = path
-          model.params = params
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
         end
         sign_request_model(model, session)
         model
@@ -109,11 +109,11 @@ module Fabricio
               'type' => 'crash'
           }
         }.to_json
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :POST
-          model.base_url = FABRIC_GRAPHQL_API_URL
-          model.headers = headers
-          model.body = body
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :POST
+          config.base_url = FABRIC_GRAPHQL_API_URL
+          config.headers = headers
+          config.body = body
         end
         sign_request_model(model, session)
         model
@@ -131,11 +131,11 @@ module Fabricio
                 'builds' => builds
             }
         }.to_json
-        model = Fabricio::Networking::RequestModel.new do |model|
-          model.type = :POST
-          model.base_url = FABRIC_GRAPHQL_API_URL
-          model.headers = headers
-          model.body = body
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :POST
+          config.base_url = FABRIC_GRAPHQL_API_URL
+          config.headers = headers
+          config.body = body
         end
         sign_request_model(model, session)
         model

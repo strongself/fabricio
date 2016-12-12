@@ -8,15 +8,13 @@ require 'fabricio/authorization/memory_session_storage'
 
 module Fabricio
   class Client
-    VALID_OPTIONS_KEYS = [:client_id, :client_secret, :username, :password, :session_storage].freeze
-
     DEFAULT_CLIENT_ID = nil
     DEFAULT_CLIENT_SECRET = nil
     DEFAULT_USERNAME = nil
     DEFAULT_PASSWORD = nil
     DEFAULT_SESSION_STORAGE = Fabricio::Authorization::MemorySessionStorage.new
 
-    attr_accessor *VALID_OPTIONS_KEYS
+    attr_accessor :client_id, :client_secret, :username, :password, :session_storage;
 
     def initialize(options =
                        {
@@ -38,7 +36,7 @@ module Fabricio
       @build_service ||= Fabricio::Service::BuildService.new(session)
     end
 
-    def method_missing(*args, &block)
+    def method_missing(*args)
       service = instance_variable_get("@#{args.first}_service")
       return service if service
       raise NoMethodError.new("There's no method called #{args.first} here -- please try again.", args.first)

@@ -7,7 +7,7 @@ module Fabricio
         raise NotImplementedError, "Implement this method in a child class"
       end
 
-      def store_session(session)
+      def store_session(_)
         raise NotImplementedError, "Implement this method in a child class"
       end
 
