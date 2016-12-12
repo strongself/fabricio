@@ -4,8 +4,13 @@ require 'fabricio/models/build'
 
 module Fabricio
   module Service
+    # Service responsible for fetching different Build information
     class BuildService
 
+      # Initializes a new BuildService object.
+      #
+      # @param session [Fabricio::Authorization::Session]
+      # @return [Fabricio::Service::BuildService]
       def initialize(session)
         @session = session
 
@@ -13,6 +18,10 @@ module Fabricio
         @network_client = Fabricio::Networking::NetworkClient.new
       end
 
+      # Obtains the list of all application builds
+      #
+      # @param app_id [String] Application identifier
+      # @return [Array<Fabricio::Model::Build>]
       def all(app_id)
         request_model = @request_model_factory.all_builds_request_model(@session, app_id)
         response = @network_client.perform_request(request_model)
@@ -21,12 +30,24 @@ module Fabricio
         end
       end
 
+      # Obtains a specific build for a specific application
+      #
+      # @param app_id [String] Application identifier
+      # @param version [String] Build version. E.g. '4.0.1'.
+      # @param build_number [String] Build number. E.g. '39'.
+      # @return [Fabricio::Model::Build]
       def get(app_id, version, build_number)
         request_model = @request_model_factory.get_build_request_model(@session, app_id, version, build_number)
         response = @network_client.perform_request(request_model)
         Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
       end
 
+      # Obtains an array of top versions for a given app
+      #
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Array<String>]
       def top_versions(app_id, start_time, end_time)
         request_model = @request_model_factory.top_versions_request_model(@session, app_id, start_time, end_time)
         response = @network_client.perform_request(request_model)

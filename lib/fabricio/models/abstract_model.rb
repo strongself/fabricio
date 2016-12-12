@@ -1,8 +1,11 @@
 module Fabricio
   module Model
+    # Defines a base class for all data models
     class AbstractModel
+      # Plain data from the server
       attr_reader :json
 
+      # We use `method_missing` approach here to allow a user query any field from the original data structure sent by server.
       def method_missing(*args)
         method_name = args.first
         json_value = @json[method_name.to_s]

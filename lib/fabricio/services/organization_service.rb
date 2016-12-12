@@ -4,8 +4,13 @@ require 'fabricio/models/organization'
 
 module Fabricio
   module Service
+    # Service responsible for fetching different Organization information
     class OrganizationService
 
+      # Initializes a new OrganizationService object.
+      #
+      # @param session [Fabricio::Authorization::Session]
+      # @return [Fabricio::Service::OrganizationService]
       def initialize(session)
         @session = session
 
@@ -13,6 +18,9 @@ module Fabricio
         @network_client = Fabricio::Networking::NetworkClient.new
       end
 
+      # Obtains current organization information
+      #
+      # @return [Fabricio::Model::Organization]
       def get
         request_model = @request_model_factory.get_organization_request_model(@session)
         response = @network_client.perform_request(request_model)
