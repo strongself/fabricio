@@ -11,11 +11,11 @@ module Fabricio
       #
       # @param session [Fabricio::Authorization::Session]
       # @return [Fabricio::Service::OrganizationService]
-      def initialize(session)
+      def initialize(session, network_client)
         @session = session
 
         @request_model_factory = Fabricio::Networking::OrganizationRequestModelFactory.new
-        @network_client = Fabricio::Networking::NetworkClient.new
+        @network_client = network_client
       end
 
       # Obtains current organization information
@@ -24,6 +24,7 @@ module Fabricio
       def get
         request_model = @request_model_factory.get_organization_request_model(@session)
         response = @network_client.perform_request(request_model)
+        puts(response)
         Fabricio::Model::Organization.new(JSON.parse(response.body)[0])
       end
     end

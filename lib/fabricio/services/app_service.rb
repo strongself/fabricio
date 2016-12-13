@@ -12,11 +12,11 @@ module Fabricio
       #
       # @param session [Fabricio::Authorization::Session]
       # @return [Fabricio::Service::AppService]
-      def initialize(session)
+      def initialize(session, network_client)
         @session = session
 
         @request_model_factory = Fabricio::Networking::AppRequestModelFactory.new
-        @network_client = Fabricio::Networking::NetworkClient.new
+        @network_client = network_client
       end
 
       # Obtains the list of all apps
@@ -125,7 +125,7 @@ module Fabricio
       # @param id [String] Application identifier
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
-      # @param builds [Array<String>] The versions of the app. E.g. ['4.0.1 (38)', '4.0.2 (45)']
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Float]
       def oomfree(id, start_time, end_time, builds)
         start_date = Time.at(start_time.to_i).to_datetime

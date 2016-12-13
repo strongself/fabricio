@@ -11,11 +11,11 @@ module Fabricio
       #
       # @param session [Fabricio::Authorization::Session]
       # @return [Fabricio::Service::BuildService]
-      def initialize(session)
+      def initialize(session, network_client)
         @session = session
 
         @request_model_factory = Fabricio::Networking::BuildRequestModelFactory.new
-        @network_client = Fabricio::Networking::NetworkClient.new
+        @network_client = network_client
       end
 
       # Obtains the list of all application builds
