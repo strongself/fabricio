@@ -25,7 +25,7 @@ describe 'NetworkClient' do
 
   it 'should perform GET request' do
     base_url = 'http://test.ru'
-    response_file = File.new(Dir.getwd + '/spec/networking/network_client_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/networking/network_client_stub_response.txt')
     stub_request(:get, base_url).to_return(:body => response_file, :status => 200)
 
     model = Fabricio::Networking::RequestModel.new do |config|
@@ -39,7 +39,7 @@ describe 'NetworkClient' do
 
   it 'should perform POST request' do
     base_url = 'http://test.ru'
-    response_file = File.new(Dir.getwd + '/spec/networking/network_client_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/networking/network_client_stub_response.txt')
     stub_request(:post, base_url).to_return(:body => response_file, :status => 200)
 
     model = Fabricio::Networking::RequestModel.new do |config|
@@ -53,12 +53,12 @@ describe 'NetworkClient' do
 
   it 'should refresh session on auth error' do
     base_url = 'http://test.ru'
-    response_file = File.new(Dir.getwd + '/spec/networking/authorization_failure_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/networking/authorization_failure_stub_response.txt')
     stub_request(:get, base_url).to_return(:body => response_file, :status => 401).
         with(headers: { 'Authorization' => "Bearer #{TEST_TOKEN}" })
-    response_file = File.new(Dir.getwd + '/spec/networking/authorization_success_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/networking/authorization_success_stub_response.txt')
     stub_request(:post, /token/).to_return(:body => response_file, :status => 200)
-    response_file = File.new(Dir.getwd + '/spec/networking/network_client_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/networking/network_client_stub_response.txt')
     stub_request(:get, base_url).to_return(:body => response_file, :status => 200).
         with(headers: { 'Authorization' => "Bearer #{TEST_REFRESHED_TOKEN}" })
 
@@ -73,9 +73,9 @@ describe 'NetworkClient' do
 
   it 'should throw exception after refresh session error' do
     base_url = 'http://test.ru'
-    response_file = File.new(Dir.getwd + '/spec/networking/authorization_failure_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/networking/authorization_failure_stub_response.txt')
     stub_request(:get, base_url).to_return(:body => response_file, :status => 401)
-    response_file = File.new(Dir.getwd + '/spec/networking/authorization_success_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/networking/authorization_success_stub_response.txt')
     stub_request(:post, /token/).to_return(:body => response_file, :status => 200)
 
     model = Fabricio::Networking::RequestModel.new do |config|

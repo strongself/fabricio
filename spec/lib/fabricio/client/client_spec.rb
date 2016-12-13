@@ -40,9 +40,9 @@ describe 'Client' do
   end
 
   it 'should authorize if no cached session' do
-    response_file = File.new(Dir.getwd + '/spec/client/client_success_auth_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/client/client_success_auth_stub_response.txt')
     stub_request(:post, /token/).to_return(:body => response_file, :status => 200)
-    response_file = File.new(Dir.getwd + '/spec/authorization/organization_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/authorization/organization_stub_response.txt')
     stub_request(:get, /organizations/).to_return(:body => response_file, :status => 200)
 
     @storage.reset

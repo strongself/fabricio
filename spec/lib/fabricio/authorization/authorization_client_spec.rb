@@ -20,9 +20,9 @@ describe 'Authorization Client' do
   end
 
   it 'should return session for successful authorization' do
-    response_file = File.new(Dir.getwd + '/spec/authorization/authorization_success_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/authorization/authorization_success_stub_response.txt')
     stub_request(:post, /token/).to_return(:body => response_file, :status => 200)
-    response_file = File.new(Dir.getwd + '/spec/authorization/organization_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/authorization/organization_stub_response.txt')
     stub_request(:get, /organizations/).to_return(:body => response_file, :status => 200)
 
     session = @client.auth(TEST_STRING, TEST_STRING, TEST_STRING, TEST_STRING)
@@ -33,7 +33,7 @@ describe 'Authorization Client' do
   end
 
   it 'should throw error on incorrect authorization response' do
-    response_file = File.new(Dir.getwd + '/spec/authorization/authorization_failure_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/authorization/authorization_failure_stub_response.txt')
     stub_request(:post, /token/).to_return(:body => response_file, :status => 401)
 
     expect {
@@ -42,7 +42,7 @@ describe 'Authorization Client' do
   end
 
   it 'should return session for successful refresh' do
-    response_file = File.new(Dir.getwd + '/spec/authorization/authorization_success_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/authorization/authorization_success_stub_response.txt')
     stub_request(:post, /token/).to_return(:body => response_file, :status => 200)
 
     session = @client.refresh(@test_session)
@@ -53,7 +53,7 @@ describe 'Authorization Client' do
   end
 
   it 'should throw error on incorrect refresh response' do
-    response_file = File.new(Dir.getwd + '/spec/authorization/authorization_failure_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/authorization/authorization_failure_stub_response.txt')
     stub_request(:post, /token/).to_return(:body => response_file, :status => 401)
 
     expect {

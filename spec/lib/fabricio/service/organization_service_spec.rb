@@ -17,7 +17,7 @@ describe 'OrganizationService' do
   end
 
   it 'should fetch organization' do
-    response_file = File.new(Dir.getwd + '/spec/service/organization_service_get_stub_response.txt')
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/organization_service_get_stub_response.txt')
     stub_request(:get, /organizations/).to_return(:body => response_file, :status => 200)
 
     result = @service.get
