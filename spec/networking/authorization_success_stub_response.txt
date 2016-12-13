@@ -1,0 +1,7 @@
+{
+  "access_token": "456",
+  "token_type": "bearer",
+  "expires_in": 86400,
+  "refresh_token": "network_token",
+  "scope": "organizations apps issues features account twitter_client_apps beta software answers"
+}

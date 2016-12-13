@@ -1,11 +1,19 @@
 require 'rspec'
 require 'webmock/rspec'
 require 'fabricio/services/organization_service'
+require 'fabricio/authorization/memory_session_storage'
 
 describe 'OrganizationService' do
 
   before(:each) do
-    @service = Fabricio::Service::OrganizationService.new(Fabricio::Authorization::Session.new)
+    storage = Fabricio::Authorization::MemorySessionStorage.new
+    session = Fabricio::Authorization::Session.new({
+                                                       'access_token' => '123',
+                                                       'refresh_token' => '123'
+                                                   }, '123')
+    storage.store_session(session)
+    client = Fabricio::Networking::NetworkClient.new(nil, storage)
+    @service = Fabricio::Service::OrganizationService.new(Fabricio::Authorization::Session.new, client)
   end
 
   it 'should fetch organization' do

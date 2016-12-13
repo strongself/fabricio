@@ -39,11 +39,10 @@ module Fabricio
         is_authorization_error = result.success? == false && [401, 402].include?(result.status)
         if is_authorization_error && @is_refreshing_session == false
           refreshed_session = @authorization_client.refresh(session)
-          model = sign_model(model, refreshed_session)
+          @session_storage.store_session(refreshed_session)
 
           @is_refreshing_session = true
-          perform_request(model)
-          return
+          return perform_request(model)
         end
 
         # If authorization returns 401 and refresh session faled
