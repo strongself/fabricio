@@ -31,11 +31,23 @@ module Fabricio
       # @return [Fabricio::Authorization::Session]
       def auth(username, password, client_id, client_secret, force = false)
         session = @session_storage.obtain_session
-        if !session || force
+        if force
+          @session_storage.reset
+        end
+
+        if !session
           session = perform_authorization(username, password, client_id, client_secret)
           @session_storage.store_session(session)
         end
         session
+      end
+
+      def refresh
+        session = @session_storage.obtain_session
+        if !session
+          raise StandardError.new('Can`t refresh nil session. Restart the gem.')
+        end
+        perform_refresh_token_request(session.refresh_token)
       end
 
       private
@@ -52,6 +64,22 @@ module Fabricio
         auth_data = obtain_auth_data(username, password, client_id, client_secret)
         organization_id = obtain_organization_id(auth_data)
         Session.new(auth_data, organization_id)
+      end
+
+
+      def perform_refresh_token_request(refresh_token)
+        conn = Faraday.new(:url => AUTH_API_URL) do |faraday|
+          faraday.adapter Faraday.default_adapter
+        end
+
+        response = conn.post do |req|
+          req.headers['Content-Type'] = 'application/json'
+          req.body = {
+              'grant_type' => 'refresh_token',
+              'refresh_token' => refresh_token
+          }.to_json
+        end
+        JSON.parse(response.body)
       end
 
       # Makes a request to OAuth API and obtains access and refresh tokens.
