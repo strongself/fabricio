@@ -10,6 +10,7 @@ module Fabricio
       # Initializes a new OrganizationService object.
       #
       # @param session [Fabricio::Authorization::Session]
+      # @param network_client [Fabricio::Networking::NetworkClient]
       # @return [Fabricio::Service::OrganizationService]
       def initialize(session, network_client)
         @session = session

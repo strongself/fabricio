@@ -74,7 +74,7 @@ module Fabricio
 
     private
 
-    # Obtains current session
+    # Obtains current session. If there is no cached session, it sends a request to OAuth API to get access and refresh tokens.
     #
     # @return [Fabricio::Authorization::Session]
     def obtain_session

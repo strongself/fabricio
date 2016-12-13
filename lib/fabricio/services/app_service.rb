@@ -11,6 +11,7 @@ module Fabricio
       # Initializes a new AppService object.
       #
       # @param session [Fabricio::Authorization::Session]
+      # @param network_client [Fabricio::Networking::NetworkClient]
       # @return [Fabricio::Service::AppService]
       def initialize(session, network_client)
         @session = session
@@ -125,7 +126,7 @@ module Fabricio
       # @param id [String] Application identifier
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
-      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param builds [Array<String>] The versions of the app. E.g. ['4.0.1 (38)', '4.0.2 (45)']
       # @return [Float]
       def oomfree(id, start_time, end_time, builds)
         start_date = Time.at(start_time.to_i).to_datetime

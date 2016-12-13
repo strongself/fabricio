@@ -10,6 +10,7 @@ module Fabricio
       # Initializes a new BuildService object.
       #
       # @param session [Fabricio::Authorization::Session]
+      # @param network_client [Fabricio::Networking::NetworkClient]
       # @return [Fabricio::Service::BuildService]
       def initialize(session, network_client)
         @session = session

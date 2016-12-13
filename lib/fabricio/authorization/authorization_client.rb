@@ -8,11 +8,10 @@ ORGANIZATION_API_URL = 'https://fabric.io/api/v2/organizations'
 
 module Fabricio
   module Authorization
-    # A class used for user authorization. If there is a cached session, it returns it instead of making network request.
+    # A class used for user authorization.
     class AuthorizationClient
 
       # Returns a session object for making API requests.
-      # Depending on the cache state, it's obtained either via network request to OAuth API or from the local storage.
       #
       # @param username [String]
       # @param password [String]
@@ -23,6 +22,10 @@ module Fabricio
         perform_authorization(username, password, client_id, client_secret)
       end
 
+      # Refreshes an expired session using refresh_token
+      #
+      # @param session [Fabricio::Authorization::Session] Expired session
+      # @return [Fabricio::Authorization::Session]
       def refresh(session)
         perform_refresh_token_request(session)
       end
@@ -36,6 +39,7 @@ module Fabricio
       # @param password [String]
       # @param client_id [String]
       # @param client_secret [String]
+      # @raise [StandardError] Raises error if server sends incorrect response
       # @return [Fabricio::Authorization::Session]
       def perform_authorization(username, password, client_id, client_secret)
         auth_data = obtain_auth_data(username, password, client_id, client_secret)
@@ -46,7 +50,11 @@ module Fabricio
         Session.new(auth_data, organization_id)
       end
 
-
+      # Initiates a session refresh network request
+      #
+      # @param session [Fabricio::Authorization::Session] Expired session
+      # @raise [StandardError] Raises error if server sends incorrect response
+      # @return [Fabricio::Authorization::Session]
       def perform_refresh_token_request(session)
         conn = Faraday.new(:url => AUTH_API_URL) do |faraday|
           faraday.adapter Faraday.default_adapter
