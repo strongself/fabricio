@@ -1,12 +1,10 @@
 require 'json'
 require 'fabricio/networking/request_model'
-require 'fabricio/authorization/authorization_signer'
 
 module Fabricio
   module Networking
     # This factory creates request models for fetching data for App model object
     class AppRequestModelFactory
-      include Fabricio::Authorization::AuthorizationSigner
 
       # Server constants
       FABRIC_API_URL = 'https://fabric.io'
@@ -25,7 +23,6 @@ module Fabricio
           config.base_url = FABRIC_API_URL
           config.api_path = FABRIC_API_PATH + FABRIC_APPS_ENDPOINT
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -41,7 +38,6 @@ module Fabricio
           config.base_url = FABRIC_API_URL
           config.api_path = path
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -57,7 +53,6 @@ module Fabricio
           config.base_url = FABRIC_API_URL
           config.api_path = path
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -77,7 +72,6 @@ module Fabricio
           config.api_path = path
           config.params = params
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -99,7 +93,6 @@ module Fabricio
           config.api_path = path
           config.params = params
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -124,7 +117,6 @@ module Fabricio
           config.api_path = path
           config.params = params
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -156,7 +148,6 @@ module Fabricio
           config.headers = headers
           config.body = body
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -185,7 +176,6 @@ module Fabricio
           config.headers = headers
           config.body = body
         end
-        sign_request_model(model, session)
         model
       end
 
