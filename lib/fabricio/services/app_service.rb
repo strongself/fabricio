@@ -23,7 +23,7 @@ module Fabricio
       #
       # @return [Array<Fabricio::Model::App>]
       def all
-        request_model = @request_model_factory.all_apps_request_model(@session)
+        request_model = @request_model_factory.all_apps_request_model
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body).map do |app_hash|
           Fabricio::Model::App.new(app_hash)
@@ -35,7 +35,7 @@ module Fabricio
       # @param id [String] Application identifier
       # @return [Fabricio::Model::App]
       def get(id)
-        request_model = @request_model_factory.get_app_request_model(@session, id)
+        request_model = @request_model_factory.get_app_request_model(id)
         response = @network_client.perform_request(request_model)
         Fabricio::Model::App.new(JSON.parse(response.body))
       end
@@ -100,7 +100,7 @@ module Fabricio
       # @param builds [Array<String>] The versions of the app. E.g. ['4.0.1 (38)', '4.0.2 (45)']
       # @return [Integer]
       def crashes(id, start_time, end_time, builds)
-        request_model = @request_model_factory.crash_count_request_model(@session, id, start_time, end_time, builds)
+        request_model = @request_model_factory.crash_count_request_model(id, start_time, end_time, builds)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['data']['project']['crashlytics']['scalars']['crashes']
       end
@@ -132,7 +132,7 @@ module Fabricio
         end_date = Time.at(end_time.to_i).to_datetime
         days = (end_date - start_date).to_i + 1
 
-        request_model = @request_model_factory.oom_count_request_model(@session, id, days, builds)
+        request_model = @request_model_factory.oom_count_request_model(id, days, builds)
         response = @network_client.perform_request(request_model)
 
         result = JSON.parse(response.body)

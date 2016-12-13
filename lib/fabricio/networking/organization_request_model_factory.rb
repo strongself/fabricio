@@ -12,9 +12,8 @@ module Fabricio
 
       # Returns a request model for obtaining the organization data
       #
-      # @param session [Fabricio::Authorization::Session]
       # @return [Fabricio::Networking::RequestModel]
-      def get_organization_request_model(session)
+      def get_organization_request_model
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL

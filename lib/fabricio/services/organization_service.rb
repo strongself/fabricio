@@ -22,7 +22,7 @@ module Fabricio
       #
       # @return [Fabricio::Model::Organization]
       def get
-        request_model = @request_model_factory.get_organization_request_model(@session)
+        request_model = @request_model_factory.get_organization_request_model
         response = @network_client.perform_request(request_model)
         puts(response)
         Fabricio::Model::Organization.new(JSON.parse(response.body)[0])

@@ -9,7 +9,6 @@ require 'fabricio/authorization/memory_session_storage'
 
 describe 'NetworkClient' do
 
-  TEST_TOKEN = '123'
   TEST_REFRESHED_TOKEN = '456'
 
   before(:each) do
