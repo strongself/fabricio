@@ -1,11 +1,20 @@
 require 'rspec'
 require 'webmock/rspec'
 require 'fabricio/services/app_service'
+require 'fabricio/networking/network_client'
+require 'fabricio/authorization/memory_session_storage'
 
 describe 'AppService' do
 
   before(:each) do
-    @service = Fabricio::Service::AppService.new(Fabricio::Authorization::Session.new)
+    storage = Fabricio::Authorization::MemorySessionStorage.new
+    session = Fabricio::Authorization::Session.new({
+                                                       'access_token' => '123',
+                                                       'refresh_token' => '123'
+                                                   }, '123')
+    storage.store_session(session)
+    client = Fabricio::Networking::NetworkClient.new(nil, storage)
+    @service = Fabricio::Service::AppService.new(Fabricio::Authorization::Session.new, client)
   end
 
   it 'should fetch all apps' do

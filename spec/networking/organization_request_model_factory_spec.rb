@@ -10,12 +10,8 @@ describe 'OrganizationRequestModelFactory' do
   end
 
   it 'should form get organization request model' do
-    session = Fabricio::Authorization::Session.new({
-                                                       'access_token' => 'token',
-                                                       'refresh_token' => 'token'
-                                                   })
-    result = @factory.get_organization_request_model(session)
-    expect(result).not_to be_nil
+    result = @factory.get_organization_request_model
+
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
     expect(result.api_path).not_to be_nil

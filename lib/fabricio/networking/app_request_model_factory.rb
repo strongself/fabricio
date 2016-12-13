@@ -1,12 +1,10 @@
 require 'json'
 require 'fabricio/networking/request_model'
-require 'fabricio/authorization/authorization_signer'
 
 module Fabricio
   module Networking
     # This factory creates request models for fetching data for App model object
     class AppRequestModelFactory
-      include Fabricio::Authorization::AuthorizationSigner
 
       # Server constants
       FABRIC_API_URL = 'https://fabric.io'
@@ -17,31 +15,27 @@ module Fabricio
 
       # Returns a request model for obtaining the list of all apps
       #
-      # @param session [Fabricio::Authorization::Session]
       # @return [Fabricio::Networking::RequestModel]
-      def all_apps_request_model(session)
+      def all_apps_request_model
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL
           config.api_path = FABRIC_API_PATH + FABRIC_APPS_ENDPOINT
         end
-        sign_request_model(model, session)
         model
       end
 
       # Returns a request model for obtaining a specific app
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @return [Fabricio::Networking::RequestModel]
-      def get_app_request_model(session, app_id)
+      def get_app_request_model(app_id)
         path = "#{FABRIC_API_PATH}#{app_endpoint(app_id)}"
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL
           config.api_path = path
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -57,7 +51,6 @@ module Fabricio
           config.base_url = FABRIC_API_URL
           config.api_path = path
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -77,7 +70,6 @@ module Fabricio
           config.api_path = path
           config.params = params
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -99,7 +91,6 @@ module Fabricio
           config.api_path = path
           config.params = params
         end
-        sign_request_model(model, session)
         model
       end
 
@@ -124,19 +115,17 @@ module Fabricio
           config.api_path = path
           config.params = params
         end
-        sign_request_model(model, session)
         model
       end
 
       # Returns a request model for obtaining the count of app crashes
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param builds [Array] Multiple build versions. E.g. ['4.0.1 (38)']
       # @return [Fabricio::Networking::RequestModel]
-      def crash_count_request_model(session, app_id, start_time, end_time, builds)
+      def crash_count_request_model(app_id, start_time, end_time, builds)
         headers = {
             'Content-Type' => 'application/json'
         }
@@ -156,18 +145,16 @@ module Fabricio
           config.headers = headers
           config.body = body
         end
-        sign_request_model(model, session)
         model
       end
 
       # Returns a request model for obtaining the count of ooms
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param days [Integer] Count of days for obtaining oomfree data
       # @param builds [Array] Multiple build versions. E.g. ['4.0.1 (38)']
       # @return [Fabricio::Networking::RequestModel]
-      def oom_count_request_model(session, app_id, days, builds)
+      def oom_count_request_model(app_id, days, builds)
         headers = {
             'Content-Type' => 'application/json'
         }
@@ -185,7 +172,6 @@ module Fabricio
           config.headers = headers
           config.body = body
         end
-        sign_request_model(model, session)
         model
       end
 

@@ -5,6 +5,7 @@ require 'fabricio/services/build_service'
 require 'fabricio/authorization/authorization_client'
 require 'fabricio/authorization/session'
 require 'fabricio/authorization/memory_session_storage'
+require 'fabricio/networking/network_client'
 
 module Fabricio
   # The main object of the gem. It's used to initiate all data requests.
@@ -51,12 +52,13 @@ module Fabricio
       end
       yield(self) if block_given?
 
-      @auth_client = Fabricio::Authorization::AuthorizationClient.new(@session_storage)
+      @auth_client = Fabricio::Authorization::AuthorizationClient.new
       session = obtain_session
+      network_client = Fabricio::Networking::NetworkClient.new(@auth_client, @session_storage)
 
-      @organization_service ||= Fabricio::Service::OrganizationService.new(session)
-      @app_service ||= Fabricio::Service::AppService.new(session)
-      @build_service ||= Fabricio::Service::BuildService.new(session)
+      @organization_service ||= Fabricio::Service::OrganizationService.new(session, network_client)
+      @app_service ||= Fabricio::Service::AppService.new(session, network_client)
+      @build_service ||= Fabricio::Service::BuildService.new(session, network_client)
     end
 
     # We use `method_missing` approach instead of explicit methods.
@@ -72,14 +74,20 @@ module Fabricio
 
     private
 
-    # Obtains current session
+    # Obtains current session. If there is no cached session, it sends a request to OAuth API to get access and refresh tokens.
     #
     # @return [Fabricio::Authorization::Session]
     def obtain_session
-      @auth_client.auth(@username,
-                        @password,
-                        @client_id,
-                        @client_secret)
+      session = @session_storage.obtain_session
+      if !session
+        session = @auth_client.auth(@username,
+                                    @password,
+                                    @client_id,
+                                    @client_secret)
+        @session_storage.store_session(session)
+      end
+
+      session
     end
   end
 end
