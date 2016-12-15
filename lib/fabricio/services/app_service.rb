@@ -121,7 +121,7 @@ module Fabricio
         1 - crashes.to_f / sessions
       end
 
-      # Obtains application OOM-free (Out of Memory). It's calculated using a simple formula:
+      # Obtains application OOM-free (Out of Memory).
       #
       # @param id [String] Application identifier
       # @param start_time [String] Timestamp of the start date
