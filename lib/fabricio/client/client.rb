@@ -11,8 +11,9 @@ module Fabricio
   # The main object of the gem. It's used to initiate all data requests.
   class Client
     # Default values for initialization parameters
-    DEFAULT_CLIENT_ID = nil
-    DEFAULT_CLIENT_SECRET = nil
+    # clientId and clientSecret are taken from Android application.
+    DEFAULT_CLIENT_ID = '2c18f8a77609ee6bbac9e53f3768fedc45fb96be0dbcb41defa706dc57d9c931'
+    DEFAULT_CLIENT_SECRET = '092ed1cdde336647b13d44178932cba10911577faf0eda894896188a7d900cc9'
     DEFAULT_USERNAME = nil
     DEFAULT_PASSWORD = nil
     # In-memory session storage is used by default
@@ -22,8 +23,6 @@ module Fabricio
 
     # Initializes a new Client object. You can use a block to fill all the options:
     # client = Fabricio::Client.new do |config|
-    #   config.client_id = '`zz7`9081024jobfoiwflzedc45fb96be0dbcb41defawfwfs31'
-    #   config.client_secret = 'poid1cdde123f4178932cba1091szzojrnw894896188a7d5ho0'
     #   config.username = 'email@rambler.ru'
     #   config.password = 'pa$$word'
     # end
