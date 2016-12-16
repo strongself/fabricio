@@ -1,5 +1,6 @@
 # Fabricio
 
+[![Gem Version](https://badge.fury.io/rb/fabricio.svg)](https://badge.fury.io/rb/fabricio)
 [![](https://travis-ci.org/etolstoy/fabricio.svg?branch=develop)](https://travis-ci.org/etolstoy/fabricio)
 [![Code Climate](https://codeclimate.com/github/etolstoy/fabricio/badges/gpa.svg)](https://codeclimate.com/github/etolstoy/fabricio)
 [![Test Coverage](https://codeclimate.com/github/etolstoy/fabricio/badges/coverage.svg)](https://codeclimate.com/github/etolstoy/fabricio/coverage)
