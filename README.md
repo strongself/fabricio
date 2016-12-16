@@ -4,6 +4,8 @@
 [![Code Climate](https://codeclimate.com/github/rambler-digital-solutions/fabricio/badges/gpa.svg)](https://codeclimate.com/github/rambler-digital-solutions/fabricio)
 [![Test Coverage](https://codeclimate.com/github/rambler-digital-solutions/fabricio/badges/coverage.svg)](https://codeclimate.com/github/rambler-digital-solutions/fabricio/coverage)
 
+> pronounce as [f-ah-bree-see-oh]
+
 A simple gem that fetches mobile application statistics from [Fabric.io](http://fabric.io) using its ~~private~~ not publicly opened [API](https://github.com/rambler-digital-solutions/fabricio/blob/develop/docs/api_reference.md).
 
 There is a possibility that in some point of time it may break. Feel free to [post an issue](https://github.com/rambler-digital-solutions/fabricio/issues) and we'll fix it ASAP.
