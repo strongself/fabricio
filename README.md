@@ -1,14 +1,14 @@
 # Fabricio
 
-[![](https://travis-ci.org/rambler-digital-solutions/fabricio.svg?branch=develop)](https://travis-ci.org/rambler-digital-solutions/fabricio)
-[![Code Climate](https://codeclimate.com/github/rambler-digital-solutions/fabricio/badges/gpa.svg)](https://codeclimate.com/github/rambler-digital-solutions/fabricio)
-[![Test Coverage](https://codeclimate.com/github/rambler-digital-solutions/fabricio/badges/coverage.svg)](https://codeclimate.com/github/rambler-digital-solutions/fabricio/coverage)
+[![](https://travis-ci.org/etolstoy/fabricio.svg?branch=develop)](https://travis-ci.org/etolstoy/fabricio)
+[![Code Climate](https://codeclimate.com/github/etolstoy/fabricio/badges/gpa.svg)](https://codeclimate.com/github/etolstoy/fabricio)
+[![Test Coverage](https://codeclimate.com/github/etolstoy/fabricio/badges/coverage.svg)](https://codeclimate.com/github/etolstoy/fabricio/coverage)
 
 > pronounce as [f-ah-bree-see-oh]
 
-A simple gem that fetches mobile application statistics from [Fabric.io](http://fabric.io) using its ~~private~~ not publicly opened [API](https://github.com/rambler-digital-solutions/fabricio/blob/develop/docs/api_reference.md).
+A simple gem that fetches mobile application statistics from [Fabric.io](http://fabric.io) using its ~~private~~ not publicly opened [API](https://github.com/etolstoy/fabricio/blob/develop/docs/api_reference.md).
 
-There is a possibility that in some point of time it may break. Feel free to [post an issue](https://github.com/rambler-digital-solutions/fabricio/issues) and we'll fix it ASAP.
+There is a possibility that in some point of time it may break. Feel free to [post an issue](https://github.com/etolstoy/fabricio/issues) and we'll fix it ASAP.
 
 ## The Story Behind
 
@@ -134,8 +134,8 @@ Obtains an array of top versions for a given application.
 
 Fabric.io API:
 
-- [cURL requests](https://github.com/rambler-digital-solutions/fabricio/blob/develop/docs/api_reference.md)
-- [Swagger](https://github.com/rambler-digital-solutions/fabricio/blob/develop/docs/swagger-api.json)
+- [cURL requests](https://github.com/etolstoy/fabricio/blob/develop/docs/api_reference.md)
+- [Swagger](https://github.com/etolstoy/fabricio/blob/develop/docs/swagger-api.json)
 
 ## Authors
 
