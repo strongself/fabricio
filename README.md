@@ -1,15 +1,15 @@
 # Fabricio
 
 [![Gem Version](https://badge.fury.io/rb/fabricio.svg)](https://badge.fury.io/rb/fabricio)
-[![](https://travis-ci.org/etolstoy/fabricio.svg?branch=develop)](https://travis-ci.org/etolstoy/fabricio)
-[![Code Climate](https://codeclimate.com/github/etolstoy/fabricio/badges/gpa.svg)](https://codeclimate.com/github/etolstoy/fabricio)
-[![Test Coverage](https://codeclimate.com/github/etolstoy/fabricio/badges/coverage.svg)](https://codeclimate.com/github/etolstoy/fabricio/coverage)
+[![](https://travis-ci.org/strongself/fabricio.svg?branch=develop)](https://travis-ci.org/strongself/fabricio)
+[![Code Climate](https://codeclimate.com/github/strongself/fabricio/badges/gpa.svg)](https://codeclimate.com/github/strongself/fabricio)
+[![Test Coverage](https://codeclimate.com/github/strongself/fabricio/badges/coverage.svg)](https://codeclimate.com/github/strongself/fabricio/coverage)
 
 > pronounce as [f-ah-bree-see-oh]
 
-A simple gem that fetches mobile application statistics from [Fabric.io](http://fabric.io) using its ~~private~~ not publicly opened [API](https://github.com/etolstoy/fabricio/blob/develop/docs/api_reference.md).
+A simple gem that fetches mobile application statistics from [Fabric.io](http://fabric.io) using its ~~private~~ not publicly opened [API](https://github.com/strongself/fabricio/blob/develop/docs/api_reference.md).
 
-There is a possibility that in some point of time it may break. Feel free to [post an issue](https://github.com/etolstoy/fabricio/issues) and we'll fix it ASAP.
+There is a possibility that in some point of time it may break. Feel free to [post an issue](https://github.com/strongself/fabricio/issues) and we'll fix it ASAP.
 
 ## The Story Behind
 
@@ -135,8 +135,8 @@ Obtains an array of top versions for a given application.
 
 Fabric.io API:
 
-- [cURL requests](https://github.com/etolstoy/fabricio/blob/develop/docs/api_reference.md)
-- [Swagger](https://github.com/etolstoy/fabricio/blob/develop/docs/swagger-api.json)
+- [cURL requests](https://github.com/strongself/fabricio/blob/develop/docs/api_reference.md)
+- [Swagger](https://github.com/strongself/fabricio/blob/develop/docs/swagger-api.json)
 
 ## Authors
 
