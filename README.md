@@ -113,6 +113,10 @@ Obtains application crashfree.
 
 > Fabric.io website uses the same calculations. However, mobile app behaves differently and shows another value.
 
+#### `client.app.top_issues('app_id', start_timestamp, end_timestamp, 'build', count)`
+
+Obtain top issues.
+
 #### `client.app.oomfree('app_id', 'start_timestamp', 'end_timestamp', 'builds')`
 
 Obtains application out-of-memory free for a number of builds.

@@ -76,6 +76,15 @@ describe 'AppRequestModelFactory' do
     expect(result.headers).not_to be_nil
   end
 
+  it 'should form top issues request model' do
+    result = @factory.top_issues_request_model('1', 1, 1, ['1', '2'], 10)
+
+    expect(result.type).to eq :POST
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
   it 'should form oomfree app request model' do
     result = @factory.oom_count_request_model('1', 30, ['1', '2'])
 
