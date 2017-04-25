@@ -121,6 +121,20 @@ module Fabricio
         1 - crashes.to_f / sessions
       end
 
+      # Obtains top issues
+      #
+      # @param id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param count [Int] Number of issue
+      # @return [Float]
+      def top_issues(id, start_time, end_time, builds, count)
+        request_model = @request_model_factory.top_issues_request_model(id, start_time, end_time, builds, count)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['data']['project']['crashlytics']['_issues4Eg1Tv']['edges'].map { |edge| edge['node'] }
+      end
+
       # Obtains application OOM-free (Out of Memory).
       #
       # @param id [String] Application identifier

@@ -148,6 +148,43 @@ module Fabricio
         model
       end
 
+      # Returns a request model for obtaining top issues
+      #
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param builds [Array] Multiple build versions. E.g. ['4.0.1 (38)']
+      # @param count [Int] Number of issue
+      # @return [Fabricio::Networking::RequestModel]
+      def top_issues_request_model(app_id, start_time, end_time, builds, count)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+        builds_string = builds.map { |build|
+          "\"#{build}\""
+        }.join(',')
+
+        body = {
+          'query' => "query TopIssues($externalId_0:String!,$type_1:IssueType!,$start_2:UnixTimestamp!,$end_3:UnixTimestamp!,$filters_4:IssueFiltersType!,$state_5:IssueState!) {project(externalId:$externalId_0) {crashlytics {_appDetails1JwAD1:appDetails(synthesizedBuildVersions:[#{builds_string}],type:$type_1,start:$start_2,end:$end_3,filters:$filters_4) {topCrashInsightsMatchers {groupKey}},_issues4Eg1Tv:issues(synthesizedBuildVersions:[#{builds_string}],eventType:$type_1,start:$start_2,end:$end_3,state:$state_5,first:#{count},filters:$filters_4) {edges {node {externalId,displayId,createdAt,resolvedAt,title,subtitle,state,type,impactLevel,isObfuscated,occurrenceCount,impactedDevices,notesCount,earliestBuildVersion {buildVersion {name}},latestBuildVersion {buildVersion {name}},id},cursor},pageInfo {hasNextPage,hasPreviousPage}}},id}}",
+          'variables' => {
+              'externalId_0' => app_id,
+              'type_1' => 'all',
+              'start_2' => start_time,
+              'end_3' => end_time,
+              'filters_4' => { 'osMinorVersion' => [], 'deviceModel' => [] },
+              'state_5' => 'open'
+          }
+        }.to_json
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :POST
+          config.base_url = FABRIC_GRAPHQL_API_URL
+          config.api_path = '?relayDebugName=TopIssues'
+          config.headers = headers
+          config.body = body
+        end
+        model
+      end
+
       # Returns a request model for obtaining the count of ooms
       #
       # @param app_id [String]
