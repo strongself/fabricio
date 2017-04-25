@@ -46,6 +46,8 @@ Or install it yourself as:
 1. Create a `Fabricio::Client` object and configure it on initialization.
 
   ```ruby
+  require 'Fabricio'
+  
   client = Fabricio::Client.new do |config|
       config.username = 'your_email'
       config.password = 'your_password'
