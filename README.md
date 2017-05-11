@@ -17,13 +17,13 @@ There is a possibility that in some point of time it may break. Feel free to [po
 
 We decided to fix this issue.
 
-         | Key Features
----------|---------------
-🍫 | Hides the complexity of different Fabric.io APIs behind a simple wrapper.
-📚 | Provides data about organization, applications and builds.
-💥 | Shows crash- and out-of-memory- free metrics.
-⏰  | Automatically refreshes session in case of its expiration.
-🛠 | Provides a simple way of adding your adapter for storing session data in a database of your choice.
+|         | Key Features|
+|---------|---------------|
+|🍫 | Hides the complexity of different Fabric.io APIs behind a simple wrapper.|
+|📚 | Provides data about organization, applications and builds.|
+|💥 | Shows crash- and out-of-memory- free metrics.|
+|⏰  | Automatically refreshes session in case of its expiration.|
+|🛠 | Provides a simple way of adding your adapter for storing session data in a database of your choice.|
 
 ## Installation
 
