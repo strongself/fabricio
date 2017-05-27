@@ -2,6 +2,7 @@ require 'fabricio/networking/app_request_model_factory'
 require 'fabricio/networking/network_client'
 require 'fabricio/models/app'
 require 'fabricio/models/point'
+require 'fabricio/models/issue'
 
 module Fabricio
   module Service
@@ -128,11 +129,26 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @param count [Int] Number of issue
-      # @return [Float]
+      # @return [Array<Fabricio::Model::Issue>]
       def top_issues(id, start_time, end_time, builds, count)
         request_model = @request_model_factory.top_issues_request_model(id, start_time, end_time, builds, count)
         response = @network_client.perform_request(request_model)
-        JSON.parse(response.body)['data']['project']['crashlytics']['_issues4Eg1Tv']['edges'].map { |edge| edge['node'] }
+        JSON.parse(response.body)['data']['project']['crashlytics']['_issues4Eg1Tv']['edges'].map do |edge|
+          Fabricio::Model::Issue.new(edge['node'])
+        end
+      end
+
+      # Obtains single issue
+      #
+      # @param id [String] Application identifier
+      # @param issue_external_id [String] Issue external identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Fabricio::Model::Issue]
+      def single_issue(id, issue_external_id, start_time, end_time)
+        request_model = @request_model_factory.single_issue_request_model(id, issue_external_id, start_time, end_time)
+        response = @network_client.perform_request(request_model)
+        Fabricio::Model::Issue.new(JSON.parse(response.body)['data']['project']['crashlytics']['_issueeUsmi'])
       end
 
       # Obtains application OOM-free (Out of Memory).
