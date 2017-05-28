@@ -3,6 +3,7 @@ require 'fabricio/networking/network_client'
 require 'fabricio/models/app'
 require 'fabricio/models/point'
 require 'fabricio/models/issue'
+require 'fabricio/models/issue_session'
 
 module Fabricio
   module Service
@@ -149,6 +150,31 @@ module Fabricio
         request_model = @request_model_factory.single_issue_request_model(id, issue_external_id, start_time, end_time)
         response = @network_client.perform_request(request_model)
         Fabricio::Model::Issue.new(JSON.parse(response.body)['data']['project']['crashlytics']['_issueeUsmi'])
+      end
+
+      # Obtains single issue
+      #
+      # @param id [String] Application identifier
+      # @param issue_external_id [String] Issue external identifier
+      # @param session_id [String] Session identifier
+      # @return [Fabricio::Model::Issue]
+      def issue_session(id, issue_external_id, session_id)
+        request_model = @request_model_factory.issue_session_request_model(id, issue_external_id, session_id)
+        response = @network_client.perform_request(request_model)
+        json = JSON.parse(response.body)
+        link = response.headers['Link']
+        unless link.nil?
+          json['header_link'] = link
+          link_parts = link.split(", ")
+          link_parts.each do |part|
+          	if part.include? 'rel="prev"'
+          		json['prev_session_id'] = part.sub('>; rel="prev"', "").sub('<', "").split("sessions/")[1]
+          	elsif part.include? 'rel="next"'
+          		json['next_session_id'] = part.sub('>; rel="next"', "").sub('<', "").split("sessions/")[1]
+          	end
+          end
+        end
+        Fabricio::Model::IssueSession.new(json)
       end
 
       # Obtains application OOM-free (Out of Memory).

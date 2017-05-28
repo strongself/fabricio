@@ -57,7 +57,7 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
-  it 'should fetch total_sessions`' do
+  it 'should fetch total_sessions' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_total_sessions_stub_response.txt')
     stub_request(:get, /total_sessions/).to_return(:body => response_file, :status => 200)
 
@@ -65,7 +65,7 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
-  it 'should fetch crashes`' do
+  it 'should fetch crashes' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_crashes_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
@@ -73,7 +73,7 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
-  it 'should fetch crashfree`' do
+  it 'should fetch crashfree' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_crashes_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_total_sessions_stub_response.txt')
@@ -83,7 +83,7 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
-  it 'should fetch top issues`' do
+  it 'should fetch top issues' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_top_issues_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
@@ -91,7 +91,7 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
-  it 'should fetch single issue`' do
+  it 'should fetch single issue' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_single_issue_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
@@ -99,7 +99,15 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
-  it 'should fetch oomfree`' do
+  it 'should fetch issue session' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_issue_session_stub_response.txt')
+    stub_request(:get, /sessions/).to_return(:body => response_file, :status => 200)
+
+    result = @service.issue_session('1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
+  it 'should fetch oomfree' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_oomfree_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 

@@ -85,6 +85,24 @@ describe 'AppRequestModelFactory' do
     expect(result.headers).not_to be_nil
   end
 
+  it 'should form single issue request model' do
+    result = @factory.single_issue_request_model('1', '1', 1, 1)
+
+    expect(result.type).to eq :POST
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
+  it 'should form issue session request model' do
+    result = @factory.issue_session_request_model('1', '1', '1')
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
   it 'should form oomfree app request model' do
     result = @factory.oom_count_request_model('1', 30, ['1', '2'])
 

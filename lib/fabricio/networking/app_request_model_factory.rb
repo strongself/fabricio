@@ -10,8 +10,10 @@ module Fabricio
       FABRIC_API_URL = 'https://fabric.io'
       FABRIC_GRAPHQL_API_URL = 'https://api-dash.fabric.io/graphql'
       FABRIC_API_PATH = '/api/v2'
+      FABRIC_API_3_PATH = '/api/v3'
       FABRIC_APPS_ENDPOINT = '/apps'
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
+      FABRIC_PROJECTS_ENDPOINT = '/projects'
 
       # Returns a request model for obtaining the list of all apps
       #
@@ -223,6 +225,26 @@ module Fabricio
       # @param days [Integer] Count of days for obtaining oomfree data
       # @param builds [Array] Multiple build versions. E.g. ['4.0.1 (38)']
       # @return [Fabricio::Networking::RequestModel]
+      def issue_session_request_model(app_id, issue_id, session_id)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+        path = issue_session_endpoint(app_id, issue_id, session_id)
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.headers = headers
+        end
+        model
+      end
+
+      # Returns a request model for obtaining the count of ooms
+      #
+      # @param app_id [String]
+      # @param days [Integer] Count of days for obtaining oomfree data
+      # @param builds [Array] Multiple build versions. E.g. ['4.0.1 (38)']
+      # @return [Fabricio::Networking::RequestModel]
       def oom_count_request_model(app_id, days, builds)
         headers = {
             'Content-Type' => 'application/json'
@@ -245,6 +267,16 @@ module Fabricio
       end
 
       private
+
+      # Returns an API path to some issue session
+      #
+      # @param app_id [String]
+      # @param issue_id [String]
+      # @param session_id [String]
+      # @return [String]
+      def issue_session_endpoint(app_id, issue_id, session_id)
+        "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/issues/#{issue_id}/sessions/#{session_id}"
+      end
 
       # Returns an API path to some growth analytic endpoint
       #
