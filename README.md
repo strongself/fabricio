@@ -127,6 +127,10 @@ Obtain single issue.
 
 Obtain issue session.
 
+#### `client.app.add_comment('app_id', 'issue_external_id', 'message')`
+
+Add comment.
+
 #### `client.app.oomfree('app_id', 'start_timestamp', 'end_timestamp', 'builds')`
 
 Obtains application out-of-memory free for a number of builds.
