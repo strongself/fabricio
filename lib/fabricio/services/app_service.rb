@@ -177,6 +177,18 @@ module Fabricio
         Fabricio::Model::IssueSession.new(json)
       end
 
+      # Add comment to issue
+      #
+      # @param id [String] Application identifier
+      # @param issue_external_id [String] Issue external identifier
+      # @param message [String] Comment message
+      # @return [JSON]
+      def add_comment(id, issue_external_id, message)
+        request_model = @request_model_factory.add_comment_request_model(id, issue_external_id, message)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)
+      end
+
       # Obtains application OOM-free (Out of Memory).
       #
       # @param id [String] Application identifier

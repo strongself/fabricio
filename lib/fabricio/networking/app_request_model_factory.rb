@@ -222,19 +222,44 @@ module Fabricio
       # Returns a request model for obtaining the count of ooms
       #
       # @param app_id [String]
-      # @param days [Integer] Count of days for obtaining oomfree data
-      # @param builds [Array] Multiple build versions. E.g. ['4.0.1 (38)']
+      # @param issue_external_id [String] Issue external identifier
+      # @param session_id [String] Session identifier
       # @return [Fabricio::Networking::RequestModel]
-      def issue_session_request_model(app_id, issue_id, session_id)
+      def issue_session_request_model(app_id, issue_external_id, session_id)
         headers = {
             'Content-Type' => 'application/json'
         }
-        path = issue_session_endpoint(app_id, issue_id, session_id)
+        path = issue_session_endpoint(app_id, issue_external_id, session_id)
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL
           config.api_path = path
           config.headers = headers
+        end
+        model
+      end
+
+      # Returns a request model for obtaining the count of ooms
+      #
+      # @param app_id [String]
+      # @param issue_external_id [String] Issue external identifier
+      # @param message [String] Comment message
+      # @return [Fabricio::Networking::RequestModel]
+      def add_comment_request_model(app_id, issue_external_id, message)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+        body = {
+          'body' => message,
+
+        }.to_json
+        path = add_comment_endpoint(app_id, issue_external_id)
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :POST
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.headers = headers
+          config.body = body
         end
         model
       end
@@ -267,6 +292,16 @@ module Fabricio
       end
 
       private
+
+      # Returns an API path to some issue session
+      #
+      # @param app_id [String]
+      # @param issue_id [String]
+      # @param session_id [String]
+      # @return [String]
+      def add_comment_endpoint(app_id, issue_id)
+        "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/issues/#{issue_id}/notes"
+      end
 
       # Returns an API path to some issue session
       #
