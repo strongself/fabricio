@@ -13,7 +13,7 @@ There is a possibility that in some point of time it may break. Feel free to [po
 
 ## The Story Behind
 
-[Fabric.io](http://fabric.io) is a great tool made for mobile application developers. It provides data about standard and out-of-memory crashes, active users, audience growth and a lot more. Unfortunately the only official way to work with this data is using Fabric.io website. That means - no automation and no integrations with other services. 
+[Fabric.io](http://fabric.io) is a great tool made for mobile application developers. It provides data about standard and out-of-memory crashes, active users, audience growth and a lot more. Unfortunately the only official way to work with this data is using Fabric.io website. That means - no automation and no integrations with other services.
 
 We decided to fix this issue.
 
@@ -40,20 +40,20 @@ And then execute:
 Or install it yourself as:
 
     $ gem install fabricio
-    
+
 ## Quick Start
 
 1. Create a `Fabricio::Client` object and configure it on initialization.
 
   ```ruby
   require 'Fabricio'
-  
+
   client = Fabricio::Client.new do |config|
       config.username = 'your_email'
       config.password = 'your_password'
   end
   ```
-  
+
 2. Use this client to query any data you want.
 
   ```ruby
@@ -62,15 +62,15 @@ Or install it yourself as:
   client.app.crashfree('app_id', '1478736000', '1481328000' 'all') # Returns application crashfree for a given period of time
   client.organization.get # Returns information about your organization
   ```
-  
+
 3. If you want to check the exact server output for a model, you can call `json` method on it:
 
   `client.app.get('app_id').json`
-  
+
   You can call a method similar to any key in this hash:
-  
+
   `client.app.get('app_id').importance_level`
-  
+
 ## Commands
 
 ### Organization
@@ -119,6 +119,18 @@ Obtains application crashfree.
 
 Obtain top issues.
 
+#### `client.app.single_issue('app_id', 'issue_external_id', start_timestamp, end_timestamp)`
+
+Obtain single issue.
+
+#### `client.app.issue_session('app_id', 'issue_external_id', 'session_id')`
+
+Obtain issue session.
+
+#### `client.app.add_comment('app_id', 'issue_external_id', 'message')`
+
+Add comment.
+
 #### `client.app.oomfree('app_id', 'start_timestamp', 'end_timestamp', 'builds')`
 
 Obtains application out-of-memory free for a number of builds.
@@ -153,4 +165,3 @@ Thanks for help in dealing with API to Vadim Smal, Irina Dyagileva and Andrey Sm
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

@@ -10,8 +10,10 @@ module Fabricio
       FABRIC_API_URL = 'https://fabric.io'
       FABRIC_GRAPHQL_API_URL = 'https://api-dash.fabric.io/graphql'
       FABRIC_API_PATH = '/api/v2'
+      FABRIC_API_3_PATH = '/api/v3'
       FABRIC_APPS_ENDPOINT = '/apps'
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
+      FABRIC_PROJECTS_ENDPOINT = '/projects'
 
       # Returns a request model for obtaining the list of all apps
       #
@@ -165,7 +167,7 @@ module Fabricio
         }.join(',')
 
         body = {
-          'query' => "query TopIssues($externalId_0:String!,$type_1:IssueType!,$start_2:UnixTimestamp!,$end_3:UnixTimestamp!,$filters_4:IssueFiltersType!,$state_5:IssueState!) {project(externalId:$externalId_0) {crashlytics {_appDetails1JwAD1:appDetails(synthesizedBuildVersions:[#{builds_string}],type:$type_1,start:$start_2,end:$end_3,filters:$filters_4) {topCrashInsightsMatchers {groupKey}},_issues4Eg1Tv:issues(synthesizedBuildVersions:[#{builds_string}],eventType:$type_1,start:$start_2,end:$end_3,state:$state_5,first:#{count},filters:$filters_4) {edges {node {externalId,displayId,createdAt,resolvedAt,title,subtitle,state,type,impactLevel,isObfuscated,occurrenceCount,impactedDevices,notesCount,earliestBuildVersion {buildVersion {name}},latestBuildVersion {buildVersion {name}},id},cursor},pageInfo {hasNextPage,hasPreviousPage}}},id}}",
+          'query' => "query TopIssues($externalId_0:String!,$type_1:IssueType!,$start_2:UnixTimestamp!,$end_3:UnixTimestamp!,$filters_4:IssueFiltersType!,$state_5:IssueState!) {project(externalId:$externalId_0) {crashlytics {_appDetails1JwAD1:appDetails(synthesizedBuildVersions:[#{builds_string}],type:$type_1,start:$start_2,end:$end_3,filters:$filters_4) {topCrashInsightsMatchers {groupKey}},_issues4Eg1Tv:issues(synthesizedBuildVersions:[#{builds_string}],eventType:$type_1,start:$start_2,end:$end_3,state:$state_5,first:#{count},filters:$filters_4) {edges {node {externalId,displayId,createdAt,resolvedAt,title,subtitle,state,type,impactLevel,isObfuscated,occurrenceCount,impactedDevices,latestSessionId,notesCount,earliestBuildVersion {buildVersion {name}},latestBuildVersion {buildVersion {name}},id},cursor},pageInfo {hasNextPage,hasPreviousPage}}},id}}",
           'variables' => {
               'externalId_0' => app_id,
               'type_1' => 'all',
@@ -179,6 +181,83 @@ module Fabricio
           config.type = :POST
           config.base_url = FABRIC_GRAPHQL_API_URL
           config.api_path = '?relayDebugName=TopIssues'
+          config.headers = headers
+          config.body = body
+        end
+        model
+      end
+
+      # Returns a request model for obtaining single issue
+      #
+      # @param app_id [String]
+      # @param issue_external_id [String] Issue external identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Fabricio::Networking::RequestModel]
+      def single_issue_request_model(app_id, issue_external_id, start_time, end_time)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+
+        body = {
+          'query' => "query SingleIssue($externalId_0:String!,$start_1:UnixTimestamp!,$end_2:UnixTimestamp!,$granularity_3:TimeseriesGranularity!,$filters_4:IssueFiltersType!) {project(externalId:$externalId_0) {crashlytics {_issueeUsmi:issue(externalId:\"#{issue_external_id}\") {externalId,createdAt,displayId,title,subtitle,type,state,isObfuscated,supportsCrossVersion,_occurrenceCount2I980d:occurrenceCount(start:$start_1,end:$end_2),_impactedDevices2oATOx:impactedDevices(start:$start_1,end:$end_2),shareLink,latestSessionId,lockedAt,resolvedAt,exportUserIdsUrl,buildVersionBreakdown {occurrenceCount,buildVersion {externalId,createdAt,name,synthesizedBuildVersion}},earliestBuildVersion {buildVersion {externalId,createdAt,name,synthesizedBuildVersion}},latestBuildVersion {buildVersion {externalId,createdAt,name,synthesizedBuildVersion}},notes {externalId,createdAt,body,account {id,name,email}},_timeseries1niuOE:timeseries(granularity:$granularity_3,start:$start_1,end:$end_2) {eventsCount,groupByDimension,dimensionKey},_scalars1YYKRB:scalars(start:$start_1,end:$end_2,filters:$filters_4) {deviceMetrics {eventsCount,jailbrokenRatio,inFocusRatio,proximityOnRatio,freeRamMean,freeDiskMean},topOs {value,label,groupKey,eventsCount},topDevices {value,label,groupKey,eventsCount},topCrashInsightsMatchers {value,label,groupKey,eventsCount,issuesCount,impactedDevicesCount}},id}},id}}",
+          'variables' => {
+              'externalId_0' => app_id,
+              'start_1' => start_time,
+              'end_2' => end_time,
+              'granularity_3' => 'day',
+              'filters_4' => {}
+          }
+        }.to_json
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :POST
+          config.base_url = FABRIC_GRAPHQL_API_URL
+          config.api_path = '?relayDebugName=SingleIssue'
+          config.headers = headers
+          config.body = body
+        end
+        model
+      end
+
+      # Returns a request model for obtaining the count of ooms
+      #
+      # @param app_id [String]
+      # @param issue_external_id [String] Issue external identifier
+      # @param session_id [String] Session identifier
+      # @return [Fabricio::Networking::RequestModel]
+      def issue_session_request_model(app_id, issue_external_id, session_id)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+        path = issue_session_endpoint(app_id, issue_external_id, session_id)
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.headers = headers
+        end
+        model
+      end
+
+      # Returns a request model for obtaining the count of ooms
+      #
+      # @param app_id [String]
+      # @param issue_external_id [String] Issue external identifier
+      # @param message [String] Comment message
+      # @return [Fabricio::Networking::RequestModel]
+      def add_comment_request_model(app_id, issue_external_id, message)
+        headers = {
+            'Content-Type' => 'application/json'
+        }
+        body = {
+          'body' => message,
+
+        }.to_json
+        path = add_comment_endpoint(app_id, issue_external_id)
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :POST
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
           config.headers = headers
           config.body = body
         end
@@ -213,6 +292,26 @@ module Fabricio
       end
 
       private
+
+      # Returns an API path to some issue session
+      #
+      # @param app_id [String]
+      # @param issue_id [String]
+      # @param session_id [String]
+      # @return [String]
+      def add_comment_endpoint(app_id, issue_id)
+        "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/issues/#{issue_id}/notes"
+      end
+
+      # Returns an API path to some issue session
+      #
+      # @param app_id [String]
+      # @param issue_id [String]
+      # @param session_id [String]
+      # @return [String]
+      def issue_session_endpoint(app_id, issue_id, session_id)
+        "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/issues/#{issue_id}/sessions/#{session_id}"
+      end
 
       # Returns an API path to some growth analytic endpoint
       #

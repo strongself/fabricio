@@ -1,0 +1,12 @@
+{
+  "id": "592b4aaae4b0a2be07939813",
+  "body": "test",
+  "account_id": "5891d4d801fa3ef5f0100181",
+  "created_at": "2017-05-28T22:09:46.607Z",
+  "updated_at": "2017-05-28T22:09:46.607Z",
+  "account": {
+    "email": "cognitivedisson@email.com",
+    "id": "5831dad202fd3ef4f8000181",
+    "name": "Vadim"
+  }
+}
