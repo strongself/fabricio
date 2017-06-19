@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fabricio (1.1.0)
+    fabricio (1.2.0)
       faraday
 
 GEM
