@@ -92,7 +92,6 @@ module Fabricio
       def monthly_active(id, start_time, end_time, build)
         request_model = @request_model_factory.monthly_active_request_model(@session, id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
-        puts response.inspect
         JSON.parse(response.body)['series'].map do |array|
           Fabricio::Model::Point.new(array)
         end
