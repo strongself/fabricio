@@ -58,6 +58,15 @@ describe 'AppRequestModelFactory' do
     expect(result.headers).not_to be_nil
   end
 
+  it 'should form monthly_active app request model' do
+    result = @factory.monthly_active_request_model(@session, '1', '1', '1', '1')
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
   it 'should form session_count app request model' do
     result = @factory.total_sessions_request_model(@session, '1', '1', '1', '1')
 
