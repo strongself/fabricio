@@ -1,9 +1,0 @@
-{
-  "sessions": 2600,
-  "start": 1480636800,
-  "builds": [
-    "all"
-  ],
-  "end": 1480723200,
-  "app_id": "app_id"
-}
