@@ -1,4 +1,5 @@
 require "simplecov"
+require "rspec"
 SimpleCov.start do
   add_group('Authorization', 'lib/fabricio/authorization')
   add_group('Client', 'lib/fabricio/client')
