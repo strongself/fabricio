@@ -40,7 +40,8 @@ module Fabricio
       def get(app_id, version, build_number)
         request_model = @request_model_factory.get_build_request_model(@session, app_id, version, build_number)
         response = @network_client.perform_request(request_model)
-        Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
+        instances = JSON.parse(response.body)['instances']
+        instances.length > 0 ? Fabricio::Model::Build.new(instances.first) : nil
       end
 
       # Obtains an array of top versions for a given app
