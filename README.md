@@ -43,6 +43,33 @@ Or install it yourself as:
 
 ## Quick Start
 
+### CLI
+#### Commands
+```
+  fabricio app             # Obtain single app
+  fabricio apps            # Obtain all app
+  fabricio build           # Obtain single build
+  fabricio builds          # Obtain all builds
+  fabricio credential      # Setup credential
+  fabricio help [COMMAND]  # Describe available commands or one specific command
+  fabricio organization    # Obtain organization
+```
+#### Example
+```bash
+> fabricio credential
+Setup credential
+We have to know you\'re email from fabric account
+email:  test@test.com
+Now we want your password. Do not be afraid, it is stored locally
+password:
+Successful login to TestOrganization
+> fabricio organization
+{"id"=>"424423ac76fa54934e00a09b", "alias"=>"test", "name"=>"Test", "api_key"=>"19ac3e6195b1900ada120c1e0c1230a818626d55", "enrollments"=>{"answers_enhanced_feature_set_enabled_for_new_apps"=>"false", "answers_ip_address_tracking_enabled_for_new_apps"=>"true", "beta_distribution"=>"true"}, "accounts_count"=>100, "mopub_id"=>"11142", "sdk_organization"=>true, "apps_counts"=>{"ios"=>9}, "build_secret"=>"fdda1e597843e25731848bb46eec2cc893ea86847e22d5f44567ecd48ff4e32"}
+> fabricio apps
+...
+```
+
+### Code
 1. Create a `Fabricio::Client` object and configure it on initialization.
 
   ```ruby
