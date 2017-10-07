@@ -1,5 +1,4 @@
 require 'rspec'
-require 'webmock/rspec'
 require 'fabricio/services/app_service'
 require 'fabricio/networking/network_client'
 require 'fabricio/authorization/memory_session_storage'
@@ -7,20 +6,20 @@ require 'fabricio/authorization/memory_session_storage'
 describe 'AppService' do
 
   before(:each) do
+    auth_client = Fabricio::Authorization::AuthorizationClient.new
+    session = auth_client.auth(
+        ENV[TEST_EMAIL_KEY],
+        ENV[TEST_PASSWORD_KEY],
+        ENV[TEST_CLIENT_ID],
+        ENV[TEST_CLIENT_SECRET]
+    )
     storage = Fabricio::Authorization::MemorySessionStorage.new
-    session = Fabricio::Authorization::Session.new({
-                                                       'access_token' => '123',
-                                                       'refresh_token' => '123'
-                                                   }, '123')
     storage.store_session(session)
     client = Fabricio::Networking::NetworkClient.new(nil, storage)
     @service = Fabricio::Service::AppService.new(Fabricio::Authorization::Session.new, client)
   end
 
   it 'should fetch all apps' do
-    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_all_stub_response.txt')
-    stub_request(:get, /apps/).to_return(:body => response_file, :status => 200)
-
     result = @service.all
     expect(result).not_to be_nil
   end

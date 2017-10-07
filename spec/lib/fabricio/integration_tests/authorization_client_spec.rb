@@ -3,12 +3,6 @@ require 'fabricio/authorization/authorization_client'
 require 'fabricio/authorization/session'
 
 describe 'Authorization Client' do
-
-  TEST_EMAIL_KEY = 'TEST_FABRICIO_EMAIL'
-  TEST_PASSWORD_KEY = 'TEST_FABRICIO_PASSWORD'
-  TEST_CLIENT_ID = 'TEST_CLIENT_ID'
-  TEST_CLIENT_SECRET = 'TEST_CLIENT_SECRET'
-
   TEST_STRING = 'string'
   TEST_TOKEN = 'token'
   TEST_ORGANIZATION_ID = 'org_id'
