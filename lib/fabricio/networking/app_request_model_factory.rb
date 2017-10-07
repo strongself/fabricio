@@ -379,7 +379,7 @@ module Fabricio
       # @param app_id [String]
       # @return [String]
       def app_endpoint(app_id)
-        "/#{FABRIC_APPS_ENDPOINT}/#{app_id}"
+        "#{FABRIC_APPS_ENDPOINT}/#{app_id}"
       end
 
       # Returns an API path to app endpoint
@@ -387,7 +387,7 @@ module Fabricio
       # @param session [Fabricio::Authorization::Session]
       # @return [String]
       def org_endpoint(session)
-        "/#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
+        "#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
       end
 
       # Returns an API path to app endpoint
