@@ -57,6 +57,14 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
+  it 'should fetch weekly_active' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_daily_active_stub_response.txt')
+    stub_request(:get, /weekly_active/).to_return(:body => response_file, :status => 200)
+
+    result = @service.weekly_active('1', '1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
   it 'should fetch monthly_active' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_daily_active_stub_response.txt')
     stub_request(:get, /monthly_active/).to_return(:body => response_file, :status => 200)
