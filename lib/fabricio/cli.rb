@@ -24,7 +24,7 @@ module Fabricio
       organization = tmp_client.organization.get
       unless organization.nil?
         say("Successful login to #{organization.name}")
-        create_credential_file(email, password)
+        create_credential_file(credential)
       else
         say("Login failed")
       end
@@ -98,7 +98,7 @@ module Fabricio
       say("Now we want your password. Do not be afraid, it is stored locally")
       password = ask("password: ", :echo => false)
       say("")
-      Fabricio::Model::Credential(email, password)
+      Fabricio::Model::Credential.new(email, password)
     end
 
   end
