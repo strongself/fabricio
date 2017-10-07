@@ -10,4 +10,13 @@ SimpleCov.start do
   add_filter('fabricio.rb')
 end
 
+RSpec.configure do |config|
+  config.before(:example) {
+    TEST_EMAIL_KEY = 'TEST_FABRICIO_EMAIL'
+    TEST_PASSWORD_KEY = 'TEST_FABRICIO_PASSWORD'
+    TEST_CLIENT_ID = 'TEST_CLIENT_ID'
+    TEST_CLIENT_SECRET = 'TEST_CLIENT_SECRET'
+  }
+end
+
 require "fabricio"
