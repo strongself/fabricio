@@ -8,10 +8,10 @@ module Fabricio
       #
       # @param email [String]
       # @param password [String]
-      # @return [Fabricio::Model::Build]
+      # @return [Fabricio::Model::Credential]
       def initialize(email, password)
-        @id = email
-        @version = password
+        @email = email
+        @password = password
       end
     end
   end
