@@ -1,4 +1,5 @@
 require 'rspec'
+require_relative 'constants'
 require 'fabricio/authorization/authorization_client'
 require 'fabricio/authorization/session'
 
