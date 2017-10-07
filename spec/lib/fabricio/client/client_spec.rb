@@ -1,5 +1,4 @@
 require 'rspec'
-require 'webmock/rspec'
 require 'fabricio/client/client'
 require 'fabricio/authorization/memory_session_storage'
 require 'fabricio/authorization/session'
@@ -37,19 +36,5 @@ describe 'Client' do
     expect {
       client.rambler
     }.to raise_error(NoMethodError)
-  end
-
-  it 'should authorize if no cached session' do
-    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/client/client_success_auth_stub_response.txt')
-    stub_request(:post, /token/).to_return(:body => response_file, :status => 200)
-    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/authorization/organization_stub_response.txt')
-    stub_request(:get, /organizations/).to_return(:body => response_file, :status => 200)
-
-    @storage.reset
-    Fabricio::Client.new do |config|
-      config.session_storage = @storage
-    end
-
-    expect(@storage.obtain_session).not_to be_nil
   end
 end
