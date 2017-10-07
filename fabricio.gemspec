@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "fabricio"
   spec.version       = Fabricio::VERSION
   spec.authors       = ["Egor Tolstoy", "Vadim Smal"]
-  spec.emails         = ["igrekde@gmail.com", "cognitivedisson@gmail.com"]
+  spec.email         = 'igrekde@gmail.com'
 
   spec.summary       = "A simple gem that fetches mobile application statistics from Fabric.io API."
   spec.license       = "MIT"
