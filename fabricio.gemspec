@@ -6,8 +6,8 @@ require 'fabricio/version'
 Gem::Specification.new do |spec|
   spec.name          = "fabricio"
   spec.version       = Fabricio::VERSION
-  spec.authors       = ["Egor Tolstoy"]
-  spec.email         = ["e.tolstoy@rambler-co.ru"]
+  spec.authors       = ["Egor Tolstoy", "Vadim Smal"]
+  spec.email         = 'igrekde@gmail.com'
 
   spec.summary       = "A simple gem that fetches mobile application statistics from Fabric.io API."
   spec.license       = "MIT"
@@ -15,11 +15,12 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'faraday'
+  spec.add_dependency "thor"
 
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'

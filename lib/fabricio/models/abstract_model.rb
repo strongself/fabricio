@@ -12,6 +12,10 @@ module Fabricio
         return json_value if json_value
         raise NoMethodError.new("There's no method called #{args.first} here -- please try again.", args.first)
       end
+
+      def to_s
+        @json
+      end
     end
   end
 end
