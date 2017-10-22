@@ -81,7 +81,7 @@ module Fabricio
     end
 
     def create_credential_file(credential)
-      FileUtils.mkdir(CREDENTIAL_DIRECTORY_PATH)
+      FileUtils.mkdir_p(CREDENTIAL_DIRECTORY_PATH)
       credential_hash = {
         "email" => credential.email,
         "password" => credential.password
