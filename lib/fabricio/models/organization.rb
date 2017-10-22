@@ -22,7 +22,7 @@ module Fabricio
       #
       # @return [String]
       def pretty_print
-        "Name: #{@name}\nid: #{@id}\nalias: #{@alias}"
+        "name: #{@name}\nid: #{@id}\nalias: #{@alias}"
       end
     end
   end

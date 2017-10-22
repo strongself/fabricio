@@ -41,7 +41,6 @@ module Fabricio
       else
         say(client.organization.get.pretty_print)
       end
-
     end
 
     desc "apps", "Obtain all app"
@@ -57,16 +56,27 @@ module Fabricio
 
     desc "builds", "Obtain all builds"
     option :app_id => :required, :type => :string
+    option :verbose, :aliases => '-v'
     def builds(app_id)
-      say("#{client.build.all(app_id).to_s}")
+      if options[:verbose]
+        say("#{client.build.all(app_id).to_s}")
+      else
+        builds = client.build.all(app_id)
+        say(builds.map {|build| build.pretty_print}.join("\n\n"))
+      end
     end
 
     desc "build", "Obtain single build"
     option :app_id => :required, :type => :string
     option :version => :required, :type => :string
     option :build_number => :required, :type => :string
+    option :verbose, :aliases => '-v'
     def build(app_id, version, build_number)
-      say("#{client.build.get(app_id, version, build_number).to_s}")
+      if options[:verbose]
+        say("#{client.build.get(app_id, version, build_number).to_s}")
+      else
+        say("#{client.build.get(app_id, version, build_number).pretty_print}")
+      end
     end
 
     private
