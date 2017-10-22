@@ -44,14 +44,25 @@ module Fabricio
     end
 
     desc "apps", "Obtain all app"
+    option :verbose, :aliases => '-v'
     def apps
-      say("#{client.app.all}")
+      if options[:verbose]
+        say("#{client.app.all}")
+      else
+        apps = client.app.all
+        say(apps.map {|app| app.pretty_print}.join("\n\n"))
+      end
     end
 
     desc "app", "Obtain single app"
     option :app_id => :required, :type => :string
+    option :verbose, :aliases => '-v'
     def app(app_id)
-      say("#{client.app.get(app_id).to_s}")
+      if options[:verbose]
+        say("#{client.app.get(app_id).to_s}")
+      else
+        say("#{client.app.get(app_id).pretty_print}")
+      end
     end
 
     desc "builds", "Obtain all builds"
