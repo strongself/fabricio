@@ -33,8 +33,15 @@ module Fabricio
     end
 
     desc "organization", "Obtain organization"
+    option :app_id => :required, :type => :string
+    option :verbose, :aliases => '-v'
     def organization
-      say("#{client.organization.get.to_s}")
+      if options[:verbose]
+        say("#{client.organization.get.to_s}")
+      else
+        say(client.organization.get.pretty_print)
+      end
+
     end
 
     desc "apps", "Obtain all app"

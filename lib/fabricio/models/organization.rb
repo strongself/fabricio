@@ -17,6 +17,13 @@ module Fabricio
         @apps_counts = attributes['apps_counts']
         @json = attributes
       end
+
+      # Returns a readable object representation
+      #
+      # @return [String]
+      def pretty_print
+        "Name: #{@name}\nid: #{@id}\nalias: #{@alias}"
+      end
     end
   end
 end
