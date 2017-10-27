@@ -3,6 +3,7 @@ require 'fabricio'
 require 'fileutils'
 require 'yaml'
 require_relative 'organization'
+require_relative 'app'
 require_relative 'cli_helper'
 
 module Fabricio
@@ -10,6 +11,9 @@ module Fabricio
 
     desc "organization", "..."
     subcommand "organization", Organization
+
+    desc "app", "..."
+    subcommand "app", App
 
     desc "credential", "Setup credential"
     def credential
@@ -30,28 +34,6 @@ module Fabricio
       end
 
       say("Complete!")
-    end
-
-    desc "apps", "Obtain all app"
-    option :short, :type => :boolean
-    def apps
-      if options[:short]
-        apps = client.app.all
-        say(apps.map {|app| app.pretty_print}.join("\n\n"))
-      else
-        say("#{client.app.all}")
-      end
-    end
-
-    desc "app", "Obtain single app"
-    option :app_id => :required, :type => :string
-    option :short, :type => :boolean
-    def app(app_id)
-      if options[:short]
-        say("#{client.app.get(app_id).pretty_print}")
-      else
-        say("#{client.app.get(app_id).to_s}")
-      end
     end
 
     desc "builds", "Obtain all builds"
