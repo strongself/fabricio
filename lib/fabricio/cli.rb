@@ -34,46 +34,46 @@ module Fabricio
 
     desc "organization", "Obtain organization"
     option :app_id => :required, :type => :string
-    option :verbose, :aliases => '-v'
+    option :short, :type => :boolean
     def organization
-      if options[:verbose]
-        say("#{client.organization.get.to_s}")
-      else
+      if options[:short]
         say(client.organization.get.pretty_print)
+      else
+        say("#{client.organization.get.to_s}")
       end
     end
 
     desc "apps", "Obtain all app"
-    option :verbose, :aliases => '-v'
+    option :short, :type => :boolean
     def apps
-      if options[:verbose]
-        say("#{client.app.all}")
-      else
+      if options[:short]
         apps = client.app.all
         say(apps.map {|app| app.pretty_print}.join("\n\n"))
+      else
+        say("#{client.app.all}")
       end
     end
 
     desc "app", "Obtain single app"
     option :app_id => :required, :type => :string
-    option :verbose, :aliases => '-v'
+    option :short, :type => :boolean
     def app(app_id)
-      if options[:verbose]
-        say("#{client.app.get(app_id).to_s}")
-      else
+      if options[:short]
         say("#{client.app.get(app_id).pretty_print}")
+      else
+        say("#{client.app.get(app_id).to_s}")
       end
     end
 
     desc "builds", "Obtain all builds"
     option :app_id => :required, :type => :string
-    option :verbose, :aliases => '-v'
+    option :short, :type => :boolean
     def builds(app_id)
-      if options[:verbose]
-        say("#{client.build.all(app_id).to_s}")
-      else
+      if options[:short]
         builds = client.build.all(app_id)
         say(builds.map {|build| build.pretty_print}.join("\n\n"))
+      else
+        say("#{client.build.all(app_id).to_s}")
       end
     end
 
@@ -81,12 +81,12 @@ module Fabricio
     option :app_id => :required, :type => :string
     option :version => :required, :type => :string
     option :build_number => :required, :type => :string
-    option :verbose, :aliases => '-v'
+    option :short, :type => :boolean
     def build(app_id, version, build_number)
-      if options[:verbose]
-        say("#{client.build.get(app_id, version, build_number).to_s}")
-      else
+      if options[:short]
         say("#{client.build.get(app_id, version, build_number).pretty_print}")
+      else
+        say("#{client.build.get(app_id, version, build_number).to_s}")
       end
     end
 
