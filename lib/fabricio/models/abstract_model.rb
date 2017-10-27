@@ -13,6 +13,25 @@ module Fabricio
         raise NoMethodError.new("There's no method called #{args.first} here -- please try again.", args.first)
       end
 
+      # Returns a readable object representation based on the list of its properties
+      #
+      # @return [String]
+      def pretty_print
+        result = ""
+        self.class.attributes.each { |m| result << "#{m}: #{send(m)}\n"}
+        result
+      end
+
+      def self.attr_reader(*vars)
+        @attributes ||= []
+        @attributes.concat vars
+        super(*vars)
+      end
+
+      def self.attributes
+        @attributes
+      end
+
       def to_s
         @json
       end

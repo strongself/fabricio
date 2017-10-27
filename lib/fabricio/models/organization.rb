@@ -18,12 +18,6 @@ module Fabricio
         @json = attributes
       end
 
-      # Returns a readable object representation
-      #
-      # @return [String]
-      def pretty_print
-        "name: #{@name}\nid: #{@id}\nalias: #{@alias}"
-      end
     end
   end
 end
