@@ -29,5 +29,15 @@ module Fabricio
       end
     end
 
+    desc "active_now", "Obtain active now count"
+    option :app_id => :required, :type => :string
+    def active_now(app_id)
+      if options[:short]
+        say("#{client.app.active_now(app_id).pretty_print}")
+      else
+        say("#{client.app.active_now(app_id).to_s}")
+      end
+    end
+
   end
 end
