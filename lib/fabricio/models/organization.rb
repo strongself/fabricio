@@ -17,6 +17,7 @@ module Fabricio
         @apps_counts = attributes['apps_counts']
         @json = attributes
       end
+
     end
   end
 end

@@ -18,6 +18,7 @@ module Fabricio
         @distributed_at = attributes['distributed_at']
         @json = attributes
       end
+
     end
   end
 end

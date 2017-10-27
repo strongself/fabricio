@@ -19,6 +19,7 @@ module Fabricio
         @icon_url = attributes['icon_url']
         @json = attributes
       end
+
     end
   end
 end

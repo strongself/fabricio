@@ -1,5 +1,6 @@
 require 'rspec'
 require 'fabricio/models/abstract_model'
+require 'fabricio/models/organization'
 
 describe 'AbstractModel' do
 
@@ -32,5 +33,16 @@ describe 'AbstractModel' do
     expect {
       model.key3
     }.to raise_error(NoMethodError)
+  end
+
+  it 'should print its parameters' do
+    model = Fabricio::Model::Organization.new({
+        'id' => '1',
+        'alias' => '2',
+        'name' => '3',
+        'apps_counts' => '4'
+    })
+
+    expect(model.pretty_print).to_not be_nil
   end
 end
