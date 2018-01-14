@@ -19,7 +19,7 @@ describe 'NetworkClient' do
     session = Fabricio::Authorization::Session.new({
                                                     'access_token' => TEST_TOKEN,
                                                     'refresh_token' => '123'
-                                                   }, '123')
+                                                   })
     @storage.store_session(session)
   end
 

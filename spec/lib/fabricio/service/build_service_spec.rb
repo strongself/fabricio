@@ -10,10 +10,11 @@ describe 'BuildService' do
     session = Fabricio::Authorization::Session.new({
                                                        'access_token' => '123',
                                                        'refresh_token' => '123'
-                                                   }, '123')
+                                                   })
     storage.store_session(session)
     client = Fabricio::Networking::NetworkClient.new(nil, storage)
-    @service = Fabricio::Service::BuildService.new(Fabricio::Authorization::Session.new, client)
+    organization_id_provider = instance_double("OrganizationIdProvider", :get => '1')
+    @service = Fabricio::Service::BuildService.new(organization_id_provider, client)
   end
 
   it 'should fetch all builds' do

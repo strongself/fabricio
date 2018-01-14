@@ -10,10 +10,10 @@ describe 'OrganizationService' do
     session = Fabricio::Authorization::Session.new({
                                                        'access_token' => '123',
                                                        'refresh_token' => '123'
-                                                   }, '123')
+                                                   })
     storage.store_session(session)
     client = Fabricio::Networking::NetworkClient.new(nil, storage)
-    @service = Fabricio::Service::OrganizationService.new(Fabricio::Authorization::Session.new, client)
+    @service = Fabricio::Service::OrganizationService.new(client)
   end
 
   it 'should fetch organization' do
