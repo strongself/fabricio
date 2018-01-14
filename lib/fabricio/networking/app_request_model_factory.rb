@@ -17,7 +17,7 @@ module Fabricio
 
       # Initializes a new AppRequestModelFactory object
       #
-      # @param organization_id_provider [Fabricio::OrganizationIdProvider]
+      # @param organization_id_provider [Fabricio::Networking::OrganizationIdProvider]
       # @return [Fabricio::Networking::AppRequestModelFactory]
       def initialize(organization_id_provider)
         @organization_id_provider = organization_id_provider

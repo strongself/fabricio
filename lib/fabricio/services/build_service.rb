@@ -9,7 +9,7 @@ module Fabricio
 
       # Initializes a new BuildService object.
       #
-      # @param organization_id_provider [Fabricio::OrganizationIdProvider]
+      # @param organization_id_provider [Fabricio::Networking::OrganizationIdProvider]
       # @param network_client [Fabricio::Networking::NetworkClient]
       # @return [Fabricio::Service::BuildService]
       def initialize(organization_id_provider, network_client)

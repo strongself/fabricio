@@ -13,7 +13,7 @@ module Fabricio
 
       # Initializes a new BuildRequestModelFactory object
       #
-      # @param organization_id_provider [Fabricio::OrganizationIdProvider]
+      # @param organization_id_provider [Fabricio::Networking::OrganizationIdProvider]
       # @return [Fabricio::Networking::BuildRequestModelFactory]
       def initialize(organization_id_provider)
         @organization_id_provider = organization_id_provider

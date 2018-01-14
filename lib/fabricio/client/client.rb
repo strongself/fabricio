@@ -6,7 +6,7 @@ require 'fabricio/authorization/authorization_client'
 require 'fabricio/authorization/session'
 require 'fabricio/authorization/memory_session_storage'
 require 'fabricio/networking/network_client'
-require 'fabricio/client/organization_id_provider'
+require 'fabricio/networking/organization_id_provider'
 
 module Fabricio
   # The main object of the gem. It's used to initiate all data requests.
@@ -55,7 +55,7 @@ module Fabricio
       @auth_client = Fabricio::Authorization::AuthorizationClient.new
       session = obtain_session
       network_client = Fabricio::Networking::NetworkClient.new(@auth_client, @session_storage)
-      organization_id_provider = Fabricio::OrganizationIdProvider.new(lambda { return @app_service.all })
+      organization_id_provider = Fabricio::Networking::OrganizationIdProvider.new(lambda { return @app_service.all })
 
       @organization_service ||= Fabricio::Service::OrganizationService.new(network_client)
       @app_service ||= Fabricio::Service::AppService.new(organization_id_provider, network_client)
