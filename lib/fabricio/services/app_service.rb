@@ -12,13 +12,11 @@ module Fabricio
 
       # Initializes a new AppService object.
       #
-      # @param session [Fabricio::Authorization::Session]
+      # @param organization_id_provider [Fabricio::OrganizationIdProvider]
       # @param network_client [Fabricio::Networking::NetworkClient]
       # @return [Fabricio::Service::AppService]
-      def initialize(session, network_client)
-        @session = session
-
-        @request_model_factory = Fabricio::Networking::AppRequestModelFactory.new
+      def initialize(organization_id_provider, network_client)
+        @request_model_factory = Fabricio::Networking::AppRequestModelFactory.new(organization_id_provider)
         @network_client = network_client
       end
 
@@ -48,7 +46,7 @@ module Fabricio
       # @param id [String] Application identifier
       # @return [Integer]
       def active_now(id)
-        request_model = @request_model_factory.active_now_request_model(@session, id)
+        request_model = @request_model_factory.active_now_request_model(id)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['cardinality']
       end
@@ -60,7 +58,7 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @return [Array<Fabricio::Model::Point>]
       def daily_new(id, start_time, end_time)
-        request_model = @request_model_factory.daily_new_request_model(@session, id, start_time, end_time)
+        request_model = @request_model_factory.daily_new_request_model(id, start_time, end_time)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['series'].map do |array|
           Fabricio::Model::Point.new(array)
@@ -75,7 +73,7 @@ module Fabricio
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Array<Fabricio::Model::Point>]
       def daily_active(id, start_time, end_time, build)
-        request_model = @request_model_factory.daily_active_request_model(@session, id, start_time, end_time, build)
+        request_model = @request_model_factory.daily_active_request_model(id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['series'].map do |array|
           Fabricio::Model::Point.new(array)
@@ -90,7 +88,7 @@ module Fabricio
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Array<Fabricio::Model::Point>]
       def weekly_active(id, start_time, end_time, build)
-        request_model = @request_model_factory.weekly_active_request_model(@session, id, start_time, end_time, build)
+        request_model = @request_model_factory.weekly_active_request_model(id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['series'].map do |array|
           Fabricio::Model::Point.new(array)
@@ -105,7 +103,7 @@ module Fabricio
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Array<Fabricio::Model::Point>]
       def monthly_active(id, start_time, end_time, build)
-        request_model = @request_model_factory.monthly_active_request_model(@session, id, start_time, end_time, build)
+        request_model = @request_model_factory.monthly_active_request_model(id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['series'].map do |array|
           Fabricio::Model::Point.new(array)
@@ -120,7 +118,7 @@ module Fabricio
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Integer]
       def total_sessions(id, start_time, end_time, build)
-        request_model = @request_model_factory.total_sessions_request_model(@session, id, start_time, end_time, build)
+        request_model = @request_model_factory.total_sessions_request_model(id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['sessions']
       end

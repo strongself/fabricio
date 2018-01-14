@@ -4,7 +4,6 @@ require 'fabricio/authorization/session'
 require 'fabricio/services/organization_service'
 
 AUTH_API_URL = 'https://fabric.io/oauth/token'
-ORGANIZATION_API_URL = 'https://fabric.io/api/v2/organizations'
 
 module Fabricio
   module Authorization
@@ -46,8 +45,7 @@ module Fabricio
         if auth_data['access_token'] == nil
           raise StandardError.new("Incorrect authorization response: #{auth_data}")
         end
-        organization_id = obtain_organization_id(auth_data)
-        Session.new(auth_data, organization_id)
+        Session.new(auth_data)
       end
 
       # Initiates a session refresh network request
@@ -71,7 +69,7 @@ module Fabricio
         if result['access_token'] == nil
           raise StandardError.new("Incorrect authorization response: #{auth_data}")
         end
-        Session.new(result, session.organization_id)
+        Session.new(result)
       end
 
       # Makes a request to OAuth API and obtains access and refresh tokens.
@@ -98,24 +96,6 @@ module Fabricio
           }.to_json
         end
         JSON.parse(response.body)
-      end
-
-      # Makes a request to fetch current organization identifier.
-      # This identifier is used in most other API requests, so we store it in the session.
-      #
-      # @param auth_data [Hash] A set of authorization tokens
-      # @option options [String] :access_token OAuth access token
-      # @option options [String] :refresh_token OAuth refresh token
-      # @return [String]
-      def obtain_organization_id(auth_data)
-        conn = Faraday.new(:url => ORGANIZATION_API_URL) do |faraday|
-          faraday.adapter Faraday.default_adapter
-        end
-
-        response = conn.get do |req|
-          req.headers['Authorization'] = "Bearer #{auth_data['access_token']}"
-        end
-        JSON.parse(response.body).first['id']
       end
     end
   end
