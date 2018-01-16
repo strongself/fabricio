@@ -186,8 +186,9 @@ Fabric.io API:
 ## Authors
 
 - Egor Tolstoy
+- Vadim Smal
 
-Thanks for help in dealing with API to Vadim Smal, Irina Dyagileva and Andrey Smirnov.
+Thanks for help in dealing with API to Irina Dyagileva and Andrey Smirnov.
 
 ## License
 
