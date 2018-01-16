@@ -1,3 +1,5 @@
+require 'date'
+
 module Fabricio
   module Model
     # This model represents a data point with two fields - timestamp and value
