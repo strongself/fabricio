@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-require "fabricio/cli"
+require "fabricio/cli/cli"
 
 Fabricio::CLI.start(ARGV)
