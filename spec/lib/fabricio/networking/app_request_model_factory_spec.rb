@@ -106,7 +106,7 @@ describe 'AppRequestModelFactory' do
   it 'should form issue session request model' do
     result = @factory.issue_session_request_model('1', '1', '1')
 
-    expect(result.type).to eq :GET
+    expect(result.type).to eq :POST
     expect(result.base_url).not_to be_nil
     expect(result.api_path).not_to be_nil
     expect(result.headers).not_to be_nil

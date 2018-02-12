@@ -39,5 +39,39 @@ module Fabricio
       end
     end
 
+    desc "single_issue", "Obtain issue by external_id"
+    option :app_id => :required, :type => :string
+    option :external_id => :required, :type => :string
+    def issue(app_id, external_id)
+      if options[:short]
+        say("#{client.app.single_issue(app_id, external_id).pretty_print}")
+      else
+        say("#{client.app.single_issue(app_id, external_id).to_s}")
+      end
+    end
+
+    desc "issue_session", "Obtain session"
+    option :app_id => :required, :type => :string
+    option :external_id => :required, :type => :string
+    option :session_id => :required, :type => :string
+    def session(app_id, external_id, session_id)
+      if options[:short]
+        say("#{client.app.issue_session(app_id, external_id, session_id).pretty_print}")
+      else
+        say("#{client.app.issue_session(app_id, external_id, session_id).to_s}")
+      end
+    end
+
+    desc "latest_session", "Obtain latest issue session"
+    option :app_id => :required, :type => :string
+    option :external_id => :required, :type => :string
+    def latest_session(app_id, external_id)
+      if options[:short]
+        say("#{client.app.issue_session(app_id, external_id).pretty_print}")
+      else
+        say("#{client.app.issue_session(app_id, external_id).to_s}")
+      end
+    end
+
   end
 end

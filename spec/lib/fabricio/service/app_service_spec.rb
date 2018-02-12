@@ -117,7 +117,7 @@ describe 'AppService' do
 
   it 'should fetch issue session' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_issue_session_stub_response.txt')
-    stub_request(:get, /sessions/).to_return(:body => response_file, :status => 200)
+    stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
     result = @service.issue_session('1', '1', '1')
     expect(result).not_to be_nil

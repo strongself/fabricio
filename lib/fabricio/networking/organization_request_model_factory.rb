@@ -1,14 +1,10 @@
+require 'fabricio/networking/request_model_factory'
 require 'fabricio/networking/request_model'
 
 module Fabricio
   module Networking
     # This factory creates request models for fetching data for Organization model object
-    class OrganizationRequestModelFactory
-
-      # Server constants
-      FABRIC_API_URL = 'https://fabric.io'
-      FABRIC_API_PATH = '/api/v2'
-      FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
+    class OrganizationRequestModelFactory < RequestModelFactory
 
       # Returns a request model for obtaining the organization data
       #

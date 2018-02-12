@@ -1,19 +1,11 @@
-require 'json'
+require 'fabricio/networking/request_model_factory'
 require 'fabricio/networking/request_model'
+require 'json'
 
 module Fabricio
   module Networking
     # This factory creates request models for fetching data for App model object
-    class AppRequestModelFactory
-
-      # Server constants
-      FABRIC_API_URL = 'https://fabric.io'
-      FABRIC_GRAPHQL_API_URL = 'https://api-dash.fabric.io/graphql'
-      FABRIC_API_PATH = '/api/v2'
-      FABRIC_API_3_PATH = '/api/v3'
-      FABRIC_APPS_ENDPOINT = '/apps'
-      FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
-      FABRIC_PROJECTS_ENDPOINT = '/projects'
+    class AppRequestModelFactory < RequestModelFactory
 
       # Returns a request model for obtaining the list of all apps
       #
@@ -261,7 +253,7 @@ module Fabricio
         model
       end
 
-      # Returns a request model for obtaining the count of ooms
+      # Returns a request model for obtaining issue session
       #
       # @param app_id [String]
       # @param issue_external_id [String] Issue external identifier
@@ -271,17 +263,23 @@ module Fabricio
         headers = {
             'Content-Type' => 'application/json'
         }
-        path = issue_session_endpoint(app_id, issue_external_id, session_id)
+        body = {
+          'query' => "query SingleSession($externalId_0:String!) {project(externalId:$externalId_0) {crashlytics {_session2RIRzK:session(externalId:\"#{session_id}\",issueId:\"#{issue_external_id}\") {externalId,createdAt,buildVersionId,prevSessionId,nextSessionId,sdk {display},os {platform,build,display,name,modified},orientation {device,ui},customLogs {time,message},customKeys {key,value},memory {free,used},storage {free,used},device {architecture,manufacturer,model,name,proximityOn,betaDeviceToken},user {externalId,name,email},stacktraces {exceptions {caption {title,subtitle},interesting,fatal,state,threadName,queueName,crash {name,code,address},exception {message,type,nested},frames {file,offset,line,address,symbol,rawSymbol,owner,library,blamed,native}},errors {caption {title,subtitle},interesting,fatal,state,threadName,queueName,crash {name,code,address},exception {message,type,nested},frames {file,offset,line,address,symbol,rawSymbol,owner,library,blamed,native}},threads {caption {title,subtitle},interesting,fatal,state,threadName,queueName,crash {name,code,address},exception {message,type,nested},frames {file,offset,line,address,symbol,rawSymbol,owner,library,blamed,native}}}}},id}}",
+          'variables' => {
+              'externalId_0' => app_id
+          }
+        }.to_json
         model = Fabricio::Networking::RequestModel.new do |config|
-          config.type = :GET
-          config.base_url = FABRIC_API_URL
-          config.api_path = path
+          config.type = :POST
+          config.base_url = FABRIC_GRAPHQL_API_URL
+          config.api_path = '?relayDebugName=SingleSession'
           config.headers = headers
+          config.body = body
         end
         model
       end
 
-      # Returns a request model for obtaining the count of ooms
+      # Returns a request model for add comment to issue
       #
       # @param app_id [String]
       # @param issue_external_id [String] Issue external identifier
@@ -345,16 +343,6 @@ module Fabricio
         "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/issues/#{issue_id}/notes"
       end
 
-      # Returns an API path to some issue session
-      #
-      # @param app_id [String]
-      # @param issue_id [String]
-      # @param session_id [String]
-      # @return [String]
-      def issue_session_endpoint(app_id, issue_id, session_id)
-        "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/issues/#{issue_id}/sessions/#{session_id}"
-      end
-
       # Returns an API path to some growth analytic endpoint
       #
       # @param session [Fabricio::Authorization::Session]
@@ -363,31 +351,6 @@ module Fabricio
       # @return [String]
       def growth_analytics_endpoint(session, app_id, name)
         "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/growth_analytics/#{name}.json"
-      end
-
-      # Returns an API path to organization endpoint
-      #
-      # @param session [Fabricio::Authorization::Session]
-      # @param app_id [String]
-      # @return [String]
-      def org_app_endpoint(session, app_id)
-        "#{org_endpoint(session)}/#{app_endpoint(app_id)}"
-      end
-
-      # Returns an API path to app endpoint
-      #
-      # @param app_id [String]
-      # @return [String]
-      def app_endpoint(app_id)
-        "#{FABRIC_APPS_ENDPOINT}/#{app_id}"
-      end
-
-      # Returns an API path to app endpoint
-      #
-      # @param session [Fabricio::Authorization::Session]
-      # @return [String]
-      def org_endpoint(session)
-        "#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
       end
 
       # Returns an API path to app endpoint

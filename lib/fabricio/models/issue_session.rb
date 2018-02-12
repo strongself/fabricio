@@ -6,7 +6,6 @@ module Fabricio
     class IssueSession < AbstractModel
       attr_reader :id,
       :created_at,
-      :header_link
       :next_session_id
       :prev_session_id
 
@@ -15,11 +14,10 @@ module Fabricio
       # @param attributes [Hash]
       # @return [Fabricio::Model::Build]
       def initialize(attributes)
-        @id = attributes['session_id']
-        @created_at = attributes['created_at']
-        @header_link = attributes['header_link']
-        @next_session_id = attributes['next_session_id']
-        @prev_session_id = attributes['prev_session_id']
+        @id = attributes['externalId']
+        @created_at = attributes['createdAt']
+        @next_session_id = attributes['prevSessionId']
+        @prev_session_id = attributes['nextSessionId']
         @json = attributes
       end
     end

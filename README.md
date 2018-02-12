@@ -46,13 +46,19 @@ Or install it yourself as:
 ### CLI
 #### Commands
 ```
-  fabricio app             # Obtain single app
-  fabricio apps            # Obtain all app
-  fabricio build           # Obtain single build
-  fabricio builds          # Obtain all builds
-  fabricio credential      # Setup credential
-  fabricio help [COMMAND]  # Describe available commands or one specific command
-  fabricio organization    # Obtain organization
+  fabricio app get            # Obtain single app
+  fabricio app all            # Obtain all app
+  fabricio app active_now     # Obtain active now count
+  fabricio app single_issue   # Obtain single issue
+  fabricio app issue_session  # Obtain single issue session
+  fabricio app latest_session # Obtain latest issue session
+  fabricio build get          # Obtain single build
+  fabricio build all          # Obtain all builds
+  fabricio version all        # Obtain all versions
+  fabricio version top        # Obtain top versions
+  fabricio organization get   # Obtain organization
+  fabricio credential         # Setup credential
+  fabricio help [COMMAND]     # Describe available commands or one specific command
 ```
 #### Example
 ```bash
@@ -63,9 +69,9 @@ email:  test@test.com
 Now we want your password. Do not be afraid, it is stored locally
 password:
 Successful login to TestOrganization
-> fabricio organization
+> fabricio organization get
 {"id"=>"424423ac76fa54934e00a09b", "alias"=>"test", "name"=>"Test", "api_key"=>"19ac3e6195b1900ada120c1e0c1230a818626d55", "enrollments"=>{"answers_enhanced_feature_set_enabled_for_new_apps"=>"false", "answers_ip_address_tracking_enabled_for_new_apps"=>"true", "beta_distribution"=>"true"}, "accounts_count"=>100, "mopub_id"=>"11142", "sdk_organization"=>true, "apps_counts"=>{"ios"=>9}, "build_secret"=>"fdda1e597843e25731848bb46eec2cc893ea86847e22d5f44567ecd48ff4e32"}
-> fabricio apps
+> fabricio app all
 ...
 ```
 
@@ -172,7 +178,13 @@ Obtains the list of all application builds.
 
 Obtains a specific build for a specific application.
 
-#### `client.build.top_versions('app_id', 'start_timestamp', 'end_timestamp')`
+### Version
+
+#### `client.version.all('app_id', 'start_timestamp', 'end_timestamp')`
+
+Obtains an array of all versions for a given application.
+
+#### `client.version.top('app_id', 'start_timestamp', 'end_timestamp')`
 
 Obtains an array of top versions for a given application.
 

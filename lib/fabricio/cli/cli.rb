@@ -5,6 +5,7 @@ require 'yaml'
 require_relative 'organization'
 require_relative 'app'
 require_relative 'build'
+require_relative 'version'
 require_relative 'cli_helper'
 
 module Fabricio
@@ -18,6 +19,9 @@ module Fabricio
 
     desc "build", "..."
     subcommand "build", Build
+
+    desc "version", "..."
+    subcommand "version", Version
 
     desc "credential", "Setup credential"
     def credential

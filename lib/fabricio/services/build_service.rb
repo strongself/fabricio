@@ -43,17 +43,6 @@ module Fabricio
         Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
       end
 
-      # Obtains an array of top versions for a given app
-      #
-      # @param app_id [String] Application identifier
-      # @param start_time [String] Timestamp of the start date
-      # @param end_time [String] Timestamp of the end date
-      # @return [Array<String>]
-      def top_versions(app_id, start_time, end_time)
-        request_model = @request_model_factory.top_versions_request_model(@session, app_id, start_time, end_time)
-        response = @network_client.perform_request(request_model)
-        JSON.parse(response.body)['builds']
-      end
     end
   end
 end
