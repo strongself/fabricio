@@ -15,6 +15,14 @@ module Fabricio
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
       FABRIC_PROJECTS_ENDPOINT = '/projects'
 
+      # Initializes a new AppRequestModelFactory object
+      #
+      # @param organization_id_provider [Fabricio::Networking::OrganizationIdProvider]
+      # @return [Fabricio::Networking::AppRequestModelFactory]
+      def initialize(organization_id_provider)
+        @organization_id_provider = organization_id_provider
+      end
+
       # Returns a request model for obtaining the list of all apps
       #
       # @return [Fabricio::Networking::RequestModel]
@@ -43,11 +51,10 @@ module Fabricio
 
       # Returns a request model for obtaining the count of active users at the current moment
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @return [Fabricio::Networking::RequestModel]
-      def active_now_request_model(session, app_id)
-        path = growth_analytics_endpoint(session, app_id, 'active_now')
+      def active_now_request_model(app_id)
+        path = growth_analytics_endpoint(app_id, 'active_now')
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL
@@ -58,13 +65,12 @@ module Fabricio
 
       # Returns a request model for obtaining the count of daily new users
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @return [Fabricio::Networking::RequestModel]
-      def daily_new_request_model(session, app_id, start_time, end_time)
-        path = growth_analytics_endpoint(session, app_id, 'daily_new')
+      def daily_new_request_model(app_id, start_time, end_time)
+        path = growth_analytics_endpoint(app_id, 'daily_new')
         params = time_range_params(start_time, end_time)
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
@@ -77,14 +83,13 @@ module Fabricio
 
       # Returns a request model for obtaining the count of daily active users
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Fabricio::Networking::RequestModel]
-      def daily_active_request_model(session, app_id, start_time, end_time, build)
-        path = growth_analytics_endpoint(session, app_id, 'daily_active')
+      def daily_active_request_model(app_id, start_time, end_time, build)
+        path = growth_analytics_endpoint(app_id, 'daily_active')
         params = time_range_params(start_time, end_time)
         params['build'] = build
         model = Fabricio::Networking::RequestModel.new do |config|
@@ -98,14 +103,13 @@ module Fabricio
 
       # Returns a request model for obtaining the count of weekly active users
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Fabricio::Networking::RequestModel]
-      def weekly_active_request_model(session, app_id, start_time, end_time, build)
-        path = growth_analytics_endpoint(session, app_id, 'weekly_active')
+      def weekly_active_request_model(app_id, start_time, end_time, build)
+        path = growth_analytics_endpoint(app_id, 'weekly_active')
         params = time_range_params(start_time, end_time)
         params['build'] = build
         model = Fabricio::Networking::RequestModel.new do |config|
@@ -119,14 +123,13 @@ module Fabricio
 
       # Returns a request model for obtaining the count of monhtly active users
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Fabricio::Networking::RequestModel]
-      def monthly_active_request_model(session, app_id, start_time, end_time, build)
-        path = growth_analytics_endpoint(session, app_id, 'monthly_active')
+      def monthly_active_request_model(app_id, start_time, end_time, build)
+        path = growth_analytics_endpoint(app_id, 'monthly_active')
         params = time_range_params(start_time, end_time)
         params['build'] = build
         model = Fabricio::Networking::RequestModel.new do |config|
@@ -140,14 +143,13 @@ module Fabricio
 
       # Returns a request model for obtaining the count of sessions
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Fabricio::Networking::RequestModel]
-      def total_sessions_request_model(session, app_id, start_time, end_time, build)
-        path = growth_analytics_endpoint(session, app_id, 'total_sessions_scalar')
+      def total_sessions_request_model(app_id, start_time, end_time, build)
+        path = growth_analytics_endpoint(app_id, 'total_sessions_scalar')
         params = {
             'start' => start_time,
             'end' => end_time,
@@ -357,21 +359,20 @@ module Fabricio
 
       # Returns an API path to some growth analytic endpoint
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param name [String]
       # @return [String]
-      def growth_analytics_endpoint(session, app_id, name)
-        "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/growth_analytics/#{name}.json"
+      def growth_analytics_endpoint(app_id, name)
+        "#{FABRIC_API_PATH}#{org_app_endpoint(app_id)}/growth_analytics/#{name}.json"
       end
 
       # Returns an API path to organization endpoint
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @return [String]
-      def org_app_endpoint(session, app_id)
-        "#{org_endpoint(session)}/#{app_endpoint(app_id)}"
+      def org_app_endpoint(app_id)
+        organization_id = @organization_id_provider.get(app_id)
+        "#{org_endpoint(organization_id)}/#{app_endpoint(app_id)}"
       end
 
       # Returns an API path to app endpoint
@@ -384,10 +385,10 @@ module Fabricio
 
       # Returns an API path to app endpoint
       #
-      # @param session [Fabricio::Authorization::Session]
+      # @param organization_id [String]
       # @return [String]
-      def org_endpoint(session)
-        "#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
+      def org_endpoint(organization_id)
+        "#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{organization_id}"
       end
 
       # Returns an API path to app endpoint

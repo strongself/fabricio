@@ -6,11 +6,8 @@ require 'fabricio/authorization/session'
 describe 'AppRequestModelFactory' do
 
   before(:each) do
-    @factory = Fabricio::Networking::AppRequestModelFactory.new
-    @session = Fabricio::Authorization::Session.new({
-                                                       'access_token' => 'token',
-                                                       'refresh_token' => 'token'
-                                                   })
+    @organization_id_provider = instance_double("OrganizationIdProvider", :get => '1')
+    @factory = Fabricio::Networking::AppRequestModelFactory.new(@organization_id_provider)
   end
 
   it 'should form all apps request model' do
@@ -32,7 +29,7 @@ describe 'AppRequestModelFactory' do
   end
 
   it 'should form active_now app request model' do
-    result = @factory.active_now_request_model(@session, '1')
+    result = @factory.active_now_request_model('1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -41,7 +38,7 @@ describe 'AppRequestModelFactory' do
   end
 
   it 'should form daily_new app request model' do
-    result = @factory.daily_new_request_model(@session, '1', '1', '1')
+    result = @factory.daily_new_request_model('1', '1', '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -50,7 +47,7 @@ describe 'AppRequestModelFactory' do
   end
 
   it 'should form daily_active app request model' do
-    result = @factory.daily_active_request_model(@session, '1', '1', '1', '1')
+    result = @factory.daily_active_request_model('1', '1', '1', '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -59,7 +56,7 @@ describe 'AppRequestModelFactory' do
   end
 
   it 'should form monthly_active app request model' do
-    result = @factory.monthly_active_request_model(@session, '1', '1', '1', '1')
+    result = @factory.monthly_active_request_model('1', '1', '1', '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -68,7 +65,7 @@ describe 'AppRequestModelFactory' do
   end
 
   it 'should form session_count app request model' do
-    result = @factory.total_sessions_request_model(@session, '1', '1', '1', '1')
+    result = @factory.total_sessions_request_model('1', '1', '1', '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil

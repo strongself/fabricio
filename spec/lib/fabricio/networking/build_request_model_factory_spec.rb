@@ -6,15 +6,12 @@ require 'fabricio/authorization/session'
 describe 'BuildRequestModelFactory' do
 
   before(:each) do
-    @factory = Fabricio::Networking::BuildRequestModelFactory.new
-    @session = Fabricio::Authorization::Session.new({
-                                                        'access_token' => 'token',
-                                                        'refresh_token' => 'token'
-                                                    })
+    @organization_id_provider = instance_double("OrganizationIdProvider", :get => '1')
+    @factory = Fabricio::Networking::BuildRequestModelFactory.new(@organization_id_provider)
   end
 
   it 'should form all builds request model' do
-    result = @factory.all_builds_request_model(@session, '1')
+    result = @factory.all_builds_request_model('1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -23,7 +20,7 @@ describe 'BuildRequestModelFactory' do
   end
 
   it 'should form get build request model' do
-    result = @factory.get_build_request_model(@session, '1', '1', '1')
+    result = @factory.get_build_request_model('1', '1', '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -33,7 +30,7 @@ describe 'BuildRequestModelFactory' do
   end
 
   it 'should form top versions request model' do
-    result = @factory.top_versions_request_model(@session, '1', '1', '1')
+    result = @factory.top_versions_request_model('1', '1', '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil

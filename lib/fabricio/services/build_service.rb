@@ -9,13 +9,11 @@ module Fabricio
 
       # Initializes a new BuildService object.
       #
-      # @param session [Fabricio::Authorization::Session]
+      # @param organization_id_provider [Fabricio::Networking::OrganizationIdProvider]
       # @param network_client [Fabricio::Networking::NetworkClient]
       # @return [Fabricio::Service::BuildService]
-      def initialize(session, network_client)
-        @session = session
-
-        @request_model_factory = Fabricio::Networking::BuildRequestModelFactory.new
+      def initialize(organization_id_provider, network_client)
+        @request_model_factory = Fabricio::Networking::BuildRequestModelFactory.new(organization_id_provider)
         @network_client = network_client
       end
 
@@ -24,7 +22,7 @@ module Fabricio
       # @param app_id [String] Application identifier
       # @return [Array<Fabricio::Model::Build>]
       def all(app_id)
-        request_model = @request_model_factory.all_builds_request_model(@session, app_id)
+        request_model = @request_model_factory.all_builds_request_model(app_id)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['instances'].map do |hash|
           Fabricio::Model::Build.new(hash)
@@ -38,7 +36,7 @@ module Fabricio
       # @param build_number [String] Build number. E.g. '39'.
       # @return [Fabricio::Model::Build]
       def get(app_id, version, build_number)
-        request_model = @request_model_factory.get_build_request_model(@session, app_id, version, build_number)
+        request_model = @request_model_factory.get_build_request_model(app_id, version, build_number)
         response = @network_client.perform_request(request_model)
         Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
       end
@@ -50,7 +48,7 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @return [Array<String>]
       def top_versions(app_id, start_time, end_time)
-        request_model = @request_model_factory.top_versions_request_model(@session, app_id, start_time, end_time)
+        request_model = @request_model_factory.top_versions_request_model(app_id, start_time, end_time)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['builds']
       end
