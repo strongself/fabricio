@@ -14,31 +14,49 @@ module Fabricio
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
       FABRIC_PROJECTS_ENDPOINT = '/projects'
 
+      def initialize(param_storage)
+        @param_storage = param_storage
+      end
+
       protected
+
+      def stored_organization_id
+        organization_id = @param_storage.organization_id
+        raise NotProvidedParam, "Not provided organization_id" if organization_id.nil?
+        organization_id
+      end
+
+      def stored_app_id
+        app_id = @param_storage.app_id
+        raise NotProvidedParam, "Not provided app_id" if app_id.nil?
+        app_id
+      end
 
       # Returns an API path to app endpoint
       #
       # @param app_id [String]
       # @return [String]
       def app_endpoint(app_id)
+        app_id ||= stored_app_id
         "#{FABRIC_APPS_ENDPOINT}/#{app_id}"
       end
 
       # Returns an API path to app endpoint
       #
-      # @param session [Fabricio::Authorization::Session]
+      # @param organization_id [String]
       # @return [String]
-      def org_endpoint(session)
-        "#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{session.organization_id}"
+      def org_endpoint(organization_id)
+        organization_id ||= stored_organization_id
+        "#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{organization_id}"
       end
 
       # Returns an API path to organization endpoint
       #
-      # @param session [Fabricio::Authorization::Session]
+      # @param organization_id [String]
       # @param app_id [String]
       # @return [String]
-      def org_app_endpoint(session, app_id)
-        "#{org_endpoint(session)}#{app_endpoint(app_id)}"
+      def org_app_endpoint(organization_id, app_id)
+        "#{org_endpoint(organization_id)}#{app_endpoint(app_id)}"
       end
 
     end

@@ -8,12 +8,11 @@ module Fabricio
 
       # Returns a request model for obtaining the list of all versions for a specific app
       #
-      # @param session [Fabricio::Authorization::Session]
       # @param app_id [String]
       # @param page [Int]
       # @param per_page [Int]
       # @return [Fabricio::Networking::RequestModel]
-      def all_versions_request_model(session, app_id, page, per_page)
+      def all_versions_request_model(app_id, page, per_page)
         path = "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/versions"
         params = {
             'fields' => 'id,synthesized_version,major,minor,collect_reports,status,starred',
@@ -31,13 +30,14 @@ module Fabricio
 
       # Returns a request model for obtaining an array of top versions for a given app
       #
-      # @param session [Fabricio::Authorization::Session]
+      # @param organization_id [String] Organization identifier
       # @param app_id [String]
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @return [Fabricio::Networking::RequestModel]
-      def top_versions_request_model(session, app_id, start_time, end_time)
-        path = "#{FABRIC_API_PATH}#{org_app_endpoint(session, app_id)}/growth_analytics/top_builds"
+      def top_versions_request_model(organization_id, app_id, start_time, end_time)
+        app_id ||= stored_app_id
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(organization_id, app_id)}/growth_analytics/top_builds"
         params = {
             'app_id' => app_id,
             'start' => start_time,

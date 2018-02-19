@@ -1,39 +1,19 @@
 require 'fabricio'
+require 'fabricio/authorization/file_session_storage'
 require 'fileutils'
 require 'yaml'
-
-# Constants
-CREDENTIAL_DIRECTORY_PATH = "#{Dir.home}/.fabricio"
-CREDENTIAL_FILE_PATH = "#{CREDENTIAL_DIRECTORY_PATH}/.credential"
-FABRIC_GRAPHQL_API_URL = 'https://api-dash.fabric.io/graphql'
 
 def client
   email = ""
   password = ""
-  if File.file?(CREDENTIAL_FILE_PATH)
-    credential = YAML.load_file(CREDENTIAL_FILE_PATH)
-    email = credential['email']
-    password = credential['password']
-  else
-    ask_credential
-  end
+  sessionStorage = FileSessionStorage()
+  session = sessionStorage.obtain_session
+  ask_credential unless session
 
   client = Fabricio::Client.new do |config|
-    config.username = email
-    config.password = password
+    config.session_storage = sessionStorage
+    config.param_storage = FileParamStorage()
   end
-end
-
-def create_credential_file(credential)
-  FileUtils.mkdir_p(CREDENTIAL_DIRECTORY_PATH)
-  credential_hash = {
-      "email" => credential.email,
-      "password" => credential.password
-  }
-  File.open(CREDENTIAL_FILE_PATH,'w') do |f|
-    f.write credential_hash.to_yaml
-  end
-  say("Your credential in #{CREDENTIAL_FILE_PATH}")
 end
 
 def ask_credential

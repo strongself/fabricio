@@ -6,15 +6,13 @@ require 'fabricio/authorization/session'
 describe 'BuildRequestModelFactory' do
 
   before(:each) do
-    @factory = Fabricio::Networking::BuildRequestModelFactory.new
-    @session = Fabricio::Authorization::Session.new({
-                                                        'access_token' => 'token',
-                                                        'refresh_token' => 'token'
-                                                    })
+    param_storage = Fabricio::Authorization::MemoryParamStorage.new
+    param_storage.store_organization_id('1')
+    @factory = Fabricio::Networking::BuildRequestModelFactory.new(param_storage)
   end
 
   it 'should form all builds request model' do
-    result = @factory.all_builds_request_model(@session, '1')
+    result = @factory.all_builds_request_model(nil, '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -23,7 +21,7 @@ describe 'BuildRequestModelFactory' do
   end
 
   it 'should form get build request model' do
-    result = @factory.get_build_request_model(@session, '1', '1', '1')
+    result = @factory.get_build_request_model(nil, '1', '1', '1')
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil

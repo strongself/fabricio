@@ -8,15 +8,13 @@ describe 'Authorization Client' do
   TEST_STRING = 'string'
   TEST_TOKEN = 'token'
   TEST_NETWORK_TOKEN = 'network_token'
-  TEST_ORGANIZATION_ID = 'org_id'
-  TEST_NETWORK_ORGANIZATION_ID = 'network_org_id'
 
   before(:each) do
     @client = Fabricio::Authorization::AuthorizationClient.new
     @test_session = Fabricio::Authorization::Session.new({
                                                           'access_token' => TEST_TOKEN,
                                                           'refresh_token' => TEST_TOKEN
-                                                         }, TEST_ORGANIZATION_ID)
+                                                         })
   end
 
   it 'should return session for successful authorization' do
@@ -29,7 +27,6 @@ describe 'Authorization Client' do
 
     expect(session.access_token).to eq(TEST_NETWORK_TOKEN)
     expect(session.refresh_token).to eq(TEST_NETWORK_TOKEN)
-    expect(session.organization_id).to eq(TEST_NETWORK_ORGANIZATION_ID)
   end
 
   it 'should throw error on incorrect authorization response' do
@@ -49,7 +46,6 @@ describe 'Authorization Client' do
 
     expect(session.access_token).to eq(TEST_NETWORK_TOKEN)
     expect(session.refresh_token).to eq(TEST_NETWORK_TOKEN)
-    expect(session.organization_id).to eq(TEST_ORGANIZATION_ID)
   end
 
   it 'should throw error on incorrect refresh response' do

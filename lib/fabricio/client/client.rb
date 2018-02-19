@@ -6,6 +6,7 @@ require 'fabricio/services/version_service'
 require 'fabricio/authorization/authorization_client'
 require 'fabricio/authorization/session'
 require 'fabricio/authorization/memory_session_storage'
+require 'fabricio/authorization/memory_param_storage'
 require 'fabricio/networking/network_client'
 
 module Fabricio
@@ -19,8 +20,9 @@ module Fabricio
     DEFAULT_PASSWORD = nil
     # In-memory session storage is used by default
     DEFAULT_SESSION_STORAGE = Fabricio::Authorization::MemorySessionStorage.new
+    DEFAULT_PARAM_STORAGE = Fabricio::Authorization::MemoryParamStorage.new
 
-    attr_accessor :client_id, :client_secret, :username, :password, :session_storage;
+    attr_accessor :client_id, :client_secret, :username, :password, :session_storage, :param_storage;
 
     # Initializes a new Client object. You can use a block to fill all the options:
     # client = Fabricio::Client.new do |config|
@@ -38,6 +40,8 @@ module Fabricio
     # @option options [String] :username Your Fabric.io username
     # @option options [String] :password Your Fabric.io password
     # @option options [Fabricio::Authorization::AbstractSessionStorage] :session_storage Your custom AbstractSessionStorage subclass that provides its own logic of storing session data.
+    # @option options [Fabricio::Authorization::AbstractParamStorage] :param_storage  Your custom AbstractParamStorage subclass that provides its own logic of storing params.
+    # @option options [Hash] Default params
     # @return [Fabricio::Client]
     def initialize(options =
                        {
@@ -45,7 +49,9 @@ module Fabricio
                            :client_secret => DEFAULT_CLIENT_SECRET,
                            :username => DEFAULT_USERNAME,
                            :password => DEFAULT_PASSWORD,
-                           :session_storage => DEFAULT_SESSION_STORAGE
+                           :session_storage => DEFAULT_SESSION_STORAGE,
+                           :param_storage => DEFAULT_PARAM_STORAGE,
+                           :params => {}
                        })
       options.each do |key, value|
         instance_variable_set("@#{key}", value)
@@ -56,10 +62,13 @@ module Fabricio
       session = obtain_session
       network_client = Fabricio::Networking::NetworkClient.new(@auth_client, @session_storage)
 
-      @organization_service ||= Fabricio::Service::OrganizationService.new(session, network_client)
-      @app_service ||= Fabricio::Service::AppService.new(session, network_client)
-      @build_service ||= Fabricio::Service::BuildService.new(session, network_client)
-      @version_service ||= Fabricio::Service::VersionService.new(session, network_client)
+      @organization_service ||= Fabricio::Service::OrganizationService.new(param_storage, network_client)
+      @app_service ||= Fabricio::Service::AppService.new(param_storage, network_client)
+      @build_service ||= Fabricio::Service::BuildService.new(param_storage, network_client)
+      @version_service ||= Fabricio::Service::VersionService.new(param_storage, network_client)
+
+      param_storage.store(options[:params]) unless options[:params].empty?
+      fill_default_params
     end
 
     # We use `method_missing` approach instead of explicit methods.
@@ -89,6 +98,17 @@ module Fabricio
       end
 
       session
+    end
+
+    def fill_default_params
+      if @param_storage.organization_id == nil
+        organizations = @organization_service.all
+        @param_storage.store_organization_id(organizations[0].id) if organizations.count == 1
+      end
+      if @param_storage.app_id == nil
+        apps = @app_service.all
+        @param_storage.store_app_id(apps[0].id) if apps.count == 1
+      end
     end
   end
 end

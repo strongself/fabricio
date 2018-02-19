@@ -2,11 +2,13 @@ require 'thor'
 require 'fabricio'
 require 'fileutils'
 require 'yaml'
+require 'fabricio/authorization/file_session_storage'
 require_relative 'organization'
 require_relative 'app'
 require_relative 'build'
 require_relative 'version'
 require_relative 'cli_helper'
+
 
 module Fabricio
   class CLI < Thor
@@ -31,12 +33,14 @@ module Fabricio
       tmp_client = Fabricio::Client.new do |config|
         config.username = credential.email
         config.password = credential.password
+        config.session_storage = FileSessionStorage()
       end
+
+      say("Your session store in #{SESSION_FILE_PATH}")
 
       organization = tmp_client.organization.get
       unless organization.nil?
-        say("Successful login to #{organization.name}")
-        create_credential_file(credential)
+        say("Successful login")
       else
         say("Login failed")
       end
