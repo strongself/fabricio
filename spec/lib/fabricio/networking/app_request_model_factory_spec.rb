@@ -76,6 +76,15 @@ describe 'AppRequestModelFactory' do
     expect(result.headers).not_to be_nil
   end
 
+  it 'should form time_in_app_per_user app request model' do
+    result = @factory.time_in_app_per_user_request_model(@session, '1', '1', '1', '1')
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
   it 'should form crashes app request model' do
     result = @factory.crash_count_request_model('1', '1', '1', ['1', '2'])
 
