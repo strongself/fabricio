@@ -4,7 +4,7 @@ require 'yaml'
 
 # Constants
 FABRICIO_DIRECTORY_PATH = "#{Dir.home}/.fabricio"
-SESSION_FILE_PATH = "#{CREDENTIAL_DIRECTORY_PATH}/.session"
+SESSION_FILE_PATH = "#{FABRICIO_DIRECTORY_PATH}/.session"
 
 module Fabricio
   module Authorization
@@ -17,7 +17,8 @@ module Fabricio
       def obtain_session
         return nil unless File.exist?(SESSION_FILE_PATH)
         session_hash = YAML.load_file(SESSION_FILE_PATH)
-        session = Session(session_hash)
+        return nil unless session_hash
+        session = Session.new(session_hash)
         return nil unless session.access_token
         return nil unless session.refresh_token
         session

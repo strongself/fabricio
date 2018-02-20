@@ -3,8 +3,7 @@ require 'fileutils'
 require 'yaml'
 
 # Constants
-FABRICIO_DIRECTORY_PATH = "#{Dir.home}/.fabricio"
-PARAM_FILE_PATH = "#{CREDENTIAL_DIRECTORY_PATH}/.params"
+PARAM_FILE_PATH = "#{FABRICIO_DIRECTORY_PATH}/.params"
 
 module Fabricio
   module Authorization
@@ -16,7 +15,9 @@ module Fabricio
       # @return [Hash]
       def obtain
         return nil unless File.exist?(PARAM_FILE_PATH)
-        return YAML.load_file(PARAM_FILE_PATH) || {}
+        params = YAML.load_file(PARAM_FILE_PATH)
+        return {} unless params
+        return params
       end
 
       # Save variable
@@ -32,11 +33,13 @@ module Fabricio
       end
 
       def organization_id
-        obtain['organization_id']
+        hash = obtain || {}
+        hash['organization_id']
       end
 
       def app_id
-        obtain['app_id']
+        hash = obtain || {}
+        hash['app_id']
       end
 
       def store_organization_id(organization_id)
@@ -55,7 +58,7 @@ module Fabricio
 
       def save_to_file(hash)
         FileUtils.mkdir_p(FABRICIO_DIRECTORY_PATH)
-        File.open(SESSION_FILE_PATH,'w') do |f|
+        File.open(PARAM_FILE_PATH,'w') do |f|
           f.write hash.to_yaml
         end
       end
