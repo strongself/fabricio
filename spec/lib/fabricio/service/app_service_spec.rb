@@ -81,6 +81,14 @@ describe 'AppService' do
     expect(result).not_to be_nil
   end
 
+  it 'should fetch time_in_app_per_user' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_daily_active_stub_response.txt')
+    stub_request(:get, /time_in_app_per_user/).to_return(:body => response_file, :status => 200)
+
+    result = @service.time_in_app_per_user('1', '1', '1', '1')
+    expect(result).not_to be_nil
+  end
+
   it 'should fetch crashes' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_crashes_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)

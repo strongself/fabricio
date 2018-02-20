@@ -125,6 +125,21 @@ module Fabricio
         JSON.parse(response.body)['sessions']
       end
 
+      # Obtains the time in app per user
+      #
+      # @param id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @return [Array<Fabricio::Model::Point>]
+      def time_in_app_per_user(id, start_time, end_time, build)
+        request_model = @request_model_factory.time_in_app_per_user_request_model(@session, id, start_time, end_time, build)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['series'].map do |array|
+          Fabricio::Model::Point.new(array)
+        end
+      end
+
       # Obtains the number of crashes
       #
       # @param id [String] Application identifier

@@ -162,6 +162,30 @@ module Fabricio
         model
       end
 
+      # Returns a request model for obtaining the time in app per user
+      #
+      # @param session [Fabricio::Authorization::Session]
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @return [Fabricio::Networking::RequestModel]
+      def time_in_app_per_user_request_model(session, app_id, start_time, end_time, build)
+        path = growth_analytics_endpoint(session, app_id, 'time_in_app_per_dau')
+        params = {
+            'start' => start_time,
+            'end' => end_time,
+            'build' => build
+        }
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
       # Returns a request model for obtaining the count of app crashes
       #
       # @param app_id [String]
