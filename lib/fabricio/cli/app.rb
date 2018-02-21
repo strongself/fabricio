@@ -10,66 +10,70 @@ module Fabricio
     desc "all", "Obtain all apps"
     option :short, :type => :boolean
     def all
+      apps = client.app.all
       if options[:short]
-        apps = client.app.all
         say(apps.map {|app| app.pretty_print}.join("\n\n"))
       else
-        say("#{client.app.all}")
+        say(apps.map { |app| app.json }.to_json)
       end
     end
 
     desc "get", "Obtain single app"
-    option :app_id => :required, :type => :string
+    option :app_id, :type => :string
     option :short, :type => :boolean
-    def get(app_id)
+    def get
+      app = client.app.get(options[:app_id])
       if options[:short]
-        say("#{client.app.get(app_id).pretty_print}")
+        say(app.pretty_print)
       else
-        say("#{client.app.get(app_id).to_s}")
+        say(app.json.to_json)
       end
     end
 
     desc "active_now", "Obtain active now count"
-    option :app_id => :required, :type => :string
-    def active_now(app_id)
-      if options[:short]
-        say("#{client.app.active_now(app_id).pretty_print}")
-      else
-        say("#{client.app.active_now(app_id).to_s}")
-      end
+    option :organization_id, :type => :string
+    option :app_id, :type => :string
+    def active_now
+        say(client.app.active_now(options[:organization_id], options[:app_id]))
     end
 
-    desc "single_issue", "Obtain issue by external_id"
-    option :app_id => :required, :type => :string
+    desc "issue", "Obtain issue by external_id"
+    option :app_id, :type => :string
     option :external_id => :required, :type => :string
-    def issue(app_id, external_id)
+    option :short, :type => :boolean
+    def issue(external_id)
+      issue = client.app.single_issue(external_id, options[:app_id])
       if options[:short]
-        say("#{client.app.single_issue(app_id, external_id).pretty_print}")
+        say(issue.pretty_print)
       else
-        say("#{client.app.single_issue(app_id, external_id).to_s}")
+        say(issue.json.to_json)
       end
     end
 
-    desc "issue_session", "Obtain session"
-    option :app_id => :required, :type => :string
+    desc "session", "Obtain session"
+    option :app_id, :type => :string
     option :external_id => :required, :type => :string
     option :session_id => :required, :type => :string
-    def session(app_id, external_id, session_id)
+    option :short, :type => :boolean
+    def session(external_id, session_id)
+      session = client.app.issue_session(external_id, session_id, options[:app_id])
       if options[:short]
-        say("#{client.app.issue_session(app_id, external_id, session_id).pretty_print}")
+        say(session.pretty_print)
       else
-        say("#{client.app.issue_session(app_id, external_id, session_id).to_s}")
+        say(session.json.to_json)
       end
     end
 
     desc "latest_session", "Obtain latest issue session"
-    option :app_id => :required, :type => :string
+    option :app_id, :type => :string
     option :external_id => :required, :type => :string
-    def latest_session(app_id, external_id)
+    option :short, :type => :boolean
+    def latest_session(external_id)
+      session = client.app.issue_session(options[:app_id], external_id)
       if options[:short]
-        say("#{client.app.issue_session(app_id, external_id).pretty_print}")
+        say(session.pretty_print)
       else
-        say("#{client.app.issue_session(app_id, external_id).to_s}")
+        say(session.json.to_json)
       end
     end
 

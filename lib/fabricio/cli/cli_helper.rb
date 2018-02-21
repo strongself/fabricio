@@ -1,18 +1,26 @@
 require 'fabricio'
 require 'fabricio/authorization/file_session_storage'
+require 'fabricio/authorization/file_param_storage'
 require 'fileutils'
 require 'yaml'
 
 def client
-  email = ""
-  password = ""
-  sessionStorage = FileSessionStorage()
+  sessionStorage = Fabricio::Authorization::FileSessionStorage.new()
+  param_storage = Fabricio::Authorization::FileParamStorage.new()
   session = sessionStorage.obtain_session
-  ask_credential unless session
-
-  client = Fabricio::Client.new do |config|
-    config.session_storage = sessionStorage
-    config.param_storage = FileParamStorage()
+  if session
+    return Fabricio::Client.new do |config|
+      config.session_storage = sessionStorage
+      config.param_storage = param_storage
+    end
+  else
+    credential = ask_credential
+    return Fabricio::Client.new do |config|
+      config.username = credential.email
+      config.password = credential.password
+      config.session_storage = sessionStorage
+      config.param_storage = param_storage
+    end
   end
 end
 

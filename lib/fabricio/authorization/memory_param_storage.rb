@@ -27,7 +27,7 @@ module Fabricio
       end
 
       # Resets current state and deletes all saved params
-      def reset_all
+      def reset
         @params = nil
       end
 

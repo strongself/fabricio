@@ -1,8 +1,8 @@
 [
   {
     "id": "org_id",
-    "alias": "ramblerco",
-    "name": "Rambler&Co",
+    "alias": "bla",
+    "name": "Bla&Co",
     "api_key": "api_key",
     "enrollments": {
       "answers_enhanced_feature_set_enabled_for_new_apps": "true",
@@ -14,6 +14,25 @@
     "sdk_organization": true,
     "apps_counts": {
       "android": 70,
+      "ios": 100
+    },
+    "build_secret": "build_secret"
+  },
+  {
+    "id": "org_id2",
+    "alias": "bla2",
+    "name": "Bla&Co",
+    "api_key": "api_key",
+    "enrollments": {
+      "answers_enhanced_feature_set_enabled_for_new_apps": "true",
+      "answers_ip_address_tracking_enabled_for_new_apps": "true",
+      "beta_distribution": "true"
+    },
+    "accounts_count": 109,
+    "mopub_id": null,
+    "sdk_organization": true,
+    "apps_counts": {
+      "android": 80,
       "ios": 108
     },
     "build_secret": "build_secret"

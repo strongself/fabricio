@@ -28,7 +28,7 @@ module Fabricio
       end
 
       # Resets current state and deletes all saved params
-      def reset_all
+      def reset
         FileUtils.remove_file(PARAM_FILE_PATH)
       end
 

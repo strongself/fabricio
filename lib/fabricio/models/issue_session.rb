@@ -6,7 +6,7 @@ module Fabricio
     class IssueSession < AbstractModel
       attr_reader :id,
       :created_at,
-      :next_session_id
+      :next_session_id,
       :prev_session_id
 
       # Returns a Build model object

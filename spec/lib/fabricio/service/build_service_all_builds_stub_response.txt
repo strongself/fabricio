@@ -16,9 +16,9 @@
       }
     },
     {
-      "distributed_at": 1480411584,
-      "instance_identifier": "106d301a742fc7ce284db3a75d50602f5a5ba79e",
-      "id": "app_id",
+      "distributed_at": 1480411586,
+      "instance_identifier": "106d302a742fc7ce284db3a75d50602f5a5ba79e",
+      "id": "app_id2",
       "tester_count": 9,
       "tester_with_install_count": 1,
       "open_invitation_count": 13,

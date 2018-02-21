@@ -59,7 +59,9 @@ module Fabricio
       yield(self) if block_given?
 
       @auth_client = Fabricio::Authorization::AuthorizationClient.new
-      session = obtain_session
+      if obtain_session.nil?
+        raise StandardError.new("Session is empty: #{auth_data}")
+      end
       network_client = Fabricio::Networking::NetworkClient.new(@auth_client, @session_storage)
 
       @organization_service ||= Fabricio::Service::OrganizationService.new(param_storage, network_client)
@@ -89,7 +91,7 @@ module Fabricio
     # @return [Fabricio::Authorization::Session]
     def obtain_session
       session = @session_storage.obtain_session
-      if !session
+      if session.nil?
         session = @auth_client.auth(@username,
                                     @password,
                                     @client_id,

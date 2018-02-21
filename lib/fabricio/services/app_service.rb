@@ -37,7 +37,9 @@ module Fabricio
       def get(app_id = nil)
         request_model = @request_model_factory.get_app_request_model(app_id)
         response = @network_client.perform_request(request_model)
-        Fabricio::Model::App.new(JSON.parse(response.body))
+        json = JSON.parse(response.body)
+        # TODO Handle error
+        Fabricio::Model::App.new(json)
       end
 
       # Obtains the count of active users at the current moment
@@ -145,13 +147,12 @@ module Fabricio
       # crashfree = 1 - total_crashes / total_sessions.
       # AFAIK Fabric.io website uses the same calculations. However, mobile app behaves differently and shows another value.
       #
-      # @param organization_id [String] Organization identifier
       # @param app_id [String] Application identifier
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Float]
-      def crashfree(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
+      def crashfree(app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
         sessions = total_sessions(app_id, start_time, end_time, build)
         crashes = crashes(app_id, start_time, end_time, [build])
         1 - crashes.to_f / sessions
@@ -192,7 +193,7 @@ module Fabricio
       # @param app_id [String] Application identifier
       # @param session_id [String] Session identifier
       # @return [Fabricio::Model::Issue]
-      def issue_session(issue_external_id, app_id = nil, session_id = 'latest')
+      def issue_session(issue_external_id, session_id = 'latest', app_id = nil)
         request_model = @request_model_factory.issue_session_request_model(app_id, issue_external_id, session_id)
         response = @network_client.perform_request(request_model)
         json = JSON.parse(response.body)

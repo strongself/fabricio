@@ -46,19 +46,19 @@ Or install it yourself as:
 ### CLI
 #### Commands
 ```
-  fabricio app get            # Obtain single app
-  fabricio app all            # Obtain all app
-  fabricio app active_now     # Obtain active now count
-  fabricio app single_issue   # Obtain single issue
-  fabricio app issue_session  # Obtain single issue session
-  fabricio app latest_session # Obtain latest issue session
-  fabricio build get          # Obtain single build
-  fabricio build all          # Obtain all builds
-  fabricio version all        # Obtain all versions
-  fabricio version top        # Obtain top versions
-  fabricio organization get   # Obtain organization
-  fabricio credential         # Setup credential
-  fabricio help [COMMAND]     # Describe available commands or one specific command
+  fabricio app all                       # Obtain all app
+  fabricio app get                       # Obtain single app
+  fabricio app active_now                # Obtain active now count
+  fabricio app single_issue              # Obtain single issue
+  fabricio app issue_session             # Obtain single issue session
+  fabricio app latest_session            # Obtain latest issue session
+  fabricio build get                     # Obtain single build
+  fabricio build all                     # Obtain all builds
+  fabricio version all                   # Obtain all versions
+  fabricio version top                   # Obtain top versions
+  fabricio organization get              # Obtain organization
+  fabricio credential                    # Setup credential
+  fabricio help [COMMAND]                # Describe available commands or one specific command
 ```
 #### Example
 ```bash

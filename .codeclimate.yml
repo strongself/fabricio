@@ -10,4 +10,3 @@ ratings:
   - "**.rb"
 exclude_paths:
 - spec/
-- lib/cli/

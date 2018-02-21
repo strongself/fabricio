@@ -13,12 +13,12 @@ module Fabricio
     # Save variable
     #
     # @param hash [Hash]
-    def store(hash)
+    def store(_)
       raise NotImplementedError, "Implement this method in a child class"
     end
 
     # Resets current state and deletes all saved params
-    def reset_all
+    def reset
       raise NotImplementedError, "Implement this method in a child class"
     end
 
@@ -30,11 +30,11 @@ module Fabricio
       raise NotImplementedError, "Implement this method in a child class"
     end
 
-    def store_organization_id(organization_id)
+    def store_organization_id(_)
       raise NotImplementedError, "Implement this method in a child class"
     end
 
-    def store_app_id(app_id)
+    def store_app_id(_)
       raise NotImplementedError, "Implement this method in a child class"
     end
     end

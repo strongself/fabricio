@@ -15,11 +15,14 @@ module Fabricio
         @refresh_token = attributes['refresh_token']
       end
 
+      # Obtain hash with access_token and refresh_token
+      #
+      # @return [Hash]
       def hash
-        return {} unless session.access_token && session.refresh_token
+        return {} unless access_token && refresh_token
         return {
-            'access_token' => session.access_token,
-            'refresh_token' => session.refresh_token
+            'access_token' => access_token,
+            'refresh_token' => refresh_token
         }
       end
     end
