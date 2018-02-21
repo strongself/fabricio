@@ -24,6 +24,18 @@ module Fabricio
 
     attr_accessor :client_id, :client_secret, :username, :password, :session_storage, :param_storage;
 
+    def default_options
+      {
+          :client_id => DEFAULT_CLIENT_ID,
+          :client_secret => DEFAULT_CLIENT_SECRET,
+          :username => DEFAULT_USERNAME,
+          :password => DEFAULT_PASSWORD,
+          :session_storage => DEFAULT_SESSION_STORAGE,
+          :param_storage => DEFAULT_PARAM_STORAGE,
+          :params => {}
+      }
+    end
+
     # Initializes a new Client object. You can use a block to fill all the options:
     # client = Fabricio::Client.new do |config|
     #   config.username = 'email@rambler.ru'
@@ -43,16 +55,7 @@ module Fabricio
     # @option options [Fabricio::Authorization::AbstractParamStorage] :param_storage  Your custom AbstractParamStorage subclass that provides its own logic of storing params.
     # @option options [Hash] Default params
     # @return [Fabricio::Client]
-    def initialize(options =
-                       {
-                           :client_id => DEFAULT_CLIENT_ID,
-                           :client_secret => DEFAULT_CLIENT_SECRET,
-                           :username => DEFAULT_USERNAME,
-                           :password => DEFAULT_PASSWORD,
-                           :session_storage => DEFAULT_SESSION_STORAGE,
-                           :param_storage => DEFAULT_PARAM_STORAGE,
-                           :params => {}
-                       })
+    def initialize(options = default_options)
       options.each do |key, value|
         instance_variable_set("@#{key}", value)
       end
@@ -102,11 +105,22 @@ module Fabricio
       session
     end
 
+    # Obtain organizations and apps and save as default if is only one
     def fill_default_params
+      fill_organization
+      fill_app
+    end
+
+    # Obtain organizations and save as default if is only one
+    def fill_organization
       if @param_storage.organization_id == nil
         organizations = @organization_service.all
         @param_storage.store_organization_id(organizations[0].id) if organizations.count == 1
       end
+    end
+
+    # Obtain apps and save as default if is only one
+    def fill_app
       if @param_storage.app_id == nil
         apps = @app_service.all
         @param_storage.store_app_id(apps[0].id) if apps.count == 1
