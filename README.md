@@ -113,7 +113,10 @@ If your account have only one organization/app then it will be used by default a
 ```
 fabricio build all
 ```
-
+#### Parsing
+You can use [`jq`](https://stedolan.github.io/jq/) for parsing json
+> fabricio version all --app_id 'app_id' | jq 'sort_by(.major)[-1].synthesized_version'
+"14.0 (131)"
 ### Code
 1. Create a `Fabricio::Client` object and configure it on initialization.
 
