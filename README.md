@@ -46,19 +46,44 @@ Or install it yourself as:
 ### CLI
 #### Commands
 ```
-  fabricio app all                       # Obtain all app
-  fabricio app get                       # Obtain single app
-  fabricio app active_now                # Obtain active now count
-  fabricio app single_issue              # Obtain single issue
-  fabricio app issue_session             # Obtain single issue session
-  fabricio app latest_session            # Obtain latest issue session
-  fabricio build get                     # Obtain single build
-  fabricio build all                     # Obtain all builds
-  fabricio version all                   # Obtain all versions
-  fabricio version top                   # Obtain top versions
-  fabricio organization get              # Obtain organization
-  fabricio credential                    # Setup credential
-  fabricio help [COMMAND]                # Describe available commands or one specific command
+  # Obtain all app
+  fabricio app all
+
+  # Obtain single app
+  fabricio app get --app_id 'app_id'
+
+  # Obtain active now count
+  fabricio app active_now --org_id 'org_id' --app_id 'app_id'
+
+  # Obtain single issue
+  fabricio app single_issue --app_id 'app_id' 'issue_id'
+
+  # Obtain single issue session
+  fabricio app issue_session  --app_id 'app_id' 'issue_id' 'session_id'
+
+  # Obtain latest issue session
+  fabricio app latest_session --app_id 'app_id'
+
+  # Obtain all builds
+  fabricio build all --org_id 'org_id' --app_id 'app_id'
+
+  # Obtain single build
+  fabricio build get --org_id 'org_id' --app_id 'app_id' 'version' 'build_number'
+
+  # Obtain all versions
+  fabricio version all --app_id 'app_id'
+
+  # Obtain top versions               
+  fabricio version top --org_id 'org_id' --app_id 'app_id' --start 'timestamp' --end 'timestamp'
+
+  # Obtain organization                  
+  fabricio organization all
+
+  # Setup credential                                                      
+  fabricio credential
+
+  # Describe available commands or one specific command                                                       
+  fabricio help [COMMAND]                                                          
 ```
 #### Example
 ```bash
@@ -69,10 +94,15 @@ email:  test@test.com
 Now we want your password. Do not be afraid, it is stored locally
 password:
 Successful login to TestOrganization
-> fabricio organization get
-{"id"=>"424423ac76fa54934e00a09b", "alias"=>"test", "name"=>"Test", "api_key"=>"19ac3e6195b1900ada120c1e0c1230a818626d55", "enrollments"=>{"answers_enhanced_feature_set_enabled_for_new_apps"=>"false", "answers_ip_address_tracking_enabled_for_new_apps"=>"true", "beta_distribution"=>"true"}, "accounts_count"=>100, "mopub_id"=>"11142", "sdk_organization"=>true, "apps_counts"=>{"ios"=>9}, "build_secret"=>"fdda1e597843e25731848bb46eec2cc893ea86847e22d5f44567ecd48ff4e32"}
+> fabricio organization all
+[{"id"=>"424423ac76fa54934e00a09b", "alias"=>"test", "name"=>"Test", "api_key"=>"19ac3e6195b1900ada120c1e0c1230a818626d55", "enrollments"=>{"answers_enhanced_feature_set_enabled_for_new_apps"=>"false", "answers_ip_address_tracking_enabled_for_new_apps"=>"true", "beta_distribution"=>"true"}, "accounts_count"=>100, "mopub_id"=>"11142", "sdk_organization"=>true, "apps_counts"=>{"ios"=>9}, "build_secret"=>"fdda1e597843e25731848bb46eec2cc893ea86847e22d5f44567ecd48ff4e32"}]
 > fabricio app all
 ...
+```
+#### Default values
+If your account have only one organization/app then it will be used by default and it is not necessary to set.
+```
+fabricio build all
 ```
 
 ### Code
@@ -93,7 +123,7 @@ Successful login to TestOrganization
   client.app.all # Returns all applications on your account
   client.app.get('app_id') # Returns information about specific application
   client.app.crashfree('app_id', '1478736000', '1481328000' 'all') # Returns application crashfree for a given period of time
-  client.organization.get # Returns information about your organization
+  client.organization.all # Returns information about your organizations
   ```
 
 3. If you want to check the exact server output for a model, you can call `json` method on it:
@@ -108,9 +138,9 @@ Successful login to TestOrganization
 
 ### Organization
 
-#### `client.organization.get`
+#### `client.organization.all`
 
-Obtains information about your organization.
+Obtains information about your organizations.
 
 ### App
 
@@ -122,11 +152,11 @@ Obtains the list of all apps.
 
 Obtains a specific app.
 
-#### `client.app.active_now('app_id')`
+#### `client.app.active_now('organization_id', 'app_id')`
 
 Obtains the count of active users at the current moment.
 
-#### `client.app.daily_new('app_id', 'start_timestamp', 'end_timestamp')`
+#### `client.app.daily_new('organization_id', 'app_id', 'start_timestamp', 'end_timestamp')`
 
 Obtains the count of daily new users.
 
@@ -134,7 +164,7 @@ Obtains the count of daily new users.
 
 Obtains the count of daily active users.
 
-#### `client.app.total_sessions('app_id', 'start_timestamp', 'end_timestamp', 'build')`
+#### `client.app.total_sessions('organization_id', 'app_id', 'start_timestamp', 'end_timestamp', 'build')`
 
 Obtains the count of sessions.
 
@@ -170,11 +200,11 @@ Obtains application out-of-memory free for a number of builds.
 
 ### Build
 
-#### `client.build.all('app_id')`
+#### `client.build.all('organization_id', 'app_id')`
 
 Obtains the list of all application builds.
 
-#### `client.build.get('app_id', 'version', 'build_number')`
+#### `client.build.get('organization_id', 'app_id', 'version', 'build_number')`
 
 Obtains a specific build for a specific application.
 
@@ -184,7 +214,7 @@ Obtains a specific build for a specific application.
 
 Obtains an array of all versions for a given application.
 
-#### `client.version.top('app_id', 'start_timestamp', 'end_timestamp')`
+#### `client.version.top('organization_id', 'app_id', 'start_timestamp', 'end_timestamp')`
 
 Obtains an array of top versions for a given application.
 

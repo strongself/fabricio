@@ -8,10 +8,11 @@ module Fabricio
   class Build < Thor
 
     desc "all", "Obtain all builds"
+    option :org_id, :type => :string
     option :app_id, :type => :string
     option :short, :type => :boolean
     def all
-      builds = client.build.all(options[:app_id])
+      builds = client.build.all(options[:org_id], options[:app_id])
       if options[:short]
         say(builds.map {|build| build.pretty_print}.join("\n\n"))
       else
@@ -20,12 +21,13 @@ module Fabricio
     end
 
     desc "get", "Obtain single build"
+    option :org_id, :type => :string
     option :app_id, :type => :string
     option :version => :required, :type => :string
     option :build_number => :required, :type => :string
     option :short, :type => :boolean
     def get(version, build_number)
-      build = client.build.get(options[:app_id], version, build_number)
+      build = client.build.get(options[:org_id], options[:app_id], version, build_number)
       if options[:short]
         say(build.pretty_print)
       else

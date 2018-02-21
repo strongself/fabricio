@@ -31,10 +31,10 @@ module Fabricio
     end
 
     desc "active_now", "Obtain active now count"
-    option :organization_id, :type => :string
+    option :org_id, :type => :string
     option :app_id, :type => :string
     def active_now
-        say(client.app.active_now(options[:organization_id], options[:app_id]))
+        say(client.app.active_now(options[:org_id], options[:app_id]))
     end
 
     desc "issue", "Obtain issue by external_id"

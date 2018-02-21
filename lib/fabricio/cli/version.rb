@@ -14,16 +14,17 @@ module Fabricio
     end
 
     desc "top", "Obtain top versions"
+    option :org_id, :type => :string
     option :app_id, :type => :string
-    option :start_time, :type => :string
-    option :end_time, :type => :string
+    option :start, :type => :string
+    option :end, :type => :string
     option :short, :type => :boolean
     def top
       result = nil
-      if options[:start_time] && options[:end_time]
-        result = client.version.top(options[:app_id], options[:start_time], options[:end_time])
+      if options[:start] && options[:end]
+        result = client.version.top(options[:org_id], options[:app_id], options[:start], options[:end])
       else
-        result = client.version.top(options[:app_id])
+        result = client.version.top(options[:org_id])
       end
       if options[:short]
         say("#{result.pretty_print}")
