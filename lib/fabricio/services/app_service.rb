@@ -38,7 +38,6 @@ module Fabricio
         request_model = @request_model_factory.get_app_request_model(app_id)
         response = @network_client.perform_request(request_model)
         json = JSON.parse(response.body)
-        # TODO Handle error
         Fabricio::Model::App.new(json)
       end
 
@@ -63,9 +62,7 @@ module Fabricio
       def daily_new(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp)
         request_model = @request_model_factory.daily_new_request_model(organization_id, app_id, start_time, end_time)
         response = @network_client.perform_request(request_model)
-        JSON.parse(response.body)['series'].map do |array|
-          Fabricio::Model::Point.new(array)
-        end
+        parse_point_response(response)
       end
 
       # Obtains the count of daily active users
@@ -79,9 +76,7 @@ module Fabricio
       def daily_active(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
         request_model = @request_model_factory.daily_active_request_model(organization_id, app_id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
-        JSON.parse(response.body)['series'].map do |array|
-          Fabricio::Model::Point.new(array)
-        end
+        parse_point_response(response)
       end
 
       # Obtains the count of weekly active users
@@ -95,9 +90,7 @@ module Fabricio
       def weekly_active(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
         request_model = @request_model_factory.weekly_active_request_model(organization_id, app_id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
-        JSON.parse(response.body)['series'].map do |array|
-          Fabricio::Model::Point.new(array)
-        end
+        parse_point_response(response)
       end
 
       # Obtains the count of monhtly active users
@@ -111,9 +104,7 @@ module Fabricio
       def monthly_active(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
         request_model = @request_model_factory.monthly_active_request_model(organization_id, app_id, start_time, end_time, build)
         response = @network_client.perform_request(request_model)
-        JSON.parse(response.body)['series'].map do |array|
-          Fabricio::Model::Point.new(array)
-        end
+        parse_point_response(response)
       end
 
       # Obtains the count of sessions
@@ -241,6 +232,12 @@ module Fabricio
 
       def today_timestamp
         Time.now.to_i
+      end
+
+      def parse_point_response(response)
+        JSON.parse(response.body)['series'].map do |array|
+          Fabricio::Model::Point.new(array)
+        end
       end
 
     end

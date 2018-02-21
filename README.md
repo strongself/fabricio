@@ -45,6 +45,7 @@ Or install it yourself as:
 
 ### CLI
 #### Commands
+##### App
 ```
   # Obtain all app
   fabricio app all
@@ -63,22 +64,30 @@ Or install it yourself as:
 
   # Obtain latest issue session
   fabricio app latest_session --app_id 'app_id'
-
+```
+##### Build
+```
   # Obtain all builds
   fabricio build all --org_id 'org_id' --app_id 'app_id'
 
   # Obtain single build
   fabricio build get --org_id 'org_id' --app_id 'app_id' 'version' 'build_number'
-
+```
+##### Version
+```
   # Obtain all versions
   fabricio version all --app_id 'app_id'
 
   # Obtain top versions               
   fabricio version top --org_id 'org_id' --app_id 'app_id' --start 'timestamp' --end 'timestamp'
-
+```
+##### Organization
+```
   # Obtain organization                  
   fabricio organization all
-
+```
+##### Other
+```
   # Setup credential                                                      
   fabricio credential
 

@@ -24,6 +24,7 @@ module Fabricio
 
     attr_accessor :client_id, :client_secret, :username, :password, :session_storage, :param_storage;
 
+    # Default initialize options
     def default_options
       {
           :client_id => DEFAULT_CLIENT_ID,
@@ -38,7 +39,7 @@ module Fabricio
 
     # Initializes a new Client object. You can use a block to fill all the options:
     # client = Fabricio::Client.new do |config|
-    #   config.username = 'email@rambler.ru'
+    #   config.username = 'email@email.ru'
     #   config.password = 'pa$$word'
     # end
     #
@@ -56,15 +57,12 @@ module Fabricio
     # @option options [Hash] Default params
     # @return [Fabricio::Client]
     def initialize(options = default_options)
-      options.each do |key, value|
-        instance_variable_set("@#{key}", value)
-      end
+      options.each { |key, value| instance_variable_set("@#{key}", value) }
       yield(self) if block_given?
 
       @auth_client = Fabricio::Authorization::AuthorizationClient.new
-      if obtain_session.nil?
-        raise StandardError.new("Session is empty: #{auth_data}")
-      end
+      raise StandardError.new("Session is empty: #{auth_data}") if obtain_session.nil?
+
       network_client = Fabricio::Networking::NetworkClient.new(@auth_client, @session_storage)
 
       @organization_service ||= Fabricio::Service::OrganizationService.new(param_storage, network_client)

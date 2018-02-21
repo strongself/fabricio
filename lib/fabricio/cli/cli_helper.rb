@@ -5,12 +5,12 @@ require 'fileutils'
 require 'yaml'
 
 def client
-  sessionStorage = Fabricio::Authorization::FileSessionStorage.new()
+  session_storage = Fabricio::Authorization::FileSessionStorage.new()
   param_storage = Fabricio::Authorization::FileParamStorage.new()
-  session = sessionStorage.obtain_session
+  session = session_storage.obtain_session
   if session
     return Fabricio::Client.new do |config|
-      config.session_storage = sessionStorage
+      config.session_storage = session_storage
       config.param_storage = param_storage
     end
   else
@@ -18,7 +18,7 @@ def client
     return Fabricio::Client.new do |config|
       config.username = credential.email
       config.password = credential.password
-      config.session_storage = sessionStorage
+      config.session_storage = session_storage
       config.param_storage = param_storage
     end
   end

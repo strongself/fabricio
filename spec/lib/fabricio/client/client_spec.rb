@@ -42,7 +42,7 @@ describe 'Client' do
     end
 
     expect {
-      client.rambler
+      client.some
     }.to raise_error(NoMethodError)
   end
 
