@@ -1,8 +1,8 @@
 [
   {
     "id": "network_org_id",
-    "alias": "ramblerco",
-    "name": "Rambler&Co",
+    "alias": "organization",
+    "name": "SomeOrganization",
     "api_key": "api_key",
     "enrollments": {
       "answers_enhanced_feature_set_enabled_for_new_apps": "true",

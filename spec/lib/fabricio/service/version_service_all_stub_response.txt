@@ -1,0 +1,11 @@
+[
+   {
+      "id":56169171,
+      "synthesized_version":"1.0 (1415056640)",
+      "major":"1.0",
+      "minor":"1415056640",
+      "collect_reports":true,
+      "status":"active",
+      "starred":true
+   }
+]

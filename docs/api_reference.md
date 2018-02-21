@@ -33,7 +33,7 @@ curl -X POST "https://fabric.io/oauth/token" \
 ```
 {
   "type": "string",
-  "default": "{\"grant_type\":\"password\",\"scope\":\"organizations apps issues features account twitter_client_apps beta software answers\",\"username\":\"email@rambler.ru\",\"password\":\"pa$$word\",\"client_id\":\"your_client_id\",\"client_secret\":\"your_client_secret\"}"
+  "default": "{\"grant_type\":\"password\",\"scope\":\"organizations apps issues features account twitter_client_apps beta software answers\",\"username\":\"email@email.ru\",\"password\":\"pa$$word\",\"client_id\":\"your_client_id\",\"client_secret\":\"your_client_secret\"}"
 }
 ```
 

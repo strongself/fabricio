@@ -9,11 +9,12 @@ module Fabricio
 
     desc "get", "Get organization"
     option :short, :type => :boolean
-    def get
+    def all
+      organizations = client.organization.all
       if options[:short]
-        say(client.organization.get.pretty_print)
+        say(organizations.map {|organization| organization.pretty_print}.join("\n\n"))
       else
-        say("#{client.organization.get.to_s}")
+        say(organizations.map { |organization| organization.json }.to_json)
       end
     end
 

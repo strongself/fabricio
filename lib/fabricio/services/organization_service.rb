@@ -9,23 +9,23 @@ module Fabricio
 
       # Initializes a new OrganizationService object.
       #
-      # @param session [Fabricio::Authorization::Session]
+      # @param param_storage [Fabricio::Authorization::AbstractParamStorage]
       # @param network_client [Fabricio::Networking::NetworkClient]
       # @return [Fabricio::Service::OrganizationService]
-      def initialize(session, network_client)
-        @session = session
-
-        @request_model_factory = Fabricio::Networking::OrganizationRequestModelFactory.new
+      def initialize(param_storage, network_client)
+        @request_model_factory = Fabricio::Networking::OrganizationRequestModelFactory.new(param_storage)
         @network_client = network_client
       end
 
-      # Obtains current organization information
+      # Obtains all organizations
       #
       # @return [Fabricio::Model::Organization]
-      def get
-        request_model = @request_model_factory.get_organization_request_model
+      def all
+        request_model = @request_model_factory.all_organization_request_model
         response = @network_client.perform_request(request_model)
-        Fabricio::Model::Organization.new(JSON.parse(response.body)[0])
+        JSON.parse(response.body).map do |organization_json|
+          Fabricio::Model::Organization.new(organization_json)
+        end
       end
     end
   end

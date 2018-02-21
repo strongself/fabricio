@@ -1,7 +1,7 @@
 {
     "id": "id_1",
-    "name": "LiveJournal",
-    "bundle_identifier": "ru.ramblerco.livejournal",
+    "name": "Some",
+    "bundle_identifier": "ru.organization.app",
     "base_identifier": null,
     "collect_analytics": true,
     "created_at": "2016-03-25T14:26:35Z",
@@ -20,7 +20,7 @@
     "organization_id": "org_id",
     "watched": null,
     "importance_level": null,
-    "dashboard_url": "https://www.fabric.io/ramblerco/ios/apps/ru.ramblerco.livejournal",
+    "dashboard_url": "https://www.fabric.io/organization/ios/apps/ru.organization.app",
     "impacted_devices_count": 0,
     "unresolved_issues_count": 0,
     "crashes_count": 0

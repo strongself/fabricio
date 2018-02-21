@@ -37,25 +37,7 @@ module Fabricio
           result = perform_post_request(connection, model)
         end
 
-        # If there is an authorization error and we aren't already trying to refresh it, we make a refresh session call and retry the initial network request.
-        is_authorization_error = result.success? == false && [401, 402].include?(result.status)
-        if is_authorization_error && @is_refreshing_session == false
-          refreshed_session = @authorization_client.refresh(session)
-          @session_storage.store_session(refreshed_session)
-
-          @is_refreshing_session = true
-          return perform_request(model)
-        end
-
-        # If authorization returns 401 and refresh session operation failed we throw exception
-        if is_authorization_error && @is_refreshing_session == true
-          raise StandardError.new('Can`t refresh session. Try once again later or repeat authorization manually')
-        end
-
-        if is_authorization_error == false
-          @is_refreshing_session = false
-        end
-        result
+        check_authorization(model, result)
       end
 
       private
@@ -96,6 +78,41 @@ module Fabricio
         end
       end
 
+      # Perform retry if network response not authorizate
+      #
+      # @param model [Fabricio::Networking::RequestModel]
+      # @param result [Fabricio::Networking::ResponseModel]
+      # @return [String]
+      def check_authorization(model, result)
+        # If there is an authorization error and we aren't already trying to refresh it, we make a refresh session call and retry the initial network request.
+        is_authorization_error = is_authorization_error(result)
+        if is_authorization_error && @is_refreshing_session == false
+          session = @session_storage.obtain_session
+          refreshed_session = @authorization_client.refresh(session)
+          @session_storage.store_session(refreshed_session)
+
+          @is_refreshing_session = true
+          return perform_request(model)
+        end
+
+        # If authorization returns 401 and refresh session operation failed we throw exception
+        if is_authorization_error && @is_refreshing_session == true
+          raise StandardError.new('Can`t refresh session. Try once again later or repeat authorization manually')
+        end
+
+        if is_authorization_error == false
+          @is_refreshing_session = false
+        end
+        result
+      end
+
+      # Check network response on success authorization
+      #
+      # @param result [Fabricio::Networking::ResponseModel]
+      # @return [Bool]
+      def is_authorization_error(result)
+        result.success? == false && [401, 402].include?(result.status)
+      end
     end
   end
 end
