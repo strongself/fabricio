@@ -20,16 +20,22 @@ module Fabricio
 
       protected
 
+      def validate_options(options)
+        options.each do |key, value|
+          begin
+            raise NotProvidedParam if value.nil?
+          rescue
+            raise $!, "Not provided #{key} in options: #{options}"
+          end
+        end
+      end
+
       def stored_organization_id
-        organization_id = @param_storage.organization_id
-        raise NotProvidedParam, "Not provided organization_id" if organization_id.nil?
-        organization_id
+        @param_storage.organization_id
       end
 
       def stored_app_id
-        app_id = @param_storage.app_id
-        raise NotProvidedParam, "Not provided app_id" if app_id.nil?
-        app_id
+        @param_storage.app_id
       end
 
       # Returns an API path to app endpoint
@@ -37,7 +43,6 @@ module Fabricio
       # @param app_id [String]
       # @return [String]
       def app_endpoint(app_id)
-        app_id ||= stored_app_id
         "#{FABRIC_APPS_ENDPOINT}/#{app_id}"
       end
 
@@ -46,7 +51,6 @@ module Fabricio
       # @param organization_id [String]
       # @return [String]
       def org_endpoint(organization_id)
-        organization_id ||= stored_organization_id
         "#{FABRIC_ORGANIZATIONS_ENDPOINT}/#{organization_id}"
       end
 
@@ -57,6 +61,27 @@ module Fabricio
       # @return [String]
       def org_app_endpoint(organization_id, app_id)
         "#{org_endpoint(organization_id)}#{app_endpoint(app_id)}"
+      end
+
+      # Return week ago timestamp
+      #
+      # @return [Int]
+      def week_ago_timestamp
+        (Time.now - 60 * 60 * 24 * 7).to_i
+      end
+
+      # Return day ago timestamp
+      #
+      # @return [Int]
+      def day_ago_timestamp
+        (Time.now - 60 * 60 * 24).to_i
+      end
+
+      # Return now timestamp
+      #
+      # @return [Int]
+      def today_timestamp
+        Time.now.to_i
       end
 
     end

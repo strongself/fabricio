@@ -12,7 +12,6 @@ module Fabricio
       :createdAt,
       :type,
       :state,
-      :latestSessionId,
       :occurrenceCount,
       :impactedDevices
 
@@ -29,9 +28,8 @@ module Fabricio
         @createdAt = attributes['createdAt']
         @type = attributes['type']
         @state = attributes['state']
-        @latestSessionId = attributes['latestSessionId']
-        @occurrenceCount = attributes['occurrenceCount']
-        @impactedDevices = attributes['impactedDevices']
+        @occurrenceCount = attributes['_occurrenceCount2I980d"']
+        @impactedDevices = attributes['_impactedDevices2oATOx']
         @json = attributes
       end
     end

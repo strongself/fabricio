@@ -31,7 +31,7 @@ describe 'BuildService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/build_service_get_build_stub_response.txt')
     stub_request(:get, /releases/).to_return(:body => response_file, :status => 200)
 
-    result = @service.get('1', '1')
+    result = @service.get(version: '1', build_number: '1')
     expect(result).not_to be_nil
   end
 

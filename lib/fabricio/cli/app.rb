@@ -22,7 +22,8 @@ module Fabricio
     option :app_id, :type => :string
     option :short, :type => :boolean
     def get
-      app = client.app.get(options[:app_id])
+      hash = prepared_options(options)
+      app = client.app.get(hash)
       if options[:short]
         say(app.pretty_print)
       else
@@ -31,18 +32,20 @@ module Fabricio
     end
 
     desc "active_now", "Obtain active now count"
-    option :org_id, :type => :string
+    option :organization_id, :type => :string
     option :app_id, :type => :string
     def active_now
-        say(client.app.active_now(options[:org_id], options[:app_id]))
+      hash = prepared_options(options)
+      say(client.app.active_now(hash))
     end
 
-    desc "issue", "Obtain issue by external_id"
+    desc "issue", "Obtain issue by issue_id"
     option :app_id, :type => :string
-    option :external_id => :required, :type => :string
+    option :issue_id, :type => :string
     option :short, :type => :boolean
-    def issue(external_id)
-      issue = client.app.single_issue(external_id, options[:app_id])
+    def issue
+      hash = prepared_options(options)
+      issue = client.app.single_issue(hash)
       if options[:short]
         say(issue.pretty_print)
       else
@@ -52,11 +55,12 @@ module Fabricio
 
     desc "session", "Obtain session"
     option :app_id, :type => :string
-    option :external_id => :required, :type => :string
-    option :session_id => :required, :type => :string
+    option :issue_id, :type => :string
+    option :session_id, :type => :string
     option :short, :type => :boolean
-    def session(external_id, session_id)
-      session = client.app.issue_session(external_id, session_id, options[:app_id])
+    def session
+      hash = prepared_options(options)
+      session = client.app.issue_session(hash)
       if options[:short]
         say(session.pretty_print)
       else
@@ -66,10 +70,11 @@ module Fabricio
 
     desc "latest_session", "Obtain latest issue session"
     option :app_id, :type => :string
-    option :external_id => :required, :type => :string
+    option :issue_id, :type => :string
     option :short, :type => :boolean
-    def latest_session(external_id)
-      session = client.app.issue_session(options[:app_id], external_id)
+    def latest_session
+      hash = prepared_options(options)
+      session = client.app.issue_session(hash)
       if options[:short]
         say(session.pretty_print)
       else

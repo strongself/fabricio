@@ -8,11 +8,12 @@ describe 'VersionRequestModelFactory' do
   before(:each) do
     param_storage = Fabricio::Authorization::MemoryParamStorage.new
     param_storage.store_organization_id('1')
+    param_storage.store_app_id('1')
     @factory = Fabricio::Networking::VersionRequestModelFactory.new(param_storage)
   end
 
   it 'should form all version request model' do
-    result = @factory.all_versions_request_model('1', 1, 1)
+    result = @factory.all_versions_request_model
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
@@ -21,7 +22,7 @@ describe 'VersionRequestModelFactory' do
   end
 
   it 'should form top versions request model' do
-    result = @factory.top_versions_request_model(nil, '1', '1', '1')
+    result = @factory.top_versions_request_model
 
     expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil

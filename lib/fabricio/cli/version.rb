@@ -10,26 +10,23 @@ module Fabricio
     desc "all", "Obtain all versions"
     option :app_id, :type => :string
     def all
-      say("#{client.version.all(options[:app_id]).to_json}")
+      hash = prepared_options(options)
+      say("#{client.version.all(hash).to_json}")
     end
 
     desc "top", "Obtain top versions"
     option :org_id, :type => :string
     option :app_id, :type => :string
-    option :start, :type => :string
-    option :end, :type => :string
+    option :start_time, :type => :string
+    option :end_time, :type => :string
     option :short, :type => :boolean
     def top
-      result = nil
-      if options[:start] && options[:end]
-        result = client.version.top(options[:org_id], options[:app_id], options[:start], options[:end])
-      else
-        result = client.version.top(options[:org_id])
-      end
+      hash = prepared_options(options)
+      versions = client.version.top(hash)
       if options[:short]
-        say("#{result.pretty_print}")
+        say("#{versions.pretty_print}")
       else
-        say("#{result}")
+        say("#{versions}")
       end
     end
 

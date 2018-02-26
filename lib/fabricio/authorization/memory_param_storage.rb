@@ -9,7 +9,7 @@ module Fabricio
       #
       # @return [Fabricio::Authorization::ParamStorage]
       def initialize
-        @params = nil
+        @params = {}
       end
 
       # Returns all stored variable
@@ -28,7 +28,7 @@ module Fabricio
 
       # Resets current state and deletes all saved params
       def reset
-        @params = nil
+        @params = {}
       end
 
       def organization_id

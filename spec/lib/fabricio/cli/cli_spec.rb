@@ -60,7 +60,7 @@ describe 'Cli' do
     it 'should fetch single issue' do
       response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_single_issue_stub_response.txt')
       stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
-      output = Helpers::CliExecutor.json_capture(:stdout) { cli.app 'issue', '1' }
+      output = Helpers::CliExecutor.json_capture(:stdout) { cli.app 'issue', '--issue_id', '123' }
       expect(output).not_to be_nil
       expect(output['title']).to eq('Performer.swift line 0')
     end
@@ -68,7 +68,7 @@ describe 'Cli' do
     it 'should fetch issue session' do
       response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_issue_session_stub_response.txt')
       stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
-      output = Helpers::CliExecutor.json_capture(:stdout) { cli.app 'session', '1', '1' }
+      output = Helpers::CliExecutor.json_capture(:stdout) { cli.app 'session', '--issue_id', '1', '--session_id', '1' }
       expect(output).not_to be_nil
       expect(output['externalId']).to eq('4dd95e43581247eebaaccffc21965931_DNE_0_v2')
     end
@@ -76,7 +76,7 @@ describe 'Cli' do
     it 'should fetch latest issue session' do
       response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_issue_session_stub_response.txt')
       stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
-      output = Helpers::CliExecutor.json_capture(:stdout) { cli.app 'latest_session', '1' }
+      output = Helpers::CliExecutor.json_capture(:stdout) { cli.app 'latest_session', '--issue_id', '1' }
       expect(output).not_to be_nil
       expect(output['externalId']).to eq('4dd95e43581247eebaaccffc21965931_DNE_0_v2')
     end
@@ -97,7 +97,7 @@ describe 'Cli' do
     it 'should get build' do
       response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/build_service_get_build_stub_response.txt')
       stub_request(:get, /releases/).to_return(:body => response_file, :status => 200)
-      output = Helpers::CliExecutor.json_capture(:stdout) { cli.build 'get', '1', '1' }
+      output = Helpers::CliExecutor.json_capture(:stdout) { cli.build 'get', '--version', '1', '--build_number', '1' }
       expect(output).not_to be_nil
       expect(output['id']).to eq('app_id')
     end

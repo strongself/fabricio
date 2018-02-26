@@ -22,8 +22,8 @@ module Fabricio
       # @param page [Int]
       # @param per_page [Int]
       # @return [Array<String>]
-      def all(app_id = nil, page = 1, per_page = 100)
-        request_model = @request_model_factory.all_versions_request_model(app_id, page, per_page)
+      def all(options = {})
+        request_model = @request_model_factory.all_versions_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)
       end
@@ -35,22 +35,11 @@ module Fabricio
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @return [Array<String>]
-      def top(organization_id = nil, app_id = nil, start_time = day_ago_timestamp, end_time = current_timestamp)
-        request_model = @request_model_factory.top_versions_request_model(organization_id, app_id, start_time, end_time)
+      def top(options = {})
+        request_model = @request_model_factory.top_versions_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['builds']
       end
-
-      private
-
-      def day_ago_timestamp
-        (Time.now - 60 * 60 * 24).to_i
-      end
-
-      def current_timestamp
-        Time.now.to_i
-      end
-
     end
   end
 end

@@ -22,8 +22,8 @@ module Fabricio
       # @param organization_id [String] Organization identifier
       # @param app_id [String] Application identifier
       # @return [Array<Fabricio::Model::Build>]
-      def all(organization_id = nil, app_id = nil)
-        request_model = @request_model_factory.all_builds_request_model(organization_id, app_id)
+      def all(options = {})
+        request_model = @request_model_factory.all_builds_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['instances'].map do |hash|
           Fabricio::Model::Build.new(hash)
@@ -37,8 +37,8 @@ module Fabricio
       # @param version [String] Build version. E.g. '4.0.1'.
       # @param build_number [String] Build number. E.g. '39'.
       # @return [Fabricio::Model::Build]
-      def get(organization_id = nil, app_id = nil, version, build_number)
-        request_model = @request_model_factory.get_build_request_model(organization_id, app_id, version, build_number)
+      def get(options = {})
+        request_model = @request_model_factory.get_build_request_model(options)
         response = @network_client.perform_request(request_model)
         Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
       end
