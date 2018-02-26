@@ -33,9 +33,10 @@ module Fabricio
 
       # Obtains a specific app
       #
+      # @param app_id [String] Application identifier
       # @return [Fabricio::Model::App]
-      def get(app_id = nil)
-        request_model = @request_model_factory.get_app_request_model(app_id)
+      def get(options = {})
+        request_model = @request_model_factory.get_app_request_model(options)
         response = @network_client.perform_request(request_model)
         json = JSON.parse(response.body)
         Fabricio::Model::App.new(json)
@@ -46,8 +47,8 @@ module Fabricio
       # @param organization_id [String] Organization identifier
       # @param app_id [String] Application identifier
       # @return [Integer]
-      def active_now(organization_id = nil, app_id = nil)
-        request_model = @request_model_factory.active_now_request_model(organization_id, app_id)
+      def active_now(options = {})
+        request_model = @request_model_factory.active_now_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['cardinality']
       end
@@ -59,8 +60,8 @@ module Fabricio
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @return [Array<Fabricio::Model::Point>]
-      def daily_new(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp)
-        request_model = @request_model_factory.daily_new_request_model(organization_id, app_id, start_time, end_time)
+      def daily_new(options = {})
+        request_model = @request_model_factory.daily_new_request_model(options)
         response = @network_client.perform_request(request_model)
         parse_point_response(response)
       end
@@ -73,8 +74,8 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Array<Fabricio::Model::Point>]
-      def daily_active(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
-        request_model = @request_model_factory.daily_active_request_model(organization_id, app_id, start_time, end_time, build)
+      def daily_active(options = {})
+        request_model = @request_model_factory.daily_active_request_model(options)
         response = @network_client.perform_request(request_model)
         parse_point_response(response)
       end
@@ -87,8 +88,8 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Array<Fabricio::Model::Point>]
-      def weekly_active(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
-        request_model = @request_model_factory.weekly_active_request_model(organization_id, app_id, start_time, end_time, build)
+      def weekly_active(options = {})
+        request_model = @request_model_factory.weekly_active_request_model(options)
         response = @network_client.perform_request(request_model)
         parse_point_response(response)
       end
@@ -101,8 +102,8 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Array<Fabricio::Model::Point>]
-      def monthly_active(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
-        request_model = @request_model_factory.monthly_active_request_model(organization_id, app_id, start_time, end_time, build)
+      def monthly_active(options = {})
+        request_model = @request_model_factory.monthly_active_request_model(options)
         response = @network_client.perform_request(request_model)
         parse_point_response(response)
       end
@@ -115,8 +116,8 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @return [Integer]
-      def total_sessions(organization_id = nil, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
-        request_model = @request_model_factory.total_sessions_request_model(organization_id, app_id, start_time, end_time, build)
+      def total_sessions(options = {})
+        request_model = @request_model_factory.total_sessions_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['sessions']
       end
@@ -127,9 +128,10 @@ module Fabricio
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param builds [Array<String>] The versions of the app. E.g. ['4.0.1 (38)', '4.0.2 (45)']
+      # @param type [String] Issue type: all, crash or error
       # @return [Integer]
-      def crashes(app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, builds)
-        request_model = @request_model_factory.crash_count_request_model(app_id, start_time, end_time, builds)
+      def crashes(options = {})
+        request_model = @request_model_factory.crash_count_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['data']['project']['crashlytics']['scalars']['crashes']
       end
@@ -142,10 +144,14 @@ module Fabricio
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param type [String] Issue type: all, crash or error
       # @return [Float]
-      def crashfree(app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, build)
-        sessions = total_sessions(app_id, start_time, end_time, build)
-        crashes = crashes(app_id, start_time, end_time, [build])
+      def crashfree(options = {})
+        sessions = total_sessions(options)
+        unless options[:build].nil?
+          options[:builds] = [options[:build]]
+        end
+        crashes = crashes(options)
         1 - crashes.to_f / sessions
       end
 
@@ -156,9 +162,11 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @param build [String] The version of the build. E.g. '4.0.1 (38)'
       # @param count [Int] Number of issue
+      # @param type [String] Issue type: all, crash or error
+      # @param state [String] Issue state: all, open or closed
       # @return [Array<Fabricio::Model::Issue>]
-      def top_issues(app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, builds, count)
-        request_model = @request_model_factory.top_issues_request_model(app_id, start_time, end_time, builds, count)
+      def top_issues(options = {})
+        request_model = @request_model_factory.top_issues_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['data']['project']['crashlytics']['_issues4Eg1Tv']['edges'].map do |edge|
           Fabricio::Model::Issue.new(edge['node'])
@@ -167,25 +175,25 @@ module Fabricio
 
       # Obtains single issue
       #
-      # @param issue_external_id [String] Issue external identifier
+      # @param issue_id [String] Issue identifier
       # @param app_id [String] Application identifier
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @return [Fabricio::Model::Issue]
-      def single_issue(issue_external_id, app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp)
-        request_model = @request_model_factory.single_issue_request_model(app_id, issue_external_id, start_time, end_time)
+      def single_issue(options = {})
+        request_model = @request_model_factory.single_issue_request_model(options)
         response = @network_client.perform_request(request_model)
         Fabricio::Model::Issue.new(JSON.parse(response.body)['data']['project']['crashlytics']['_issueeUsmi'])
       end
 
       # Obtains issue session
       #
-      # @param issue_external_id [String] Issue external identifier
+      # @param issue_id [String] Issue identifier
       # @param app_id [String] Application identifier
       # @param session_id [String] Session identifier
       # @return [Fabricio::Model::Issue]
-      def issue_session(issue_external_id, session_id = 'latest', app_id = nil)
-        request_model = @request_model_factory.issue_session_request_model(app_id, issue_external_id, session_id)
+      def issue_session(options = {})
+        request_model = @request_model_factory.issue_session_request_model(options)
         response = @network_client.perform_request(request_model)
         json = JSON.parse(response.body)
         Fabricio::Model::IssueSession.new(json['data']['project']['crashlytics']['_session2RIRzK'])
@@ -194,11 +202,11 @@ module Fabricio
       # Add comment to issue
       #
       # @param app_id [String] Application identifier
-      # @param issue_external_id [String] Issue external identifier
+      # @param issue_id [String] Issue identifier
       # @param message [String] Comment message
       # @return [JSON]
-      def add_comment(app_id = nil, issue_external_id, message)
-        request_model = @request_model_factory.add_comment_request_model(app_id, issue_external_id, message)
+      def add_comment(options = {})
+        request_model = @request_model_factory.add_comment_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)
       end
@@ -210,12 +218,14 @@ module Fabricio
       # @param end_time [String] Timestamp of the end date
       # @param builds [Array<String>] The versions of the app. E.g. ['4.0.1 (38)', '4.0.2 (45)']
       # @return [Float]
-      def oomfree(app_id = nil, start_time = week_ago_timestamp, end_time = today_timestamp, builds)
-        start_date = Time.at(start_time.to_i).to_datetime
-        end_date = Time.at(end_time.to_i).to_datetime
-        days = (end_date - start_date).to_i + 1
-
-        request_model = @request_model_factory.oom_count_request_model(app_id, days, builds)
+      def oomfree(options = {})
+        unless options[:start_time].nil? && options[:end_time].nil?
+          start_date = Time.at(start_time.to_i).to_datetime
+          end_date = Time.at(end_time.to_i).to_datetime
+          days = (end_date - start_date).to_i + 1
+          options[:days] = days
+        end
+        request_model = @request_model_factory.oom_count_request_model(options)
         response = @network_client.perform_request(request_model)
 
         result = JSON.parse(response.body)
@@ -225,14 +235,6 @@ module Fabricio
       end
 
       private
-
-      def week_ago_timestamp
-        (Time.now - 60 * 60 * 24 * 7).to_i
-      end
-
-      def today_timestamp
-        Time.now.to_i
-      end
 
       def parse_point_response(response)
         JSON.parse(response.body)['series'].map do |array|

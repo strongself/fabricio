@@ -32,3 +32,8 @@ def ask_credential
   say("")
   Fabricio::Model::Credential.new(email, password)
 end
+
+def prepared_options(options)
+  options = {} if options == nil
+  options.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
+end

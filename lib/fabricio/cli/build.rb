@@ -12,7 +12,8 @@ module Fabricio
     option :app_id, :type => :string
     option :short, :type => :boolean
     def all
-      builds = client.build.all(options[:org_id], options[:app_id])
+      hash = prepared_options(options)
+      builds = client.build.all(hash)
       if options[:short]
         say(builds.map {|build| build.pretty_print}.join("\n\n"))
       else
@@ -23,11 +24,12 @@ module Fabricio
     desc "get", "Obtain single build"
     option :org_id, :type => :string
     option :app_id, :type => :string
-    option :version => :required, :type => :string
-    option :build_number => :required, :type => :string
+    option :version, :type => :string
+    option :build_number, :type => :string
     option :short, :type => :boolean
-    def get(version, build_number)
-      build = client.build.get(options[:org_id], options[:app_id], version, build_number)
+    def get
+      hash = prepared_options(options)
+      build = client.build.get(hash)
       if options[:short]
         say(build.pretty_print)
       else

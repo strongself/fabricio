@@ -32,7 +32,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_get_stub_response.txt')
     stub_request(:get, /apps/).to_return(:body => response_file, :status => 200)
 
-    result = @service.get
+    result = @service.get({})
     expect(result).not_to be_nil
   end
 
@@ -40,7 +40,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_active_now_stub_response.txt')
     stub_request(:get, /active_now/).to_return(:body => response_file, :status => 200)
 
-    result = @service.active_now
+    result = @service.active_now({})
     expect(result).not_to be_nil
   end
 
@@ -48,7 +48,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_daily_new_stub_response.txt')
     stub_request(:get, /daily_new/).to_return(:body => response_file, :status => 200)
 
-    result = @service.daily_new
+    result = @service.daily_new({})
     expect(result).not_to be_nil
   end
 
@@ -56,7 +56,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_daily_active_stub_response.txt')
     stub_request(:get, /daily_active/).to_return(:body => response_file, :status => 200)
 
-    result = @service.daily_active('1')
+    result = @service.daily_active(build: '1')
     expect(result).not_to be_nil
   end
 
@@ -64,7 +64,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_daily_active_stub_response.txt')
     stub_request(:get, /weekly_active/).to_return(:body => response_file, :status => 200)
 
-    result = @service.weekly_active('1')
+    result = @service.weekly_active(build: '1')
     expect(result).not_to be_nil
   end
 
@@ -72,7 +72,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_daily_active_stub_response.txt')
     stub_request(:get, /monthly_active/).to_return(:body => response_file, :status => 200)
 
-    result = @service.monthly_active('1')
+    result = @service.monthly_active(build: '1')
     expect(result).not_to be_nil
   end
 
@@ -80,7 +80,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_total_sessions_stub_response.txt')
     stub_request(:get, /total_sessions/).to_return(:body => response_file, :status => 200)
 
-    result = @service.total_sessions('1')
+    result = @service.total_sessions(build: '1')
     expect(result).not_to be_nil
   end
 
@@ -88,7 +88,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_crashes_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
-    result = @service.crashes(['1'])
+    result = @service.crashes({})
     expect(result).not_to be_nil
   end
 
@@ -98,7 +98,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_total_sessions_stub_response.txt')
     stub_request(:get, /total_sessions/).to_return(:body => response_file, :status => 200)
 
-    result = @service.crashfree('1')
+    result = @service.crashfree(build: '1')
     expect(result).not_to be_nil
   end
 
@@ -106,7 +106,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_top_issues_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
-    result = @service.top_issues(['1'], 1)
+    result = @service.top_issues({})
     expect(result).not_to be_nil
   end
 
@@ -114,7 +114,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_single_issue_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
-    result = @service.single_issue('1')
+    result = @service.single_issue(issue_id: '1')
     expect(result).not_to be_nil
   end
 
@@ -122,7 +122,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_issue_session_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
-    result = @service.issue_session('1')
+    result = @service.issue_session(issue_id: '1')
     expect(result).not_to be_nil
   end
 
@@ -130,7 +130,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_add_comment_stub_response.txt')
     stub_request(:post, /notes/).to_return(:body => response_file, :status => 200)
 
-    result = @service.add_comment('1', 'comment')
+    result = @service.add_comment(issue_id: '1')
     expect(result).not_to be_nil
   end
 
@@ -138,7 +138,7 @@ describe 'AppService' do
     response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_oomfree_stub_response.txt')
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
-    result = @service.oomfree(['1'])
+    result = @service.oomfree({})
     expect(result).not_to be_nil
   end
 

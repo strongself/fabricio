@@ -12,12 +12,18 @@ module Fabricio
       # @param page [Int]
       # @param per_page [Int]
       # @return [Fabricio::Networking::RequestModel]
-      def all_versions_request_model(app_id, page, per_page)
-        path = "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{app_id}/versions"
+      def all_versions_request_model(options = {})
+        options = {
+          :app_id => stored_app_id,
+          :page => 1,
+          :per_page => 100
+        }.merge(options)
+        validate_options(options)
+        path = "#{FABRIC_API_3_PATH}#{FABRIC_PROJECTS_ENDPOINT}/#{options[:app_id]}/versions"
         params = {
             'fields' => 'id,synthesized_version,major,minor,collect_reports,status,starred',
-            'page' => page,
-            'per_page' => per_page
+            'page' => options[:page],
+            'per_page' => options[:per_page]
         }
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
@@ -35,13 +41,19 @@ module Fabricio
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date
       # @return [Fabricio::Networking::RequestModel]
-      def top_versions_request_model(organization_id, app_id, start_time, end_time)
-        app_id ||= stored_app_id
-        path = "#{FABRIC_API_PATH}#{org_app_endpoint(organization_id, app_id)}/growth_analytics/top_builds"
+      def top_versions_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => day_ago_timestamp,
+          :end_time => today_timestamp
+        }.merge(options)
+        validate_options(options)
+        path = "#{FABRIC_API_PATH}#{org_app_endpoint(options[:organization_id], options[:app_id])}/growth_analytics/top_builds"
         params = {
-            'app_id' => app_id,
-            'start' => start_time,
-            'end' => end_time
+            'app_id' => options[:app_id],
+            'start' => options[:start_time],
+            'end' => options[:end_time]
         }
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET

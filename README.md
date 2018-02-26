@@ -54,13 +54,13 @@ Or install it yourself as:
   fabricio app get --app_id 'app_id'
 
   # Obtain active now count
-  fabricio app active_now --org_id 'org_id' --app_id 'app_id'
+  fabricio app active_now --organization_id 'org_id' --app_id 'app_id'
 
   # Obtain single issue
-  fabricio app single_issue --app_id 'app_id' 'issue_id'
+  fabricio app single_issue --app_id 'app_id' --issue_id 'issue_id'
 
   # Obtain single issue session
-  fabricio app issue_session  --app_id 'app_id' 'issue_id' 'session_id'
+  fabricio app issue_session  --app_id 'app_id' --issue_id 'issue_id' --session_id 'session_id'
 
   # Obtain latest issue session
   fabricio app latest_session --app_id 'app_id'
@@ -68,10 +68,10 @@ Or install it yourself as:
 ##### Build
 ```
   # Obtain all builds
-  fabricio build all --org_id 'org_id' --app_id 'app_id'
+  fabricio build all --organization_id 'org_id' --app_id 'app_id'
 
   # Obtain single build
-  fabricio build get --org_id 'org_id' --app_id 'app_id' 'version' 'build_number'
+  fabricio build get --organization_id 'org_id' --app_id 'app_id' --version 'version' --build_number 'build_number'
 ```
 ##### Version
 ```
@@ -79,7 +79,7 @@ Or install it yourself as:
   fabricio version all --app_id 'app_id'
 
   # Obtain top versions               
-  fabricio version top --org_id 'org_id' --app_id 'app_id' --start 'timestamp' --end 'timestamp'
+  fabricio version top --organization_id 'org_id' --app_id 'app_id' --start_time 'timestamp' --end_time 'timestamp'
 ```
 ##### Organization
 ```
@@ -133,18 +133,18 @@ You can use [`jq`](https://stedolan.github.io/jq/) for parsing json
 
   ```ruby
   client.app.all # Returns all applications on your account
-  client.app.get('app_id') # Returns information about specific application
-  client.app.crashfree('app_id', '1478736000', '1481328000' 'all') # Returns application crashfree for a given period of time
+  client.app.get(app_id: 'app_id') # Returns information about specific application
+  client.app.crashfree(app_id: 'app_id', start_time: '1478736000', end_time: '1481328000', build: 'all') # Returns application crashfree for a given period of time
   client.organization.all # Returns information about your organizations
   ```
 
 3. If you want to check the exact server output for a model, you can call `json` method on it:
 
-  `client.app.get('app_id').json`
+  `client.app.get(app_id: 'app_id').json`
 
   You can call a method similar to any key in this hash:
 
-  `client.app.get('app_id').importance_level`
+  `client.app.get(app_id: 'app_id').importance_level`
 
 ## Commands
 
@@ -160,73 +160,73 @@ Obtains information about your organizations.
 
 Obtains the list of all apps.
 
-#### `client.app.get('app_id')`
+#### `client.app.get(app_id: 'app_id')`
 
 Obtains a specific app.
 
-#### `client.app.active_now('organization_id', 'app_id')`
+#### `client.app.active_now(organization_id: 'organization_id', app_id: 'app_id')`
 
 Obtains the count of active users at the current moment.
 
-#### `client.app.daily_new('organization_id', 'app_id', 'start_timestamp', 'end_timestamp')`
+#### `client.app.daily_new(organization_id: 'organization_id', app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp')`
 
 Obtains the count of daily new users.
 
-#### `client.app.daily_active('app_id', 'start_timestamp', 'end_timestamp', 'build')`
+#### `client.app.daily_active(app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build')`
 
 Obtains the count of daily active users.
 
-#### `client.app.total_sessions('organization_id', 'app_id', 'start_timestamp', 'end_timestamp', 'build')`
+#### `client.app.total_sessions(organization_id: 'organization_id', app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build')`
 
 Obtains the count of sessions.
 
-#### `client.app.crashes('app_id', 'start_timestamp', 'end_timestamp', 'builds')`
+#### `client.app.crashes(app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', builds: 'builds')`
 
 Obtains the count of crashes for a number of builds.
 
-#### `client.app.crashfree('app_id', 'start_timestamp', 'end_timestamp', 'build')`
+#### `client.app.crashfree(app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build')`
 
 Obtains application crashfree.
 
 > Fabric.io website uses the same calculations. However, mobile app behaves differently and shows another value.
 
-#### `client.app.top_issues('app_id', start_timestamp, end_timestamp, 'build', count)`
+#### `client.app.top_issues(app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build', count: count)`
 
 Obtain top issues.
 
-#### `client.app.single_issue('app_id', 'issue_external_id', start_timestamp, end_timestamp)`
+#### `client.app.single_issue(app_id: 'app_id', issue_id: 'issue_id', start_time: 'start_timestamp', end_time: 'end_timestamp')`
 
 Obtain single issue.
 
-#### `client.app.issue_session('app_id', 'issue_external_id', 'session_id')`
+#### `client.app.issue_session(app_id: 'app_id', issue_id: 'issue_id', session_id: 'session_id')`
 
 Obtain issue session.
 
-#### `client.app.add_comment('app_id', 'issue_external_id', 'message')`
+#### `client.app.add_comment(app_id: 'app_id', issue_id: 'issue_id', message: 'message')`
 
 Add comment.
 
-#### `client.app.oomfree('app_id', 'start_timestamp', 'end_timestamp', 'builds')`
+#### `client.app.oomfree(app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', builds:'builds')`
 
 Obtains application out-of-memory free for a number of builds.
 
 ### Build
 
-#### `client.build.all('organization_id', 'app_id')`
+#### `client.build.all(organization_id: 'organization_id', app_id: 'app_id')`
 
 Obtains the list of all application builds.
 
-#### `client.build.get('organization_id', 'app_id', 'version', 'build_number')`
+#### `client.build.get(organization_id: 'organization_id', app_id: 'app_id', version: 'version', build_number: 'build_number')`
 
 Obtains a specific build for a specific application.
 
 ### Version
 
-#### `client.version.all('app_id', 'start_timestamp', 'end_timestamp')`
+#### `client.version.all(app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp')`
 
 Obtains an array of all versions for a given application.
 
-#### `client.version.top('organization_id', 'app_id', 'start_timestamp', 'end_timestamp')`
+#### `client.version.top(organization_id: 'organization_id', app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp')`
 
 Obtains an array of top versions for a given application.
 
