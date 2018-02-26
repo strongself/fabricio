@@ -40,7 +40,6 @@ module Fabricio
       def get(options = {})
         request_model = @request_model_factory.get_build_request_model(options)
         response = @network_client.perform_request(request_model)
-        puts response.body
         Fabricio::Model::Build.new(JSON.parse(response.body)['instances'].first)
       end
 
