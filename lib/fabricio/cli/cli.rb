@@ -33,13 +33,13 @@ module Fabricio
       tmp_client = Fabricio::Client.new do |config|
         config.username = credential.email
         config.password = credential.password
-        config.session_storage = FileSessionStorage()
+        config.session_storage = Fabricio::Authorization::FileSessionStorage.new()
       end
 
       say("Your session store in #{SESSION_FILE_PATH}")
 
-      organization = tmp_client.organization.get
-      unless organization.nil?
+      organization = tmp_client.organization.all
+      unless organization.any?
         say("Successful login")
       else
         say("Login failed")
