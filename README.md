@@ -230,6 +230,16 @@ Obtains an array of all versions for a given application.
 
 Obtains an array of top versions for a given application.
 
+### Events
+
+#### `client.app.custom_event_total(organization_id: 'organization_id', app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build', event_type: 'event_type')`
+
+Obtains the total count for the specified custom event type.
+
+#### `client.app.custom_event_unique_devices(organization_id: 'organization_id', app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build', event_type: 'event_type')`
+
+Obtains the unique device count for the specified custom event type.
+
 ## Additional Info
 
 Fabric.io API:

@@ -234,6 +234,34 @@ module Fabricio
         1 - ooms.to_f / sessions
       end
 
+      # Obtains the total count of a custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] Custom Event Name
+      # @return [Array<Fabricio::Model::Point>]
+      def custom_event_total(options = {})
+        request_model = @request_model_factory.custom_event_total_request_model(options)
+        response = @network_client.perform_request(request_model)
+        parse_point_response(response)
+      end
+
+      # Obtains the unique device count of a custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] Custom Event Name
+      # @return [Array<Fabricio::Model::Point>]
+      def custom_event_unique_devices(options = {})
+        request_model = @request_model_factory.custom_event_unique_devices_request_model(options)
+        response = @network_client.perform_request(request_model)
+        parse_point_response(response)
+      end
+
       private
 
       def parse_point_response(response)
