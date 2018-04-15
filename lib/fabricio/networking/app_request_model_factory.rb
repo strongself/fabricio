@@ -399,6 +399,49 @@ module Fabricio
         custom_event_request_model(options)
       end
 
+      # Returns a request model for obtaining the attribute counts of specified custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
+      # @param event_attribute [String] The custom event attribute. E.g. 'Custom Attribute'
+      # @param selected_time [String] Timestamp of the selected date
+      # @return [Fabricio::Networking::RequestModel]
+      def custom_event_attribute_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => week_ago_timestamp,
+          :end_time => today_timestamp,
+          :build => 'all',
+          :event_type => 'event_type',
+          :event_attribute => nil,
+          :selected_time => nil,
+          :limit => 10
+        }.merge(options)
+        validate_options(options)
+        path = growth_analytics_endpoint(options[:organization_id], options[:app_id], 'ce_category_attribute_data')
+        params = {
+          'timeseries_start' => options[:start_time],
+          'timeseries_end' => options[:end_time],
+          'build' => options[:build],
+          'event_type' => options[:event_type],
+          'attribute' => options[:event_attribute],
+          'limit' => options[:limit],
+          'selected_day' => options[:selected_time]
+        }
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
       private
 
       # Returns a request model for obtaining the count of active users
