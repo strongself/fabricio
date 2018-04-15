@@ -4,6 +4,7 @@ require 'fabricio/models/app'
 require 'fabricio/models/point'
 require 'fabricio/models/issue'
 require 'fabricio/models/issue_session'
+require 'fabricio/models/custom_event_type'
 require 'fabricio/models/custom_event_attribute_name'
 require 'fabricio/models/custom_event_attribute_value'
 
@@ -234,6 +235,21 @@ module Fabricio
         sessions = result['data']['project']['crashlytics']['oomSessionCounts']['timeSeries'][0]['allTimeCount']
         ooms = result['data']['project']['crashlytics']['oomCounts']['timeSeries'][0]['allTimeCount']
         1 - ooms.to_f / sessions
+      end
+
+      # Obtains the list of all custom event types
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Array<Fabricio::Model::CustomEventType>]
+      def all_custom_events(options = {})
+        request_model = @request_model_factory.all_custom_event_request_model(options)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['custom_events'].map do |array|
+          Fabricio::Model::CustomEventType.new(array)
+        end
       end
 
       # Obtains the total count of a custom event type

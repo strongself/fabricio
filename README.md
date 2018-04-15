@@ -232,6 +232,10 @@ Obtains an array of top versions for a given application.
 
 ### Events
 
+#### `client.app.all_custom_events(organization_id: 'organization_id', app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build')`
+
+Obtains list of all custom event types.
+
 #### `client.app.custom_event_total(organization_id: 'organization_id', app_id: 'app_id', start_time: 'start_timestamp', end_time: 'end_timestamp', build: 'build', event_type: 'event_type')`
 
 Obtains the total count for the specified custom event type.

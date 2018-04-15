@@ -371,6 +371,34 @@ module Fabricio
         model
       end
 
+      # Returns a request model for obtaining the list of all custom event types
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Fabricio::Networking::RequestModel]
+      def all_custom_event_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => week_ago_timestamp,
+          :end_time => today_timestamp,
+          :build => 'all'
+        }.merge(options)
+        validate_options(options)
+        path = growth_analytics_endpoint(options[:organization_id], options[:app_id], 'event_types_with_data')
+        params = time_range_params(options[:start_time], options[:end_time])
+        params['build'] = options[:build]
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
       # Returns a request model for obtaining the total count of specified custom event type
       #
       # @param organization_id [String] Organization identifier
