@@ -399,6 +399,35 @@ module Fabricio
         custom_event_request_model(options)
       end
 
+      # Returns a request model for obtaining the list of all attributes of specified custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
+      # @return [Fabricio::Networking::RequestModel]
+      def all_custom_event_attribute_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => week_ago_timestamp,
+          :end_time => today_timestamp,
+          :event_type => nil
+        }.merge(options)
+        validate_options(options)
+        path = growth_analytics_endpoint(options[:organization_id], options[:app_id], 'ce_attribute_metadata')
+        params = time_range_params(options[:start_time], options[:end_time])
+        params['event_type'] = options[:event_type]
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
       # Returns a request model for obtaining the attribute counts of specified custom event type
       #
       # @param organization_id [String] Organization identifier
@@ -417,7 +446,7 @@ module Fabricio
           :start_time => week_ago_timestamp,
           :end_time => today_timestamp,
           :build => 'all',
-          :event_type => 'event_type',
+          :event_type => nil,
           :event_attribute => nil,
           :selected_time => nil,
           :limit => 10
@@ -492,7 +521,7 @@ module Fabricio
           :start_time => week_ago_timestamp,
           :end_time => today_timestamp,
           :build => 'all',
-          :event_type => 'event_type',
+          :event_type => nil,
           :name => nil
         }.merge(options)
         validate_options(options)

@@ -4,7 +4,8 @@ require 'fabricio/models/app'
 require 'fabricio/models/point'
 require 'fabricio/models/issue'
 require 'fabricio/models/issue_session'
-require 'fabricio/models/custom_event_attribute'
+require 'fabricio/models/custom_event_attribute_name'
+require 'fabricio/models/custom_event_attribute_value'
 
 module Fabricio
   module Service
@@ -263,6 +264,22 @@ module Fabricio
         parse_point_response(response)
       end
 
+      # Obtains the list of all attributes for a custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] Custom Event Name
+      # @return [Array<Fabricio::Model::CustomEventAttributeName>]
+      def all_custom_event_attribute(options = {})
+        request_model = @request_model_factory.all_custom_event_attribute_request_model(options)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['attribute_metadata'].map do |array|
+          Fabricio::Model::CustomEventAttributeName.new(array)
+        end
+      end
+
       # Obtains the attribute counts of a custom event type
       #
       # @param organization_id [String] Organization identifier
@@ -272,12 +289,12 @@ module Fabricio
       # @param event_type [String] Custom Event Name
       # @param event_attribute [String] Custom Event Attribute
       # @param selected_time [String] Timestamp of the selected date
-      # @return [Array<Fabricio::Model::CustomEventAttribute>]
+      # @return [Array<Fabricio::Model::CustomEventAttributeValue>]
       def custom_event_attribute(options = {})
         request_model = @request_model_factory.custom_event_attribute_request_model(options)
         response = @network_client.perform_request(request_model)
         JSON.parse(response.body)['selected_day_top_values'].map do |array|
-          Fabricio::Model::CustomEventAttribute.new(array)
+          Fabricio::Model::CustomEventAttributeValue.new(array)
         end
       end
 
