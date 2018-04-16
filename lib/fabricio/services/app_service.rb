@@ -4,6 +4,9 @@ require 'fabricio/models/app'
 require 'fabricio/models/point'
 require 'fabricio/models/issue'
 require 'fabricio/models/issue_session'
+require 'fabricio/models/custom_event_type'
+require 'fabricio/models/custom_event_attribute_name'
+require 'fabricio/models/custom_event_attribute_value'
 
 module Fabricio
   module Service
@@ -232,6 +235,83 @@ module Fabricio
         sessions = result['data']['project']['crashlytics']['oomSessionCounts']['timeSeries'][0]['allTimeCount']
         ooms = result['data']['project']['crashlytics']['oomCounts']['timeSeries'][0]['allTimeCount']
         1 - ooms.to_f / sessions
+      end
+
+      # Obtains the list of all custom event types
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Array<Fabricio::Model::CustomEventType>]
+      def all_custom_events(options = {})
+        request_model = @request_model_factory.all_custom_event_request_model(options)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['custom_events'].map do |array|
+          Fabricio::Model::CustomEventType.new(array)
+        end
+      end
+
+      # Obtains the total count of a custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] Custom Event Name
+      # @return [Array<Fabricio::Model::Point>]
+      def custom_event_total(options = {})
+        request_model = @request_model_factory.custom_event_total_request_model(options)
+        response = @network_client.perform_request(request_model)
+        parse_point_response(response)
+      end
+
+      # Obtains the unique device count of a custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] Custom Event Name
+      # @return [Array<Fabricio::Model::Point>]
+      def custom_event_unique_devices(options = {})
+        request_model = @request_model_factory.custom_event_unique_devices_request_model(options)
+        response = @network_client.perform_request(request_model)
+        parse_point_response(response)
+      end
+
+      # Obtains the list of all attributes for a custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] Custom Event Name
+      # @return [Array<Fabricio::Model::CustomEventAttributeName>]
+      def all_custom_event_attribute(options = {})
+        request_model = @request_model_factory.all_custom_event_attribute_request_model(options)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['attribute_metadata'].map do |array|
+          Fabricio::Model::CustomEventAttributeName.new(array)
+        end
+      end
+
+      # Obtains the attribute counts of a custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String] Application identifier
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] Custom Event Name
+      # @param event_attribute [String] Custom Event Attribute
+      # @param selected_time [String] Timestamp of the selected date
+      # @return [Array<Fabricio::Model::CustomEventAttributeValue>]
+      def custom_event_attribute(options = {})
+        request_model = @request_model_factory.custom_event_attribute_request_model(options)
+        response = @network_client.perform_request(request_model)
+        JSON.parse(response.body)['selected_day_top_values'].map do |array|
+          Fabricio::Model::CustomEventAttributeValue.new(array)
+        end
       end
 
       private

@@ -371,6 +371,134 @@ module Fabricio
         model
       end
 
+      # Returns a request model for obtaining the list of all custom event types
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Fabricio::Networking::RequestModel]
+      def all_custom_event_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => week_ago_timestamp,
+          :end_time => today_timestamp,
+          :build => 'all'
+        }.merge(options)
+        validate_options(options)
+        path = growth_analytics_endpoint(options[:organization_id], options[:app_id], 'event_types_with_data')
+        params = time_range_params(options[:start_time], options[:end_time])
+        params['build'] = options[:build]
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
+      # Returns a request model for obtaining the total count of specified custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
+      # @return [Fabricio::Networking::RequestModel]
+      def custom_event_total_request_model(options = {})
+        options = { :name => 'ce_total_events' }.merge(options)
+        custom_event_request_model(options)
+      end
+
+      # Returns a request model for obtaining the unique devices count of specified custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
+      # @return [Fabricio::Networking::RequestModel]
+      def custom_event_unique_devices_request_model(options = {})
+        options = { :name => 'ce_unique_devices' }.merge(options)
+        custom_event_request_model(options)
+      end
+
+      # Returns a request model for obtaining the list of all attributes of specified custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
+      # @return [Fabricio::Networking::RequestModel]
+      def all_custom_event_attribute_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => week_ago_timestamp,
+          :end_time => today_timestamp,
+          :event_type => nil
+        }.merge(options)
+        validate_options(options)
+        path = growth_analytics_endpoint(options[:organization_id], options[:app_id], 'ce_attribute_metadata')
+        params = time_range_params(options[:start_time], options[:end_time])
+        params['event_type'] = options[:event_type]
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
+      # Returns a request model for obtaining the attribute counts of specified custom event type
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
+      # @param event_attribute [String] The custom event attribute. E.g. 'Custom Attribute'
+      # @param selected_time [String] Timestamp of the selected date
+      # @return [Fabricio::Networking::RequestModel]
+      def custom_event_attribute_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => week_ago_timestamp,
+          :end_time => today_timestamp,
+          :build => 'all',
+          :event_type => nil,
+          :event_attribute => nil,
+          :selected_time => nil,
+          :limit => 10
+        }.merge(options)
+        validate_options(options)
+        path = growth_analytics_endpoint(options[:organization_id], options[:app_id], 'ce_category_attribute_data')
+        params = {
+          'timeseries_start' => options[:start_time],
+          'timeseries_end' => options[:end_time],
+          'build' => options[:build],
+          'event_type' => options[:event_type],
+          'attribute' => options[:event_attribute],
+          'limit' => options[:limit],
+          'selected_day' => options[:selected_time]
+        }
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
       private
 
       # Returns a request model for obtaining the count of active users
@@ -395,6 +523,40 @@ module Fabricio
         path = growth_analytics_endpoint(options[:organization_id], options[:app_id], options[:active_name])
         params = time_range_params(options[:start_time], options[:end_time])
         params['build'] = options[:build]
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+
+      # Returns a request model for obtaining the custom event metrics
+      #
+      # @param organization_id [String] Organization identifier
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @param build [String] The version of the build. E.g. '4.0.1 (38)'
+      # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
+      # @param name [String] Custom event type: total_events, unique_devices
+      # @return [Fabricio::Networking::RequestModel]
+      def custom_event_request_model(options = {})
+        options = {
+          :organization_id => stored_organization_id,
+          :app_id => stored_app_id,
+          :start_time => week_ago_timestamp,
+          :end_time => today_timestamp,
+          :build => 'all',
+          :event_type => nil,
+          :name => nil
+        }.merge(options)
+        validate_options(options)
+        path = growth_analytics_endpoint(options[:organization_id], options[:app_id], options[:name])
+        params = time_range_params(options[:start_time], options[:end_time])
+        params['build'] = options[:build]
+        params['event_type'] = options[:event_type]
         model = Fabricio::Networking::RequestModel.new do |config|
           config.type = :GET
           config.base_url = FABRIC_API_URL

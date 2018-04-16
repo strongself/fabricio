@@ -3,6 +3,7 @@ require 'webmock/rspec'
 require 'fabricio/services/app_service'
 require 'fabricio/networking/network_client'
 require 'fabricio/authorization/memory_session_storage'
+require 'fabricio/authorization/memory_param_storage'
 
 describe 'AppService' do
 
@@ -139,6 +140,46 @@ describe 'AppService' do
     stub_request(:post, /graphql/).to_return(:body => response_file, :status => 200)
 
     result = @service.oomfree({})
+    expect(result).not_to be_nil
+  end
+
+  it 'should fetch all custom events' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_all_custom_events_stub_response.txt')
+    stub_request(:get, /event_types_with_data/).to_return(:body => response_file, :status => 200)
+
+    result = @service.all_custom_events({})
+    expect(result).not_to be_nil
+  end
+
+  it 'should fetch custom event total' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_custom_event_total_stub_response.txt')
+    stub_request(:get, /ce_total_events/).to_return(:body => response_file, :status => 200)
+
+    result = @service.custom_event_total(event_type: 'Custom Event Name 1')
+    expect(result).not_to be_nil
+  end
+
+  it 'should fetch custom event unique devices' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_custom_event_unique_devices_stub_response.txt')
+    stub_request(:get, /ce_unique_devices/).to_return(:body => response_file, :status => 200)
+
+    result = @service.custom_event_unique_devices(event_type: 'Custom Event Name 1')
+    expect(result).not_to be_nil
+  end
+
+  it 'should fetch all custom event attribute' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_all_custom_event_attribute_stub_response.txt')
+    stub_request(:get, /ce_attribute_metadata/).to_return(:body => response_file, :status => 200)
+
+    result = @service.all_custom_event_attribute(event_type: 'Custom Event Name 1')
+    expect(result).not_to be_nil
+  end
+
+  it 'should fetch custom event attribute' do
+    response_file = File.new(Dir.getwd + '/spec/lib/fabricio/service/app_service_custom_event_attribute_stub_response.txt')
+    stub_request(:get, /ce_category_attribute_data/).to_return(:body => response_file, :status => 200)
+
+    result = @service.custom_event_attribute(event_type: 'Custom Event Name 1', event_attribute: 'Custom Attribute Name 1', selected_time: 1523759011)
     expect(result).not_to be_nil
   end
 

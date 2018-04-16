@@ -1,0 +1,30 @@
+{
+   "custom_events":[
+      {
+         "event_type":"Custom Event Name 1",
+         "event_count":52,
+         "event_key":"custom"
+      },
+      {
+         "event_type":"Custom Event Name 2",
+         "event_count":16,
+         "event_key":"custom"
+      },
+      {
+         "event_type":"Custom Event Name 3",
+         "event_count":8,
+         "event_key":"custom"
+      },
+      {
+         "event_type":"Custom Event Name 4",
+         "event_count":9,
+         "event_key":"custom"
+      }
+   ],
+   "start":1521158400,
+   "end":1523750400,
+   "app_id":"app_id",
+   "predefined_events":[
+
+   ]
+}

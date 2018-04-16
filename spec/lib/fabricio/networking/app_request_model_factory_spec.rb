@@ -2,6 +2,7 @@ require 'rspec'
 require 'fabricio/networking/app_request_model_factory'
 require 'fabricio/networking/request_model'
 require 'fabricio/authorization/session'
+require 'fabricio/authorization/memory_param_storage'
 
 describe 'AppRequestModelFactory' do
 
@@ -133,6 +134,51 @@ describe 'AppRequestModelFactory' do
     result = @factory.oom_count_request_model
 
     expect(result.type).to eq :POST
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
+  it 'should form all custom event request model' do
+    result = @factory.all_custom_event_request_model
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
+  it 'should form custom event total request model' do
+    result = @factory.custom_event_total_request_model(event_type: 'Custom Event Name')
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
+  it 'should form custom event unique devices request model' do
+    result = @factory.custom_event_unique_devices_request_model(event_type: 'Custom Event Name')
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
+  it 'should form all custom event attribute request model' do
+    result = @factory.all_custom_event_attribute_request_model(event_type: 'Custom Event Name')
+
+    expect(result.type).to eq :GET
+    expect(result.base_url).not_to be_nil
+    expect(result.api_path).not_to be_nil
+    expect(result.headers).not_to be_nil
+  end
+
+  it 'should form custom event attribute request model' do
+    result = @factory.custom_event_attribute_request_model(event_type: 'Custom Event Name', event_attribute: 'Custom Attribute', selected_time: 1523800800)
+
+    expect(result.type).to eq :GET
     expect(result.base_url).not_to be_nil
     expect(result.api_path).not_to be_nil
     expect(result.headers).not_to be_nil
