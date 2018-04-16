@@ -1,0 +1,16 @@
+{
+   "event_type":"Custom Event Name 1",
+   "start":1521158400,
+   "attribute_metadata":[
+      {
+         "attribute_type":"category",
+         "attribute_name":"Custom Attribute Name 1"
+      },
+      {
+         "attribute_type":"category",
+         "attribute_name":"Custom Attribute Name 2"
+      }
+   ],
+   "end":1523750400,
+   "app_id":"app_id"
+}
