@@ -18,6 +18,13 @@ default_platform(:android)
 platform :android do
   desc "Description of what the lane does"
   lane :fetch_stats do
-    sh("ruby fab.rb murat.aydin@zalando.de Ankara123 5a2e4bd85127ae68bc00071b 5a2e4eed8bfc5503194aff72")
+	message = sh("ruby ../fab.rb murat.aydin@zalando.de Ankara123 5a2e4bd85127ae68bc00071b 5a2e4eed8bfc5503194aff72")
+	puts message
+	slack(
+                message: message,
+                slack_url: "https://hooks.slack.com/services/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",
+                default_payloads: [],
+                success: true
+            )
   end
 end

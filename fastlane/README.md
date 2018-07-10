@@ -15,10 +15,10 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
-## iOS
-### ios custom_lane
+## Android
+### android fetch_stats
 ```
-fastlane ios custom_lane
+fastlane android fetch_stats
 ```
 Description of what the lane does
 

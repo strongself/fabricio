@@ -5,7 +5,17 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.013916">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.014563">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: ruby ../fab.rb murat.aydin@zalando.de Ankara123 5a2e4bd85127ae68bc00071b 5a2e4eed8bfc5503194aff72" time="6.188882">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: slack" time="1.270155">
         
       </testcase>
     
