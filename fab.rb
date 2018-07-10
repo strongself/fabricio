@@ -1,4 +1,5 @@
-require 'Fabricio'
+require 'rubygems'
+require 'fabricio'
 require 'date'
 
 client = Fabricio::Client.new do |config|
