@@ -22,14 +22,14 @@ platform :android do
 	if message.include? "ATTENTION"
 			slack(
                 message: message,
-                slack_url: "https://hooks.slack.com/services/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",
+                slack_url: options[:slack_url],
                 default_payloads: [],
                 success: false
             )
 	else
 			slack(
                 message: message,
-                slack_url: "https://hooks.slack.com/services/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",
+                slack_url: options[:slack_url],
                 default_payloads: [],
                 success: true
             )
