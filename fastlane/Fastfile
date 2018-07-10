@@ -1,0 +1,23 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Description of what the lane does"
+  lane :fetch_stats do
+    sh("ruby fab.rb murat.aydin@zalando.de Ankara123 5a2e4bd85127ae68bc00071b 5a2e4eed8bfc5503194aff72")
+  end
+end
