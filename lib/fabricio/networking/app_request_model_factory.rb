@@ -409,7 +409,7 @@ module Fabricio
       # @param event_type [String] The custom event name. E.g. 'Custom Event Name'
       # @return [Fabricio::Networking::RequestModel]
       def custom_event_total_request_model(options = {})
-        options = { :name => 'ce_total_events' }.merge(options)
+        options = { :name => 'pe_total_events' }.merge(options)
         custom_event_request_model(options)
       end
 

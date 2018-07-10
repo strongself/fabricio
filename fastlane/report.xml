@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.015762">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: ruby ../fab.rb murat.aydin@zalando.de 123456 5a2e4bd85127ae68bc00071b 5a2e4eed8bfc5503194aff72" time="8.325613">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: slack" time="0.695764">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

@@ -1,0 +1,39 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Description of what the lane does"
+  lane :fetch_stats do |options|
+	message = sh("ruby ../fab.rb #{options[:username]} #{options[:password]} #{options[:organization_id]} #{options[:app_id]}")
+	if message.include? "ATTENTION"
+			slack(
+                message: message,
+                slack_url: options[:slack_url],
+                default_payloads: [],
+                success: false
+            )
+	else
+			slack(
+                message: message,
+                slack_url: options[:slack_url],
+                default_payloads: [],
+                success: true
+            )
+	end
+	
+  end
+end
