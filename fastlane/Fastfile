@@ -17,8 +17,8 @@ default_platform(:android)
 
 platform :android do
   desc "Description of what the lane does"
-  lane :fetch_stats do
-	message = sh("ruby ../fab.rb murat.aydin@zalando.de Ankara123 5a2e4bd85127ae68bc00071b 5a2e4eed8bfc5503194aff72")
+  lane :fetch_stats do |options|
+	message = sh("ruby ../fab.rb #{options[:username]} #{options[:password]} #{options[:organization_id]} #{options[:app_id]}")
 	if message.include? "ATTENTION"
 			slack(
                 message: message,
