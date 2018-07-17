@@ -28,8 +28,8 @@ module Fabricio
         @createdAt = attributes['createdAt']
         @type = attributes['type']
         @state = attributes['state']
-        @occurrenceCount = attributes['_occurrenceCount2I980d"']
-        @impactedDevices = attributes['_impactedDevices2oATOx']
+        @occurrenceCount = attributes['_occurrenceCount2I980d"'] || attributes['occurrenceCount']
+        @impactedDevices = attributes['_impactedDevices2oATOx'] || attributes['impactedDevices']
         @json = attributes
       end
     end
