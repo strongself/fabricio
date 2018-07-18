@@ -9,13 +9,16 @@ module Fabricio
   module Authorization
     # Stores default params as organization, app, etc.
     class FileParamStorage < AbstractParamStorage
+      def initialize(path = PARAM_FILE_PATH)
+        @path = path
+      end
 
       # Returns all stored variable
       #
       # @return [Hash]
       def obtain
-        return nil unless File.exist?(PARAM_FILE_PATH)
-        params = YAML.load_file(PARAM_FILE_PATH)
+        return nil unless File.exist?(@path)
+        params = YAML.load_file(@path)
         return {} unless params
         return params
       end
@@ -29,7 +32,7 @@ module Fabricio
 
       # Resets current state and deletes all saved params
       def reset
-        FileUtils.remove_file(PARAM_FILE_PATH)
+        FileUtils.remove_file(@path)
       end
 
       def organization_id
@@ -58,7 +61,7 @@ module Fabricio
 
       def save_to_file(hash)
         FileUtils.mkdir_p(FABRICIO_DIRECTORY_PATH)
-        File.open(PARAM_FILE_PATH,'w') do |f|
+        File.open(@path, 'w') do |f|
           f.write hash.to_yaml
         end
       end
