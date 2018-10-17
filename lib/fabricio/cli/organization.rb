@@ -7,7 +7,7 @@ require_relative 'cli_helper'
 module Fabricio
   class Organization < Thor
 
-    desc "get", "Get organization"
+    desc "all", "Get all organization"
     option :short, :type => :boolean
     def all
       organizations = client.organization.all
