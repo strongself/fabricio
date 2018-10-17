@@ -12,9 +12,6 @@ Gem::Specification.new do |spec|
   spec.summary       = "A simple gem that fetches mobile application statistics from Fabric.io API."
   spec.license       = "MIT"
 
-  # spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-  #   f.match(%r{^(test|spec|features)/})
-  # end
   spec.files         = Dir["lib/**/*", "bin/*", "docs/*", "README.md"]
 
   spec.bindir = "bin"
